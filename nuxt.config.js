@@ -1,6 +1,10 @@
 const pkg = require('./package')
 
 module.exports = {
+  env: {
+    BASE_URL: 'http://localhost:5000/'
+  },
+
   mode: 'spa',
 
   /*

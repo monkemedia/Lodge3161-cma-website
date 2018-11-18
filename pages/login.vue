@@ -9,21 +9,31 @@
           form(@submit.prevent="submitForm")
             .field
               .control
-                input.input.is-large(type="email" placeholder="Your Email" autofocus="")
+                input.input.is-large(type="email" placeholder="Your Email" v-model="loginForm.username" autofocus="")
             .field
               .control
-                input.input.is-large(type="password" placeholder="Your Password")
+                input.input.is-large(type="password" placeholder="Your Password" v-model="loginForm.password")
             button.button.is-block.is-info.is-large.is-fullwidth Login
 </template>
 
 <script>
   // import HeaderHomepage from '@/components/Headers/HeaderHomepage.vue'
+  import api from '~/api'
 
   export default {
     components: {
     },
 
     async fetch ({ store }) {
+    },
+
+    data () {
+      return {
+        loginForm: {
+          username: '',
+          password: ''
+        }
+      }
     },
 
     mounted () {
@@ -40,7 +50,14 @@
 
     methods: {
       submitForm () {
-        console.log("submit form");
+        console.log("submit form", this.loginForm);
+        api.authorization.getToken(this.loginForm)
+          .then(res => {
+            console.log('response', res)
+          })
+          .catch(err => {
+            console.log(err);
+          })
       }
     }
   }

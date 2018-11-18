@@ -1,15 +1,17 @@
-// import Cookie from 'js-cookie'
 import cachios from 'cachios'
 
-const url = `${process.env.baseUrl}api/v1`
+const url = `${process.env.BASE_URL}api/v1`
 
 export default {
+  authorization: {
+    getToken: (data) => {
+      return cachios.post(`${url}/auth`, data)
+    }
+  },
+
   homepage: {
     fetchData: () => {
-      return cachios.get(`${url}/contentful/homepage`)
-        .then(res => {
-          return res
-        })
+      return cachios.get(`${url}/contentful-management/homepage`)
     }
   }
 }
