@@ -3,7 +3,9 @@
     <div>
       <logo/>
       <h1 class="title">
-        Lodge3161-cma-website
+        <nuxt-link to="/login">
+          Lodge3161-cma-website
+        </nuxt-link>
       </h1>
       <h2 class="subtitle">
         My riveting Nuxt.js project
