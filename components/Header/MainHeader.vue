@@ -5,27 +5,21 @@
         nav.navbar(role="navigation" aria-label="main navigation")
           .navbar-brand
             nuxt-link.navbar-item.is-brand.navbar-brand-logo(to="/")
-              img.navbar-brand-logo(src="logo.svg" alt="Dr James Griffith Hall Lodge - CMA")
-            nuxt-link.navbar-item.is-tab.is-hidden-mobile(to="/") Features
+              img(src="logo.svg" alt="Dr James Griffith Hall Lodge - CMA")
 
           .navbar-menu.navbar-end#navMenu
-            nuxt-link.navbar-item.is-hoverable.sign-in(v-if="!isAuthenticated" to="/login")
+            nuxt-link.navbar-item.is-hoverable.account(v-if="!isAuthenticated" to="/login")
               span.icon.is-small
                 i.fas.fa-user-circle
               | Sign in
-            .navbar-item.has-dropdown.is-hoverable(v-else)
+            .navbar-item.has-dropdown.is-hoverable.account(v-else)
               a.navbar-link
                 | Welcome {{ userDetails.firstName }}
 
               .navbar-dropdown.is-right
                 nuxt-link.navbar-item(to="/")
-                  span.icon.is-small
-                    i.fa.fa-user-o
                   | Profile
-                hr.navbar-divider
                 a.navbar-item(@click="logout")
-                  span.icon.is-small
-                    i.fa.fa-power-off
                   | Logout
 </template>
 
@@ -59,9 +53,13 @@
 
   .navbar {
     border-bottom: 1px solid $grey-200;
+    border-left: 1px solid $grey-200;
   }
 
-  .sign-in {
+  .account {
+    border-right: 1px solid $grey-200;
+    border-left: 1px solid $grey-200;
+
     .icon {
       margin-right: 5px !important;
     }

@@ -1,8 +1,8 @@
 .navbar {
   .navbar-brand {
     .navbar-brand-logo {
-      width: 197px;
-      border-right: 1px solid $grey-lighter;
+      width: 208px;
+      border-right: 1px solid $grey-200;
 
       img {
         max-height: 22px;
@@ -33,6 +33,27 @@
       .navbar-link {
         color: $white;
       }
+    }
+  }
+
+  .navbar-item.has-dropdown {
+    &:hover,
+    &.is-active {
+      .navbar-link {
+        background-color: whitesmoke;
+      }
+    }
+  }
+
+  .navbar-dropdown {
+    border-radius: 0;
+    padding: 0;
+
+    a.navbar-item {
+      padding: 15px 10px;
+      border-bottom: 1px solid $grey-lighter;
+      font-size: $size-120;
+      font-weight: bold;
     }
   }
 }

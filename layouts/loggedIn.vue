@@ -1,9 +1,9 @@
 <template lang="pug">
   div.container.is-fullhd
     main-header
-    .columns
-      left-menu.column.is-3
-      main.column.is-9
+    .columns.is-gapless
+      left-menu.column.is-2
+      main.column.is-10
         nuxt
 </template>
 

@@ -25,9 +25,11 @@
 
   .menu {
     font-weight: bold;
-    font-size: $size-130;
+    font-size: $size-120;
     background: #fff;
     min-height: 100vh;
+    border-left: 1px solid $grey-200;
+    border-right: 1px solid $grey-200;
   }
 
   .menu-list {
