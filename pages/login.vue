@@ -40,10 +40,6 @@
     mounted () {
     },
 
-    computed: {
-
-    },
-
     methods: {
       submitForm () {
         this.isLoading = true
@@ -53,7 +49,8 @@
             this.isLoading = false
           })
           .catch(err => {
-            this.errorMessage = err.response.data.error
+            console.log(err)
+            this.errorMessage = err.response.data ? err.response.data.error : err.message
             this.isLoading = false
           })
       }
