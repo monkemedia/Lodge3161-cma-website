@@ -19,21 +19,20 @@
   @import '~assets/css/utilities/mixins.scss';
 
   .aside {
-    background: #fff;
-    padding: 0 0 0 10px;
-    min-height: 100vh;
+    padding-top: 0;
+    padding-bottom: 0;
   }
 
   .menu {
     font-weight: bold;
     font-size: $size-130;
+    background: #fff;
+    min-height: 100vh;
   }
 
   .menu-list {
-    padding-top: 12px;
-
     a {
-      padding: 20px 30px;
+      padding: 25px 30px;
       border-bottom: 1px solid $grey-lighter;
     }
   }

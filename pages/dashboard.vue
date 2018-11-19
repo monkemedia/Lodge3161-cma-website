@@ -1,5 +1,5 @@
 <template lang="pug">
-  section
+  section.section
     p dashboard
 </template>
 
