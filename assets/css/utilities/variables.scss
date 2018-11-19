@@ -1,0 +1,77 @@
+@import '../../node_modules/sass-rem/rem';
+
+// Colours
+$grey-lighter                          :   #f2f2f2;
+$grey-light                            :   #4f4f4f;
+$grey                                  :   #242424;
+$grey-dark                             :   #191919;
+
+$red                                   :   #df3333;
+$pink                                  :   #fd4067;
+$light-blue                            :   #4BAEE7;
+$blue                                  :   #235EA4;
+$light-pink                            :   #fae0e0;
+$dark-red                              :   #cc1d35;
+$green                                 :   #24c965;
+$green-dark                            :   #159588;
+$white                                 :   #ffffff;
+
+$grey-100                              :   #e1e1e1;
+$grey-200                              :   #e5e5e5;
+$grey-300                              :   #dddddd;
+$grey-400                              :   #4f4f4f;
+
+$primary                               :   $blue;
+$secondary                             :   $grey;
+$tertiary                              :   $grey-light;
+$danger                                :   $red;
+$success                               :   $green;
+
+// Generic
+$body-bg                               :   $grey-100;
+$body-size                             :   100%;
+$body-color                            :   $tertiary;
+$heading-color                         :   $secondary ;
+$link-color                            :   $secondary;
+$link-hover                            :   $secondary;
+$link-active                           :   $secondary;
+$link                                  :   $secondary;
+
+// Sizes
+$size-100                              :   rem(10px);
+$size-110                              :   rem(11px);
+$size-120                              :   rem(12px);
+$size-130                              :   rem(13px);
+$size-140                              :   rem(14px);
+$size-150                              :   rem(15px);
+$size-160                              :   rem(16px);
+$size-180                              :   rem(18px);
+$size-240                              :   rem(24px);
+$size-280                              :   rem(28px);
+
+// Responsiveness
+$tablet                                :   768px;
+$desktop                               :   1024px;
+$widescreen                            :   1216px;
+$fullhd                                :   1384px;
+
+// Typography
+$family-primary                        :   'Muli', sans-serif;
+$family-secondary                      :   'Playfair Display', serif;
+$family-tertiary                       :   'Satisfy', cursive;
+
+// Navbar
+$navbar-item-hover-background-color    :    transparent;
+
+// Message
+$message-body-border                   :    0;
+$message-body-color                    :    $body-color;
+$message-body-padding                  :    2rem 1.25em;
+$message-body-radius                   :    0;
+
+// Inputs
+$input-color                           :    $secondary;
+$input-background-color                :    $white;
+$input-border-color                    :    $grey-light;
+$input-shadow                          :    none;
+$input-radius                          :    0;

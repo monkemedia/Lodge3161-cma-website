@@ -1,0 +1,66 @@
+// Forms
+@mixin input() {
+  border-radius: 0;
+  box-shadow: none;
+  border-color: $grey-light;
+}
+
+// Typorgraphy
+@mixin Bold() {
+  font-family: $family-primary;
+  font-weight: 700;
+}
+
+@mixin ExtraBold() {
+  font-family: $family-primary;
+  font-weight: 900;
+}
+
+@mixin BoldUppercase() {
+  text-transform: uppercase;
+  @include Bold()
+}
+
+@mixin ExtraBoldUppercase() {
+  text-transform: uppercase;
+  @include ExtraBold()
+}
+
+@mixin LinkUnderline($color) {
+  position: relative;
+
+  &:after {
+    content: '';
+    position: absolute;
+    width: 0;
+    left: 0;
+    bottom: -1px;
+    height: 2px;
+    background: $color;
+    transition-property: width, background;
+    transition-timing-function: cubic-bezier(.52,.01,.16,1);
+    transition-duration: .2s;
+    border: 0;
+    margin: 0;
+    right: auto;
+    border-radius: 0;
+    top: auto;
+    transform: none;
+  }
+  
+  &:hover,
+  &:focus,
+  &.nuxt-link-active {
+    &:after {
+      width: 100%;
+    }
+  }
+}
+
+@mixin Underline() {
+  text-decoration: underline;
+  &:hover
+  &:focus {
+    text-decoration: none;
+  }
+}

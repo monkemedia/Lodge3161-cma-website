@@ -1,0 +1,38 @@
+.navbar {
+  .navbar-brand {
+    .navbar-brand-logo {
+      width: 197px;
+      border-right: 1px solid $grey-lighter;
+
+      img {
+        max-height: 22px;
+      }
+    }
+
+    .navbar-burger {
+      &:hover {
+        background: transparent;
+      }
+    }
+  }
+
+  .navbar-brand,
+  .navbar-menu {
+    .navbar-link {
+      @include Bold();
+      font-size: rem(12px);
+      color: $secondary;
+
+      &.is-active,
+      &:hover {
+        background-color: transparent;
+      }
+    }
+
+    .homepage & {
+      .navbar-link {
+        color: $white;
+      }
+    }
+  }
+}

@@ -1,8 +1,8 @@
 <template lang="pug">
-  nav.navbar.has-shadow(role="navigation" aria-label="main navigation")
-    .container
+  header
+    nav.navbar(role="navigation" aria-label="main navigation")
       .navbar-brand
-        nuxt-link.navbar-item.is--brand(to="/")
+        nuxt-link.navbar-item.is-brand.navbar-brand-logo(to="/")
           img.navbar-brand-logo(src="logo.svg" alt="Dr James Griffith Hall Lodge - CMA")
         nuxt-link.navbar-item.is-tab.is-hidden-mobile(to="/") Features
 
@@ -55,6 +55,12 @@
 </script>
 
 <style lang="scss">
+  @import '~assets/css/utilities/variables.scss';
+
+  .navbar {
+    border-bottom: 1px solid $grey-200;
+  }
+
   .sign-in {
     .icon {
       margin-right: 5px !important;

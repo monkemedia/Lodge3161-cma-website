@@ -1,0 +1,13 @@
+@keyframes bounceArrow {
+  0%, 100%, 20%, 50%, 80% {
+    transform: translateY(0);
+  }
+
+  40% {
+    transform: translateY(-8px);
+  }
+
+  60% {
+    transform: translateY(-3px);
+  }
+}

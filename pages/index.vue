@@ -1,68 +1,81 @@
-<template>
-  <section class="container">
-    <div>
-      <logo/>
-      <h1 class="title">
-        <nuxt-link to="/login">
-          Lodge3161-cma-website
-        </nuxt-link>
-      </h1>
-      <h2 class="subtitle">
-        My riveting Nuxt.js project
-      </h2>
-      <div class="links">
-        <a
-          href="https://nuxtjs.org/"
-          target="_blank"
-          class="button--green">Documentation</a>
-        <a
-          href="https://github.com/nuxt/nuxt.js"
-          target="_blank"
-          class="button--grey">GitHub</a>
-      </div>
-    </div>
-  </section>
+<template lang="pug">
+  section.hero.is-success.is-fullheight(v-cloak)
+   .hero-body
+    .container.has-text-centered
+      .column.is-4.is-offset-4
+        nuxt-link.title.has-text-grey(to="/") Login
+        p.subtitle.has-text-grey Please login to proceed.
+        .notification.is-danger(v-if="errorMessage")
+          p {{ errorMessage }}
+        .box
+          form(@submit.prevent="submitForm")
+            .field
+              .control
+                input.input.is-large(type="email" placeholder="Your Email" v-model="loginForm.username" autofocus="")
+            .field
+              .control
+                input.input.is-large(type="password" placeholder="Your Password" v-model="loginForm.password")
+            button.button.is-block.is-info.is-large.is-fullwidth(:class="{ 'is-loading': isLoading }") Login
 </template>
 
 <script>
-import Logo from '~/components/Logo.vue'
+  export default {
+    components: {
+    },
 
-export default {
-  components: {
-    Logo
+    async fetch ({ store }) {
+    },
+
+    data () {
+      return {
+        loginForm: {
+          username: '',
+          password: ''
+        },
+        errorMessage: '',
+        isLoading: false
+      }
+    },
+
+    mounted () {
+    },
+
+    methods: {
+      submitForm () {
+        this.isLoading = true
+
+        this.$store.dispatch('auth/login', this.loginForm)
+          .then(res => {
+            this.isLoading = false
+            this.$router.push({ path: '/dashboard' })
+          })
+          .catch(err => {
+            console.log(err)
+            this.errorMessage = err.response.data ? err.response.data.error : err.message
+            this.isLoading = false
+          })
+      }
+    }
   }
-}
 </script>
 
-<style>
+<style lang="scss" scoped>
+  .hero.is-success {
+    background: #F2F6FA;
+  }
 
-.container {
-  min-height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-}
+  .box {
+  }
 
-.title {
-  font-family: 'Quicksand', 'Source Sans Pro', -apple-system, BlinkMacSystemFont,
-    'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-  display: block;
-  font-weight: 300;
-  font-size: 100px;
-  color: #35495e;
-  letter-spacing: 1px;
-}
+  input {
+    font-weight: 300;
+  }
 
-.subtitle {
-  font-weight: 300;
-  font-size: 42px;
-  color: #526488;
-  word-spacing: 5px;
-  padding-bottom: 15px;
-}
+  p {
+    font-weight: 700;
+  }
 
-.links {
-  padding-top: 15px;
-}
+  p.subtitle {
+    padding-top: 1rem;
+  }
 </style>

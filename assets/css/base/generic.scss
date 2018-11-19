@@ -1,0 +1,202 @@
+::selection {
+  background-color: $primary;
+  color: $white;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  line-height: 1;
+  color: $heading-color;
+  letter-spacing: rem(.4px);
+}
+
+body, html {
+
+}
+
+body {
+  background-color: $body-bg;
+  min-height: 100%;
+  letter-spacing: rem(.4px);
+}
+
+hr {
+  background-color: $grey-300;
+}
+
+h1
+.h1 {
+  margin-top: 0;
+}
+
+h2
+.h2 {
+  margin-top: .4px;
+  margin-bottom: 1.9px;
+}
+
+h3
+.h3 {
+  font-size: rem($size-180);
+  margin-top: 10px;
+}
+
+a,
+a.navbar-link {
+  &.animated-underline {
+    @include LinkUnderline($primary);
+  }
+
+  &.underline {
+    @include Underline();
+  }
+}
+
+[v-cloak] {
+  display: none;
+}
+
+p {
+  color: $body-color;
+  font-size: rem($size-140);
+  line-height: 1.8;
+
+  &:not(:last-child) {
+    margin-bottom: 10px;
+  }
+}
+
+ul.no-list {
+  margin: 0;
+  padding: 0;
+
+  li {
+    list-style: none;
+  }
+}
+
+.image {
+  display: flex;
+}
+
+.main {
+  background-color: $body-bg;
+  position: relative;
+  display: inline-block;
+  width: 100%;
+
+  @include mq($from: tablet, $until: desktop) {
+    padding: 0 15px;
+  }
+
+  > .container {
+    margin-top: 15px;
+    margin-bottom: 15px;
+  }
+}
+
+.sub-main {
+  background-color: $grey-lighter;
+  padding: 15px;
+}
+
+.centered-section-blurb {
+  width: 100%;
+  max-width: 700px;
+  text-align: center;
+  margin: 0 auto;
+}
+
+.sr-only {
+  position: absolute !important;
+  width: 1px !important;
+  height: 1px !important;
+  padding: 0 !important;
+  margin: -1px !important;
+  overflow: hidden !important;
+  clip: rect(0,0,0,0) !important;
+  border: 0 !important;
+}
+
+.is-block {
+  display: block !important;
+}
+
+.is-bold {
+  @include Bold();
+}
+
+.is-extra-bold {
+  @include ExtraBold();
+}
+  
+.is-bold-and-uppercased {
+  @include BoldUppercase();
+}
+
+.is-extra-bold-and-uppercased {
+  @include ExtraBoldUppercase();
+}
+
+.content-centered {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.loading-overlay {
+  .loading-icon {
+    &:after {
+      border: 2px solid $primary;
+      border-right-color: transparent;
+      border-top-color: transparent;
+    }
+  }
+}
+
+.create-account-header {
+  margin-top: .5rem;
+  @extend .h3;
+}
+
+.default-container-padding {
+  padding-top: 20px;
+  padding-bottom: 20px;
+  
+  @include mq($from: desktop) {
+    padding-top: 50px;
+    padding-bottom: 50px;
+  }
+}
+
+.image-link-overlay {
+  &:hover,
+  &:focus {
+    figure {
+      transform: scale(1);
+
+      &:after {
+        opacity: 1;
+      }
+    }
+  }
+
+  figure {
+    transform: scale(1.03);
+    transition-duration: .4s;
+    transition: all .25s cubic-bezier(.4,.01,.1,1);
+
+    &:after {
+      content: '';
+      position: absolute;
+      z-index: 10;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      opacity: 0;
+      background: rgba(25,25,25,.3);
+      transition: all .25s cubic-bezier(.4,.01,.1,1);
+    }
+  }
+}
+  

@@ -1,0 +1,129 @@
+.field:not(:last-child) {
+  margin-bottom: 2rem;
+}
+
+.label {
+  font-size: $size-120;
+  @include ExtraBoldUppercase();
+
+  // &:not(:last-child) {
+  //   margin-bottom: 0;
+  // }
+}
+
+.input,
+.textarea,
+.select > select {
+  border: 1px solid $grey-300;
+  box-shadow: none;
+  border-radius: 0;
+  font-size: $size-130;
+  @include Bold();
+  
+  &:focus,
+  &:hover {
+    border: 1px solid $grey-300;
+    box-shadow: none;
+  }
+}
+
+.input,
+.select,
+.select > select {
+  height: 50px;
+  
+  &.is-danger {
+    border: 2px solid $danger;
+  }
+}
+
+.select {
+  position: relative;
+}
+
+.select-icon {
+  position: absolute;
+  right: 10px;
+  z-index: 1;
+  top: 50%;
+  margin-top: - 12px;
+  pointer-events: none;
+}
+
+.textarea {
+  &.is-danger {
+    border: 2px solid $danger;
+  }
+}
+
+.help {
+  font-size: $size-100;
+  @include ExtraBoldUppercase();
+}
+
+.b-checkbox.checkbox {
+
+  input[type=checkbox] + .check,
+  &:hover input[type=checkbox] + .check {
+    display: inline-flex;
+    border-color: $secondary;
+  }
+
+  input[type=checkbox] + .check {
+    border-radius: 0;
+    width: 1.4rem;
+    height: 1.4rem;
+  }
+
+  input[type=checkbox]:checked + .check {
+    border-color: $secondary;
+    background-color: $secondary;
+  }
+
+  &:focus input[type=checkbox] + .check,
+  &:focus input[type=checkbox]:checked + .check {
+    box-shadow: none;
+  }
+  
+  .control-label {
+    font-size: $size-140;
+    line-height: 1;
+  }
+}
+
+.b-radio.radio {
+
+  input[type=radio] + .check,
+  &:hover input[type=radio] + .check {
+    display: inline-flex;
+    border-color: $secondary;
+  }
+
+  input[type=radio] + .check {
+    width: 1.6rem;
+    height: 1.6rem;
+  }
+
+  input[type=radio]:checked + .check {
+    border-color: $secondary;
+    &:before {
+      background: $secondary;
+    }
+  }
+
+  &:focus input[type=radio] + .check,
+  &:focus input[type=radio]:checked + .check {
+    box-shadow: none;
+  }
+  
+  .control-label {
+    font-size: $size-140;
+    line-height: 1;
+  }
+}
+
+sup {
+  vertical-align: baseline;
+  position: relative;
+  top: -0.4em;
+}

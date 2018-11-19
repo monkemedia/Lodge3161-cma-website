@@ -18,6 +18,7 @@ module.exports = {
       { hid: 'description', name: 'description', content: pkg.description }
     ],
     link: [
+      { rel: 'stylesheet', href: 'https://fonts.googleapis.com/css?family=Muli:400,700,900' },
       { rel: 'stylesheet', href: 'https://use.fontawesome.com/releases/v5.5.0/css/all.css' },
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
     ]
@@ -32,6 +33,7 @@ module.exports = {
   ** Global CSS
   */
   css: [
+    '@/assets/css/main.scss'
   ],
 
   /*
@@ -45,9 +47,8 @@ module.exports = {
   */
   modules: [
     // Doc: https://github.com/nuxt-community/axios-module#usage
-    '@nuxtjs/axios',
+    '@nuxtjs/axios'
     // Doc:https://github.com/nuxt-community/modules/tree/master/packages/bulma
-    '@nuxtjs/bulma'
   ],
   /*
   ** Axios module configuration
