@@ -17,18 +17,32 @@
       :errorText="errors.first('description')"
     )
 
-    .field.is-grouped.is-grouped-right
-      .control
-          button.button.is-light(:disabled="!isFormDirty" @click.prevent="saveForm(false)") Save
-          button.button.is-primary(v-if="!isPublish" :disabled="!isPublish" @click.prevent="saveForm(true)") Publish
-          button.button.is-primary(v-if="isPublish && !isFormDirty" :disabled="!isPublish" @click.prevent="saveForm(true)") Publish
-          button.button.is-primary(v-if="isPublish && isFormDirty" :disabled="isPublish" @click.prevent="saveForm(true)") Publish
+    save-publish-buttons(
+      :isPublish="isPublish"
+      :isFormDirty="isFormDirty"
+      :saveIsLoading="saveIsLoading"
+      :publishIsLoading="publishIsLoading"
+      @click="saveForm"
+    )
+
+    .last-saved.has-text-right
+      p Last saved {{ lastSaved }}
+
+    //- .field.is-grouped.is-grouped-right
+    //-   .control
+    //-     button.button.is-white(:disabled="!isFormDirty" @click.prevent="saveForm(false)") Save
+    //-     button.button.is-primary(v-if="!isPublish" :disabled="!isPublish" @click.prevent="saveForm(true)") Publish
+    //-     button.button.is-primary(v-if="isPublish && !isFormDirty" :disabled="!isPublish" @click.prevent="saveForm(true)") Publish
+    //-     button.button.is-primary(v-if="isPublish && isFormDirty" :disabled="isPublish" @click.prevent="saveForm(true)") Publish
+    //-     
 </template>
 
 <script>
   import Vue from 'vue'
   import VeeValidate from 'vee-validate'
   import api from '@/api'
+  import moment from 'moment'
+  import SavePublishButtons from '@/components/Forms/Buttons/SavePublishButtons'
 
   Vue.use(VeeValidate)
 
@@ -40,6 +54,10 @@
       }
     },
 
+    components: {
+      SavePublishButtons
+    },
+
     data () {
       return {
         formData: {
@@ -48,9 +66,12 @@
         },
         metadata: {
           version: this.data.metadata.version,
-          publishedVersion: this.data.metadata.publishedVersion
+          publishedVersion: this.data.metadata.publishedVersion,
+          updatedAt: this.data.metadata.updatedAt
         },
-        isPublishable: false
+        isPublishable: false,
+        saveIsLoading: false,
+        publishIsLoading: false
       }
     },
 
@@ -69,6 +90,10 @@
         } else if (this.isPublishable === true) {
           return true
         } 
+      },
+
+      lastSaved () {
+        return moment(this.metadata.updatedAt).fromNow();
       }
     },
 
@@ -86,8 +111,11 @@
       },
 
       saveForm (publish) {
+        console.log('publish', publish);
         const token = this.$store.getters['auth/getToken']
         const formData = this.formData
+
+        publish ? this.publishIsLoading = true : this.saveIsLoading = true
 
         api.homepage.updateMainData(token, formData, publish)
           .then(res => {
@@ -96,13 +124,21 @@
             this.metadata.publishedVersion = res.data.metadata.publishedVersion
             this.$validator.reset();
             this.isReadyToPublish()
+            publish ? this.publishIsLoading = false : this.saveIsLoading = false
+          })
+          .catch(err => {
+            console.log('something went wrong :( ', err);
+            publish ? this.publishIsLoading = false : this.saveIsLoading = false
           })
       }
     }
   }
 </script>
 
-<style lang="scss" scoped>
-  @import '~assets/css/utilities/variables.scss';
+<style lang="scss">
+  @import '../../../../../node_modules/sass-rem/rem';
 
+  .last-saved p {
+    font-size: rem(12px);
+  }
 </style>

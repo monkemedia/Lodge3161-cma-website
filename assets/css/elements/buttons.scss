@@ -34,10 +34,12 @@
   &.is-primary {
     background-color: $primary;
   
-    &:hover,
-    &.is-hovered {
-      background: $secondary;
-      color: $white;
+    &:not([disabled]) {
+      &:hover,
+      &.is-hovered {
+        background: $secondary;
+        color: $white;
+      }
     }
     
     &:focus:not(:active),

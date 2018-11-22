@@ -20,6 +20,10 @@
 
 <script>
   export default {
+    middleware: [
+      'isLoginPage'
+    ],
+
     components: {
     },
 
