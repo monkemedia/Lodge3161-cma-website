@@ -1,20 +1,12 @@
 <template lang="pug">
   form
-    .button-holder
-      .container
-        .button-holder__inner
-          .save-button
-            button.button.is-light(:disabled="!isFormDirty" @click.prevent="saveForm(false)") Save
-          .publish-button
-            button.button.is-primary(v-if="!isPublish" :disabled="!isPublish" @click.prevent="saveForm(true)") Publish
-            button.button.is-primary(v-if="isPublish && !isFormDirty" :disabled="!isPublish" @click.prevent="saveForm(true)") Publish
-            button.button.is-primary(v-if="isPublish && isFormDirty" :disabled="isPublish" @click.prevent="saveForm(true)") Publish
     input-field(
       label="Title"
       name="title"
       placeholder=""
       v-validate="'required'"
       v-model="formData.title"
+      :errorText="errors.first('title')"
     )
     textarea-field(
       label="Description"
@@ -22,7 +14,15 @@
       placeholder=""
       v-validate="'required'"
       v-model="formData.description"
+      :errorText="errors.first('description')"
     )
+
+    .field.is-grouped.is-grouped-right
+      .control
+          button.button.is-light(:disabled="!isFormDirty" @click.prevent="saveForm(false)") Save
+          button.button.is-primary(v-if="!isPublish" :disabled="!isPublish" @click.prevent="saveForm(true)") Publish
+          button.button.is-primary(v-if="isPublish && !isFormDirty" :disabled="!isPublish" @click.prevent="saveForm(true)") Publish
+          button.button.is-primary(v-if="isPublish && isFormDirty" :disabled="isPublish" @click.prevent="saveForm(true)") Publish
 </template>
 
 <script>

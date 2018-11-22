@@ -3,7 +3,7 @@
     label.labelName.has-text-weight-bold {{ label }}
     .control
       input.input(type="text" :placeholder="placeholder" :name="name" @input="$emit('input', $event.target.value)" v-model="inputField")
-      p(v-show="errors.items[0] && errors.items[0].msg" class="help is-danger") {{ errors.items[0] && errors.items[0].msg }}
+      p(v-show="errorText" class="help is-danger" v-html="errorText")
 </template>
 
 <script>
@@ -24,15 +24,23 @@
         type: String,
         required: true
       },
+
       name: {
         type: String,
         required: true
       },
+
       value: {
         type: String,
         required: true
       },
+
       placeholder: {
+        type: String,
+        required: false
+      },
+
+      errorText: {
         type: String,
         required: false
       }
