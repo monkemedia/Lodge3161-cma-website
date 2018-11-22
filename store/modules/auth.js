@@ -134,7 +134,6 @@ const actions = {
   },
 
   logout ({ dispatch, commit }, req) {
-    console.log('logged out');
     commit('CLEAR_TOKEN')
     commit('CLEAR_FIRST_NAME')
     commit('CLEAR_LAST_NAME')

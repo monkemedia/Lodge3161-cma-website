@@ -41,7 +41,7 @@
       logout () {
         return this.$store.dispatch('auth/logout')
           .then(() => {
-            console.log('logged out successfully')
+            this.$router.push({ path: '/' })
           })
       }
     }

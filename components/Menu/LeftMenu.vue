@@ -3,7 +3,7 @@
     nav.menu
       ul.menu-list
         li
-          nuxt-link(to="/") Dashboard
+          nuxt-link(to="/homepage") Homepage
         li
           nuxt-link(to="/") Customers
 </template>
@@ -36,6 +36,11 @@
     a {
       padding: 25px 30px;
       border-bottom: 1px solid $grey-lighter;
+
+      &.nuxt-link-exact-active {
+        background: $grey-light;
+        color: $white;
+      }
     }
   }
 

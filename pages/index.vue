@@ -37,9 +37,6 @@
       }
     },
 
-    mounted () {
-    },
-
     methods: {
       submitForm () {
         this.isLoading = true
@@ -47,7 +44,7 @@
         this.$store.dispatch('auth/login', this.loginForm)
           .then(res => {
             this.isLoading = false
-            this.$router.push({ path: '/dashboard' })
+            this.$router.push({ path: '/homepage' })
           })
           .catch(err => {
             console.log(err)
@@ -60,11 +57,10 @@
 </script>
 
 <style lang="scss" scoped>
-  .hero.is-success {
-    background: #F2F6FA;
-  }
+  @import '~assets/css/utilities/variables.scss';
 
-  .box {
+  .hero.is-success {
+    background: $grey-200;
   }
 
   input {
