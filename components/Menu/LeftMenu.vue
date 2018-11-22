@@ -2,12 +2,13 @@
   aside.aside
     nav
       ul.accordions
-        li.accordion(v-for="m in menu" :class="{ 'is-active' : toggle }")
-          a.accordion-header(@click="toggle = !toggle") {{ m.page }}
+        li.accordion(v-for="m in menu" :class="{ 'is-active' : m.active || isActiveOnLoad(m.path) }")
+          //- nuxt-link.accordion-header(@click.native.prevent="m.active = !m.active" :event="''" :to="m.path") {{ m.page }}
+          nuxt-link.accordion-header(@click.native.prevent="toggle($event)" :event="''" :to="m.path") {{ m.page }}
           .accordion-body
             ul.accordion-content
               li(v-for="link in m.links")
-                a {{ link.component }}
+                nuxt-link(:to="link.path" exact) {{ link.component }}
         </article>
 </template>
 
@@ -17,18 +18,51 @@
 
     data () {
       return {
-        toggle: false,
         menu: [
           {
             page: 'Homepage',
+            path: '/homepage',
             links: [
               {
                 component: 'Main',
-                path: '/homepage'
+                path: '/homepage/main'
               }
-            ]
+            ],
+            active: false
+          },
+
+          {
+            page: 'About',
+            path: '/about',
+            links: [
+              {
+                component: 'Main',
+                path: '/about/main'
+              }
+            ],
+            active: false
           }
         ]
+      }
+    },
+
+    methods: {
+      isActiveOnLoad (menuItem) {
+        const paths = Array.isArray(menuItem) ? menuItem : [menuItem];
+    
+        return paths.some(path => {
+          return this.$route.path.indexOf(path) === 0 // current path starts with this path string
+        })
+      },
+
+      toggle (event) {
+        const accordion = this.$el.querySelectorAll('.accordion')
+
+        for(let i = 0; i < accordion.length; i++) {
+          accordion[i].classList.remove('is-active')
+        }
+
+        event.target.parentNode.classList.add('is-active')
       }
     }
   }
@@ -42,30 +76,4 @@
     padding-top: 0;
     padding-bottom: 0;
   }
-
-  .menu {
-    font-weight: bold;
-    font-size: $size-120;
-    background: #fff;
-    min-height: 100vh;
-    border-left: 1px solid $grey-200;
-    border-right: 1px solid $grey-200;
-  }
-
-  .menu-list {
-    a {
-      padding: 25px 30px;
-      border-bottom: 1px solid $grey-lighter;
-
-      &:after {
-
-      }
-
-      &.nuxt-link-exact-active {
-        background: $grey-light;
-        color: $white;
-      }
-    }
-  }
-
 </style>

@@ -5,7 +5,7 @@
         nav.navbar(role="navigation" aria-label="main navigation")
           .navbar-brand
             nuxt-link.navbar-item.is-brand.navbar-brand-logo(to="/")
-              img(src="logo.svg" alt="Dr James Griffith Hall Lodge - CMA")
+              img(src="/logo.svg" alt="Dr James Griffith Hall Lodge - CMA")
 
           .navbar-menu.navbar-end#navMenu
             nuxt-link.navbar-item.is-hoverable.account(v-if="!isAuthenticated" to="/login")
