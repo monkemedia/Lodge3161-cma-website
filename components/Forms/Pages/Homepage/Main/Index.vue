@@ -111,7 +111,6 @@
       },
 
       saveForm (publish) {
-        console.log('publish', publish);
         const token = this.$store.getters['auth/getToken']
         const formData = this.formData
 
@@ -119,7 +118,6 @@
 
         api.homepage.updateMainData(token, formData, publish)
           .then(res => {
-            console.log('res', res.data);
             this.metadata.version = res.data.metadata.version
             this.metadata.publishedVersion = res.data.metadata.publishedVersion
             this.$validator.reset();

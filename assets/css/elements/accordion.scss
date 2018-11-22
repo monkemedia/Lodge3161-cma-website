@@ -1,0 +1,54 @@
+.accordions {
+
+  .accordion {
+    font-weight: bold;
+    font-size: $size-120;
+    width: 100%;
+
+    .accordion-header {
+      padding: 25px 30px;
+      display: block;
+      width: 100%;
+      border-bottom: 1px solid $grey-lighter;
+
+      &:hover {
+        background: $grey-lighter;
+      }
+
+      &:after {
+        content: '+';
+        float: right;
+        font-size: rem-calc(14px);
+      }
+    }
+
+    .accordion-body {
+      display: none;
+
+      .accordion-content a {
+        padding: 25px 30px;
+        display: block;
+        border-bottom: 1px solid $grey-lighter;
+
+        &:hover {
+          background: $grey-lighter;
+        }
+      }
+    }
+
+    &.is-active {
+      .accordion-header {
+        background: $grey-light;
+        color: $white;
+
+        &:after {
+          content: '-';
+        }
+      }
+
+      .accordion-body {
+        display: block;
+      }
+    }
+  }
+}

@@ -1,16 +1,36 @@
 <template lang="pug">
   aside.aside
-    nav.menu
-      ul.menu-list
-        li
-          nuxt-link(to="/homepage") Homepage
-        li
-          nuxt-link(to="/") Customers
+    nav
+      ul.accordions
+        li.accordion(v-for="m in menu" :class="{ 'is-active' : toggle }")
+          a.accordion-header(@click="toggle = !toggle") {{ m.page }}
+          .accordion-body
+            ul.accordion-content
+              li(v-for="link in m.links")
+                a {{ link.component }}
+        </article>
 </template>
 
 <script>
   export default {
-    name: 'LeftMenu'
+    name: 'LeftMenu',
+
+    data () {
+      return {
+        toggle: false,
+        menu: [
+          {
+            page: 'Homepage',
+            links: [
+              {
+                component: 'Main',
+                path: '/homepage'
+              }
+            ]
+          }
+        ]
+      }
+    }
   }
 </script>
 
@@ -36,6 +56,10 @@
     a {
       padding: 25px 30px;
       border-bottom: 1px solid $grey-lighter;
+
+      &:after {
+
+      }
 
       &.nuxt-link-exact-active {
         background: $grey-light;
