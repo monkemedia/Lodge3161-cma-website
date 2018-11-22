@@ -24,11 +24,14 @@
             path: '/homepage',
             links: [
               {
+                component: 'Meta',
+                path: '/homepage/meta'
+              },
+              {
                 component: 'Main',
                 path: '/homepage/main'
               }
-            ],
-            active: false
+            ]
           },
 
           {
@@ -39,8 +42,7 @@
                 component: 'Main',
                 path: '/about/main'
               }
-            ],
-            active: false
+            ]
           }
         ]
       }

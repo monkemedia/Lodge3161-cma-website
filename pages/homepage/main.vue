@@ -1,6 +1,8 @@
 <template lang="pug">
-  section.section
-    homepage-form(:data="data")
+  .columns.is-centered
+    .column.is-8
+      section.section
+        homepage-form(:data="data")
 </template>
 
 <script>
