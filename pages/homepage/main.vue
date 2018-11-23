@@ -6,7 +6,7 @@
 </template>
 
 <script>
-  import api from '@/api'
+  import homepageApi from '@/api/homepage'
   import homepageForm from '@/components/Forms/Pages/Homepage/Main'
 
   export default {
@@ -23,7 +23,7 @@
     asyncData ({ store, params }) {
       const token = store.getters['auth/getToken']
 
-      return api.homepage.fetchData(token)
+      return homepageApi.fetchData(token)
         .then(res => {
           return res.data
         })

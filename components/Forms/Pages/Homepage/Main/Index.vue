@@ -40,7 +40,7 @@
 <script>
   import Vue from 'vue'
   import VeeValidate from 'vee-validate'
-  import api from '@/api'
+  import homepageApi from '@/api/homepage'
   import moment from 'moment'
   import SavePublishButtons from '@/components/Forms/Buttons/SavePublishButtons'
 
@@ -116,7 +116,7 @@
 
         publish ? this.publishIsLoading = true : this.saveIsLoading = true
 
-        api.homepage.updateMainData(token, formData, publish)
+        homepageApi.updateMainData(token, formData, publish)
           .then(res => {
             this.metadata.version = res.data.metadata.version
             this.metadata.publishedVersion = res.data.metadata.publishedVersion

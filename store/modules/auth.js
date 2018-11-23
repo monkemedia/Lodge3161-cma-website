@@ -1,5 +1,5 @@
 import Cookie from 'js-cookie'
-import api from '~/api'
+import authorizationApi from '~/api/authorization'
 
 const state = () => ({
   accessToken: null,
@@ -116,12 +116,12 @@ const actions = {
   },
 
   login ({ dispatch }, data) {
-    return api.authorization.getToken(data)
+    return authorizationApi.getToken(data)
       .then(res => {
         const token = res.data.access_token
 
         dispatch('setAuthData', { access_token: token })
-        return api.authorization.getUser(token)
+        return authorizationApi.getUser(token)
       })
       .then(res => {
         dispatch('setAuthData', { 
