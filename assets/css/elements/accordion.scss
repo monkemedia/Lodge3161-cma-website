@@ -27,7 +27,7 @@
     .accordion-body {
       max-height: 0;
       overflow: hidden;
-      transition: max-height 1s;
+      transition: max-height 0.2s ease-out;
       font-weight: normal;
       font-size: $size-120;
 
@@ -55,10 +55,6 @@
         &:after {
           content: '-';
         }
-      }
-
-      .accordion-body {
-        max-height: 100vh;
       }
     }
   }

@@ -3,9 +3,8 @@
     nav
       ul.accordions
         li.accordion(v-for="m in menu" :class="{ 'is-active' : m.active || isActiveOnLoad(m.path) }")
-          //- nuxt-link.accordion-header(@click.native.prevent="m.active = !m.active" :event="''" :to="m.path") {{ m.page }}
-          nuxt-link.accordion-header(@click.native.prevent="toggle($event)" :event="''" :to="m.path") {{ m.page }}
-          .accordion-body
+          nuxt-link.accordion-header(:event="''" :to="m.path") {{ m.page }}
+          .accordion-body(:class="{ 'is-active' : m.active || isActiveOnLoad(m.path) }")
             ul.accordion-content
               li(v-for="link in m.links")
                 nuxt-link(:to="link.path" exact) {{ link.component }}
@@ -48,6 +47,11 @@
       }
     },
 
+    mounted () {
+      this.toggle()
+      this.openMenuOnLoad()
+    },
+
     methods: {
       isActiveOnLoad (menuItem) {
         const paths = Array.isArray(menuItem) ? menuItem : [menuItem];
@@ -57,14 +61,43 @@
         })
       },
 
-      toggle (event) {
-        const accordion = this.$el.querySelectorAll('.accordion')
+      openMenuOnLoad () {
+        const accordions = document.querySelector('.accordions')
+        const accordion = accordions.querySelectorAll('.accordion')
 
         for(let i = 0; i < accordion.length; i++) {
-          accordion[i].classList.remove('is-active')
+          if (accordion[i].classList.contains('is-active')) {
+            const body = accordion[i].querySelector('.accordion-body')
+            body.style.maxHeight = `${body.scrollHeight}px`
+          }
         }
+      },
 
-        event.target.parentNode.classList.add('is-active')
+      toggle () {
+        const accordions = document.querySelector('.accordions')
+        const accordion = accordions.querySelectorAll('.accordion')
+        const allBodies = accordions.querySelectorAll('.accordion-body')
+
+        for(let i = 0; i < accordion.length; i++) {
+          const header = accordion[i].querySelector('.accordion-header')
+
+          header.addEventListener('click', (event) => {
+            const body = event.target.nextElementSibling;
+
+            for(let j = 0; j < allBodies.length; j++) {
+              accordion[j].classList.remove('is-active')
+              allBodies[j].style.maxHeight = null
+            }  
+
+            if (body.style.maxHeight) {
+              body.style.maxHeight = null
+            } else {
+              body.style.maxHeight = `${body.scrollHeight}px`
+            }
+
+            event.target.parentNode.classList.add('is-active')
+          })
+        }
       }
     }
   }
