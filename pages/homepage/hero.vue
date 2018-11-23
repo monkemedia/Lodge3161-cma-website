@@ -6,8 +6,8 @@
 </template>
 
 <script>
-  import api from '@/api/homepage/main'
-  import formDefault from '@/components/Forms/Pages/Homepage/Main.vue'
+  import api from '@/api/homepage/hero'
+  import formDefault from '@/components/Forms/Pages/Homepage/Hero'
 
   export default {
     layout: 'loggedIn',

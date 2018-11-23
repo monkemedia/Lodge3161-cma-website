@@ -6,16 +6,29 @@
       placeholder=""
       v-validate="'required'"
       v-model="formData.title"
+      :disabled="isSaving"
       :errorText="errors.first('title')"
     )
-    textarea-field(
-      label="Description"
-      name="description"
+    input-field(
+      label="Subtitle"
+      name="subtitle"
       placeholder=""
       v-validate="'required'"
-      v-model="formData.description"
-      :errorText="errors.first('description')"
+      v-model="formData.subtitle"
+      :disabled="isSaving"
+      :errorText="errors.first('subtitle')"
     )
+
+    //- .dropbox
+    //-   input(type="file" :name="uploadFieldName" :disabled="isSaving" @change="filesChange($event.target.name, $event.target.files); fileCount = $event.target.files.length"
+    //-     accept="image/*" class="input-file">
+    //-     <p v-if="isInitial">
+    //-       Drag your file(s) here to begin<br> or click to browse
+    //-     </p>
+    //-     <p v-if="isSaving">
+    //-       Uploading {{ fileCount }} files...
+    //-     </p>
+    //- </div>
 
     save-publish-buttons(
       :isPublish="isPublish"
@@ -27,20 +40,12 @@
 
     .last-saved.has-text-right
       p Last saved {{ lastSaved }}
-
-    //- .field.is-grouped.is-grouped-right
-    //-   .control
-    //-     button.button.is-white(:disabled="!isFormDirty" @click.prevent="saveForm(false)") Save
-    //-     button.button.is-primary(v-if="!isPublish" :disabled="!isPublish" @click.prevent="saveForm(true)") Publish
-    //-     button.button.is-primary(v-if="isPublish && !isFormDirty" :disabled="!isPublish" @click.prevent="saveForm(true)") Publish
-    //-     button.button.is-primary(v-if="isPublish && isFormDirty" :disabled="isPublish" @click.prevent="saveForm(true)") Publish
-    //-     
 </template>
 
 <script>
   import Vue from 'vue'
   import VeeValidate from 'vee-validate'
-  import homepageApi from '@/api/homepage'
+  import api from '@/api/homepage/hero'
   import moment from 'moment'
   import SavePublishButtons from '@/components/Forms/Buttons/SavePublishButtons'
 
@@ -62,7 +67,7 @@
       return {
         formData: {
           title: this.data.fields.title,
-          description: this.data.fields.description
+          subtitle: this.data.fields.subtitle
         },
         metadata: {
           version: this.data.metadata.version,
@@ -71,7 +76,8 @@
         },
         isPublishable: false,
         saveIsLoading: false,
-        publishIsLoading: false
+        publishIsLoading: false,
+        isSaving: false
       }
     },
 
@@ -107,7 +113,6 @@
         } else {
           this.isPublishable = false
         }
-
       },
 
       saveForm (publish) {
@@ -115,17 +120,20 @@
         const formData = this.formData
 
         publish ? this.publishIsLoading = true : this.saveIsLoading = true
+        this.isSaving = true
 
-        homepageApi.updateMainData(token, formData, publish)
+        api.updateData(token, formData, publish)
           .then(res => {
             this.metadata.version = res.data.metadata.version
             this.metadata.publishedVersion = res.data.metadata.publishedVersion
             this.$validator.reset();
             this.isReadyToPublish()
+            this.isSaving = false
             publish ? this.publishIsLoading = false : this.saveIsLoading = false
           })
           .catch(err => {
             console.log('something went wrong :( ', err);
+            this.isSaving = false
             publish ? this.publishIsLoading = false : this.saveIsLoading = false
           })
       }
@@ -134,7 +142,7 @@
 </script>
 
 <style lang="scss">
-  @import '../../../../../node_modules/sass-rem/rem';
+  @import '../../../../node_modules/sass-rem/rem';
 
   .last-saved p {
     font-size: rem(12px);

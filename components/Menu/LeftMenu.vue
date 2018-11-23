@@ -23,12 +23,12 @@
             path: '/homepage',
             links: [
               {
-                component: 'Meta',
-                path: '/homepage/meta'
-              },
-              {
                 component: 'Main',
                 path: '/homepage/main'
+              },
+              {
+                component: 'Hero',
+                path: '/homepage/hero'
               }
             ]
           },

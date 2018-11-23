@@ -2,7 +2,7 @@
   .field
     label.labelName.has-text-weight-bold {{ label }}
     .control
-      textarea.textarea(type="textarea" :placeholder="placeholder" :name="name" @input="$emit('input', $event.target.value)" v-model="textareaField")
+      textarea.textarea(type="textarea" :disabled="disabled" :placeholder="placeholder" :name="name" @input="$emit('input', $event.target.value)" v-model="textareaField")
       p(v-show="errorText" class="help is-danger" v-html="errorText")
 </template>
 
@@ -43,6 +43,11 @@
       errorText: {
         type: String,
         required: false
+      },
+
+      disabled: {
+        type: Boolean,
+        required: true
       }
     },
 
