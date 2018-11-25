@@ -6,15 +6,14 @@
           b-tab-item(label="Basic")
             basic-form(:data="basic")
           b-tab-item(label="Media")
-            p test
-        
+            media-form(:data="media")
 </template>
 
 <script>
   import apiBasic from '@/api/homepage/hero/basic'
-  // import apiMedia from '@/api/homepage/hero/media'
+  import apiMedia from '@/api/homepage/hero/media'
   import basicForm from '@/components/Forms/Pages/Homepage/Hero/Basic'
-  // import mediaForm from '@/components/Forms/Pages/Homepage/Hero/Media'
+  import mediaForm from '@/components/Forms/Pages/Homepage/Hero/Media'
 
   export default {
     layout: 'loggedIn',
@@ -25,23 +24,25 @@
 
     components: {
       basicForm,
-      // mediaForm
+      mediaForm
     },
 
     asyncData ({ store }) {
       const token = store.getters['auth/getToken']
 
-      return apiBasic.fetchData(token)
+      const promise = Promise.all([
+        apiBasic.fetchData(token),
+        apiMedia.fetchData(token)
+      ])
+
+      return promise
         .then(res => {
-          console.log('res', res);
-          return { basic: res.data.data }
+          const [basic, media] = res
+          return { 
+            basic: basic.data.data,
+            media: media.data.data
+          }
         })
-        // .then(() => {
-        //   return apiMedia.fetchData(token)
-        // })
-        // .then(res => {
-        //   return res.media
-        // })
     },
 
     data () {
