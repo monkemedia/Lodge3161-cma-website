@@ -5,19 +5,20 @@ const url = `${process.env.BASE_URL}api/v1`
 
 export default {
   fetchData: (token) => {
-    return cachios.get(`${url}/contentful-management/homepage/hero`, {
+    return cachios.get(`${url}/contentful-management/homepage/hero/media`, {
       headers: {
         'Authorization': `Bearer ${token}`
       }
     })
   },
 
-  updateMainData: (token, data, publish) => {
+  updateData: (token, data, publish, version) => {
     return axios({
       method: 'PUT',
-      url: `${url}/contentful-management/homepage/main?publishable=${publish}`, 
+      url: `${url}/contentful-management/homepage/hero/media?publishable=${publish}`, 
       headers: {
-        'Authorization': `Bearer ${token}`
+        'Authorization': `Bearer ${token}`,
+        'X-Contentful-Version': version
       },
       data
     })

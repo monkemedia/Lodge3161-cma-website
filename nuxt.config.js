@@ -40,7 +40,9 @@ module.exports = {
   ** Plugins to load before mounting the App
   */
   plugins: [
-    '~/plugins/formComponents'
+    '~/plugins/form-components',
+    '~/plugins/vue-lazy-load',
+    '~/plugins/vue-buefy'
   ],
 
   /*

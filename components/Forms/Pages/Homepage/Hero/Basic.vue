@@ -9,14 +9,14 @@
       :disabled="isSaving"
       :errorText="errors.first('title')"
     )
-    textarea-field(
-      label="Description"
-      name="description"
+    input-field(
+      label="Subtitle"
+      name="subtitle"
       placeholder=""
       v-validate="'required'"
-      v-model="formData.description"
+      v-model="formData.subtitle"
       :disabled="isSaving"
-      :errorText="errors.first('description')"
+      :errorText="errors.first('subtitle')"
     )
 
     save-publish-buttons(
@@ -29,13 +29,12 @@
 
     .last-saved.has-text-right
       p Last saved {{ lastSaved }}
-
 </template>
 
 <script>
   import Vue from 'vue'
   import VeeValidate from 'vee-validate'
-  import api from '@/api/homepage/main'
+  import api from '@/api/homepage/hero/basic'
   import moment from 'moment'
   import SavePublishButtons from '@/components/Forms/Buttons/SavePublishButtons'
 
@@ -57,7 +56,7 @@
       return {
         formData: {
           title: this.data.fields.title,
-          description: this.data.fields.description
+          subtitle: this.data.fields.subtitle,
         },
         metadata: {
           version: this.data.metadata.version,
@@ -103,7 +102,6 @@
         } else {
           this.isPublishable = false
         }
-
       },
 
       saveForm (publish) {
@@ -120,13 +118,13 @@
             this.metadata.updatedAt = res.data.metadata.updatedAt
             this.$validator.reset();
             this.isReadyToPublish()
-            publish ? this.publishIsLoading = false : this.saveIsLoading = false
             this.isSaving = false
+            publish ? this.publishIsLoading = false : this.saveIsLoading = false
           })
           .catch(err => {
             console.log('something went wrong :( ', err);
-            publish ? this.publishIsLoading = false : this.saveIsLoading = false
             this.isSaving = false
+            publish ? this.publishIsLoading = false : this.saveIsLoading = false
           })
       }
     }
@@ -134,7 +132,8 @@
 </script>
 
 <style lang="scss">
-  @import '../../../../node_modules/sass-rem/rem';
+  @import '../../../../../node_modules/sass-rem/rem';
+  @import '~assets/css/utilities/variables.scss';
 
   .last-saved p {
     font-size: rem(12px);

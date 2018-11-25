@@ -2,12 +2,19 @@
   .columns.is-centered
     .column.is-8
       section.section
-        form-default(:data="data")
+        b-tabs(v-model="activeTab")
+          b-tab-item(label="Basic")
+            basic-form(:data="basic")
+          b-tab-item(label="Media")
+            p test
+        
 </template>
 
 <script>
-  import api from '@/api/homepage/hero'
-  import formDefault from '@/components/Forms/Pages/Homepage/Hero'
+  import apiBasic from '@/api/homepage/hero/basic'
+  // import apiMedia from '@/api/homepage/hero/media'
+  import basicForm from '@/components/Forms/Pages/Homepage/Hero/Basic'
+  // import mediaForm from '@/components/Forms/Pages/Homepage/Hero/Media'
 
   export default {
     layout: 'loggedIn',
@@ -17,16 +24,30 @@
     ],
 
     components: {
-      formDefault
+      basicForm,
+      // mediaForm
     },
 
-    asyncData ({ store, params }) {
+    asyncData ({ store }) {
       const token = store.getters['auth/getToken']
 
-      return api.fetchData(token)
+      return apiBasic.fetchData(token)
         .then(res => {
-          return res.data
+          console.log('res', res);
+          return { basic: res.data.data }
         })
+        // .then(() => {
+        //   return apiMedia.fetchData(token)
+        // })
+        // .then(res => {
+        //   return res.media
+        // })
+    },
+
+    data () {
+      return {
+        activeTab: 0
+      }
     }
   }
 </script>
