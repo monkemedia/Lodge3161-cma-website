@@ -1,8 +1,10 @@
 <template lang="pug">
   form
-    .dropbox
+    .dropbox(@click="launchFilePicker()" :class="{ 'disabled' : isSaving }")
       .dropbox__inner
-        .text-container
+        figure(v-if="formData.image.file.url")
+          img(:src="formData.image.file.url")
+        .text-container(v-if="!formData.image.file.url")
           span.icon
             .fa-stack
               i.far.fa-circle.fa-stack-2x
@@ -10,18 +12,37 @@
           p Upload image
         input(
           hidden="true"
+          ref="file"
           type="file" 
-          :name="uploadFieldName" 
-          :disabled="isSaving" 
-          @change="filesChange($event.target.name, $event.target.files)" 
+          name="file"
+          :disabled="isSaving"
+          v-validate="'required'"
+          @change="onFileChange($event.target.name, $event.target.files[0])" 
           accept="image/*")
-        <p v-if="isInitial">
-          Drag your file(s) here to begin<br> or click to browse
-        </p>
-        <p v-if="isSaving">
-          Uploading {{ fileCount }} files...
-        </p>
-    </div>
+        a.dropbox__upload-hover(v-if="formData.image.file.url")
+          span.icon
+            .fa-stack
+              i.fas.fa-cloud-upload-alt.dropbox__upload-hover__icon
+              i.fas.fa-circle.fa-stack-2x.dropbox__upload-hover__background
+
+    input-field(
+      label="Title"
+      name="title"
+      placeholder=""
+      v-validate="'required'"
+      v-model="formData.image.title"
+      :disabled="isSaving"
+      :errorText="errors.first('title')"
+    )
+
+    save-publish-buttons(
+      :isPublish="isPublish"
+      :isFormDirty="isFormDirty"
+      :saveIsLoading="saveIsLoading"
+      :publishIsLoading="publishIsLoading"
+      :anyFormErrors="errors.items.length <= 0"
+      @click="saveAsset"
+    )
 
     .last-saved.has-text-right
       p Last saved {{ lastSaved }}
@@ -30,7 +51,8 @@
 <script>
   import Vue from 'vue'
   import VeeValidate from 'vee-validate'
-  import mixin from '@/plugins/mixins/common-api-functionality.js'
+  import mixin from '@/plugins/mixins/common-api-functionality'
+  import apiAssets from '@/api/assets'
 
   Vue.use(VeeValidate)
 
@@ -40,48 +62,65 @@
     data () {
       return {
         formData: {
-          title: this.data.fields.image.title,
-          file: {
-            url: this.data.fields.image.file.url,
-            fileName: this.data.fields.image.file.fileName,
-            contentType: this.data.fields.image.file.contentType
+          metadata: {
+            id: this.data.metadata.id
+          },
+          image: {
+            title: this.data.fields.title,
+            file: {
+              url: this.data.fields.image.file.url,
+              fileName: this.data.fields.image.file.fileName,
+              contentType: this.data.fields.image.file.contentType
+            }
           }
         }
       }
     },
 
-    launchFilePicker(){
-      this.$refs.file.click();
-    },
+    methods: {
+      launchFilePicker (){
+        this.$refs.file.click();
+      },
 
-    onFileChange(fieldName, file) {
-      const { maxSize } = this
-      let imageFile = file[0] 
+      onFileChange (fieldName, file) {
+        let imageFile = file
+        const reader  = new FileReader()
 
-      //check if user actually selected a file
-      if (file.length > 0) {
-        let size = imageFile.size / maxSize / maxSize
-        if (!imageFile.type.match('image.*')) {
-          // check whether the upload is an image
-          this.errorDialog = true
-          this.errorText = 'Please choose an image file'
-        } else if (size > 4) {
-          // check whether the size is greater than the size limit
-          this.errorDialog = true
-          this.errorText = 'Your file is too big! Please select an image under 1MB'
-        } else {
-          const reader  = new FileReader()
-
-          console.log(imageFile);
-
-          reader.onload = (e) => {
-            this.formData.image.file.url = e.target.result
-            this.formData.image.file.fileName = imageFile.name
-            this.formData.image.file.contentType = imageFile.type;
-          };
-          reader.readAsDataURL(file[0])
-          this.imageUpdated = true
+        reader.onload = (e) => {
+          this.formData.image.file.url = e.target.result
+          this.formData.image.file.fileName = imageFile.name
+          this.formData.image.file.contentType = imageFile.type
         }
+        reader.readAsDataURL(imageFile)
+        this.imageUpdated = true
+      },
+
+      saveAsset (publish) {
+        const token = this.$store.getters['auth/getToken']
+        const imageData = this.formData.image
+        const oldAssetId = this.formData.metadata.id
+
+        this.$validator.validateAll()
+          .then(() => {
+            publish ? this.publishIsLoading = true : this.saveIsLoading = true
+            this.isSaving = true
+
+            apiAssets.createAsset(token, imageData, oldAssetId, publish)
+              .then(res => {
+                this.metadata.version = res.data.data.metadata.version
+                this.metadata.publishedVersion = res.data.data.metadata.publishedVersion
+                this.metadata.updatedAt = res.data.data.metadata.updatedAt
+                this.$validator.reset();
+                this.isReadyToPublish()
+                this.isSaving = false
+                publish ? this.publishIsLoading = false : this.saveIsLoading = false
+              })
+              .catch(err => {
+                console.log('something went wrong :( ', err);
+                this.isSaving = false
+                publish ? this.publishIsLoading = false : this.saveIsLoading = false
+              })
+          })
       }
     }
   }
@@ -96,6 +135,12 @@
   }
 
   .dropbox {
+    margin-bottom: 20px;
+
+    &.disabled {
+      pointer-events: none;
+    }
+
     &__inner {
       cursor: pointer;
       background: $white;
@@ -107,6 +152,7 @@
       align-items: center;
       justify-content: center;
       display: flex;
+      position: relative;
 
       .text-container {
         text-align: center;
@@ -135,6 +181,60 @@
         .text-container {
           color: $grey-300;
         }
+      }
+    }
+
+    &__upload-hover {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      margin-top: -20px;
+      margin-left: -20px;
+      display: none;
+
+     .icon {
+        width: 40px;
+        height: 40px;
+
+        .fa-stack {
+          justify-content: center;
+          align-items: center;
+          display: flex;
+
+          .fa-stack-2x {
+            font-size: rem(40px);
+          }
+        }
+
+        .dropbox__upload-hover__icon {
+          z-index: 1;
+
+          &:before {
+            color: $grey-light;
+          }
+        }
+
+        .dropbox__upload-hover__background {
+          color: $white;
+        }
+      }
+
+      &:hover {
+        .dropbox__upload-hover__icon {
+          &:before {
+            color: $white;
+          }
+        }
+
+        .dropbox__upload-hover__background {
+          color: $grey-light;
+        }
+      }
+    }
+
+    &:hover {
+      .dropbox__upload-hover {
+        display: block;
       }
     }
   }
