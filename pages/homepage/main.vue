@@ -1,8 +1,11 @@
 <template lang="pug">
   .columns.is-centered
     .column.is-8
-      section.section
-        form-default(:data="data")
+      .page-main
+        header.header.has-text-centered
+          h1.h1 Homepage: <span>Main</span>
+        section.page-main__content
+          form-default(:data="data")
 </template>
 
 <script>
@@ -32,7 +35,5 @@
 </script>
 
 <style lang="scss" scoped>
-  .section {
-    padding-top: 80px;
-  }
+
 </style>

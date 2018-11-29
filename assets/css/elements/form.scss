@@ -19,6 +19,8 @@
   border-radius: 0;
   font-size: $size-130;
   @include Bold();
+  padding-left: 15px;
+  padding-right: 15px;
   
   &:focus,
   &:hover {

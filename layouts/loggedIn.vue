@@ -1,5 +1,5 @@
 <template lang="pug">
-  div.container.is-fullhd
+  div.container
     main-header
     .columns.is-gapless
       left-menu.column.is-2
