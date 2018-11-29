@@ -1,7 +1,8 @@
 <template lang="pug">
   .field.is-grouped.is-grouped-right.is-marginless
     .control
-      button.button.is-white(:disabled="!isFormDirty" :class="{ 'is-loading': saveIsLoading }" @click.prevent="$emit('click', false)") Save
+      button.button.is-white(:disabled="!isFormDirty || !anyFormErrors" :class="{ 'is-loading': saveIsLoading }" @click.prevent="$emit('click', false)") Save
+
       button.button.is-primary(v-if="!isPublish" :disabled="!isPublish" :class="{ 'is-loading': publishIsLoading }" @click.prevent="$emit('click', true)") Publish
       button.button.is-primary(v-if="isPublish && !isFormDirty" :disabled="!isPublish" :class="{ 'is-loading': publishIsLoading }" @click.prevent="$emit('click', true)") Publish
       button.button.is-primary(v-if="isPublish && isFormDirty" :disabled="isPublish" :class="{ 'is-loading': publishIsLoading }" @click.prevent="$emit('click', true)") Publish
@@ -26,6 +27,11 @@
       },
 
       publishIsLoading: {
+        type: Boolean,
+        required: true
+      },
+
+      anyFormErrors: {
         type: Boolean,
         required: true
       }

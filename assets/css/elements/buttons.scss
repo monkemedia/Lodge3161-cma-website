@@ -23,7 +23,6 @@
 
   &:not([disabled]) {
     &:hover,
-    &:focus,
     &.is-hovered {
       background-color: $primary;
       color: $body-color;

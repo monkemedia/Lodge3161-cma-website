@@ -24,6 +24,7 @@
       :isFormDirty="isFormDirty"
       :saveIsLoading="saveIsLoading"
       :publishIsLoading="publishIsLoading"
+      :anyFormErrors="errors.items.length <= 0"
       @click="saveForm"
     )
 
