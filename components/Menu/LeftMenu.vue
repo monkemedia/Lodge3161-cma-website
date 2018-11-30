@@ -29,6 +29,14 @@
               {
                 component: 'Hero',
                 path: '/homepage/hero'
+              },
+              {
+                component: 'Content Block Top',
+                path: 'homepage/content-block-top'
+              },
+              {
+                component: 'Content Block Bottom',
+                path: 'homepage/content-block-bottom'
               }
             ]
           },

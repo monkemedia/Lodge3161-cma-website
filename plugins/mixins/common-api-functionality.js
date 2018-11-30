@@ -1,4 +1,3 @@
-import api from '@/api/homepage/hero/basic'
 import moment from 'moment'
 import SavePublishButtons from '@/components/Forms/Buttons/SavePublishButtons'
 
@@ -60,30 +59,6 @@ export default {
       } else {
         this.isPublishable = false
       }
-    },
-
-    saveForm (publish) {
-      const token = this.$store.getters['auth/getToken']
-      const formData = this.formData
-
-      publish ? this.publishIsLoading = true : this.saveIsLoading = true
-      this.isSaving = true
-
-      api.updateData(token, formData, publish)
-        .then(res => {
-          this.metadata.version = res.data.metadata.version
-          this.metadata.publishedVersion = res.data.metadata.publishedVersion
-          this.metadata.updatedAt = res.data.metadata.updatedAt
-          this.$validator.reset();
-          this.isReadyToPublish()
-          this.isSaving = false
-          publish ? this.publishIsLoading = false : this.saveIsLoading = false
-        })
-        .catch(err => {
-          console.log('something went wrong :( ', err);
-          this.isSaving = false
-          publish ? this.publishIsLoading = false : this.saveIsLoading = false
-        })
     }
   }
 }

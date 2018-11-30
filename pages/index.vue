@@ -24,12 +24,6 @@
       'isLoginPage'
     ],
 
-    components: {
-    },
-
-    async fetch ({ store }) {
-    },
-
     data () {
       return {
         loginForm: {
