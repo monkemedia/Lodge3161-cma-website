@@ -10,13 +10,13 @@
       :errorText="errors.first('title')"
     )
     input-field(
-      label="Subtitle"
-      name="subtitle"
+      label="Path"
+      name="path"
       placeholder=""
       v-validate="'required'"
-      v-model="formData.subtitle"
+      v-model="formData.path"
       :disabled="isSaving"
-      :errorText="errors.first('subtitle')"
+      :errorText="errors.first('path')"
     )
 
     save-publish-buttons(
@@ -47,7 +47,7 @@
       return {
         formData: {
           title: this.data.fields.title,
-          subtitle: this.data.fields.subtitle,
+          path: this.data.fields.path,
         }
       }
     },
@@ -56,7 +56,7 @@
       saveForm (publish) {
         const token = this.$store.getters['auth/getToken']
         const formData = this.formData
-        const url = '/homepage/hero/basic'
+        const url = '/homepage/content-block-top/button'
 
         this.$validator.validateAll()
           .then(() => {

@@ -25,7 +25,7 @@
 
     asyncData ({ store, params }) {
       const token = store.getters['auth/getToken']
-      const url = 'homepage/main'
+      const url = '/homepage/main'
 
       return api.fetchData(token, url)
         .then(res => {

@@ -9,14 +9,14 @@
       :disabled="isSaving"
       :errorText="errors.first('title')"
     )
-    input-field(
-      label="Subtitle"
-      name="subtitle"
+    textarea-field(
+      label="Description"
+      name="description"
       placeholder=""
       v-validate="'required'"
-      v-model="formData.subtitle"
+      v-model="formData.description"
       :disabled="isSaving"
-      :errorText="errors.first('subtitle')"
+      :errorText="errors.first('description')"
     )
 
     save-publish-buttons(
@@ -36,6 +36,7 @@
   import Vue from 'vue'
   import VeeValidate from 'vee-validate'
   import mixin from '@/plugins/mixins/common-api-functionality.js'
+  import api from '@/api/contentful'
 
   Vue.use(VeeValidate)
 
@@ -46,8 +47,38 @@
       return {
         formData: {
           title: this.data.fields.title,
-          subtitle: this.data.fields.subtitle,
+          description: this.data.fields.description,
         }
+      }
+    },
+
+    methods: {
+      saveForm (publish) {
+        const token = this.$store.getters['auth/getToken']
+        const formData = this.formData
+        const url = '/homepage/content-block-top/basic'
+
+        this.$validator.validateAll()
+          .then(() => {
+            publish ? this.publishIsLoading = true : this.saveIsLoading = true
+            this.isSaving = true
+
+            api.updateData(token, formData, publish, url)
+              .then(res => {
+                this.metadata.version = res.data.metadata.version
+                this.metadata.publishedVersion = res.data.metadata.publishedVersion
+                this.metadata.updatedAt = res.data.metadata.updatedAt
+                this.$validator.reset();
+                this.isReadyToPublish()
+                this.isSaving = false
+                publish ? this.publishIsLoading = false : this.saveIsLoading = false
+              })
+              .catch(err => {
+                console.log('something went wrong :( ', err);
+                this.isSaving = false
+                publish ? this.publishIsLoading = false : this.saveIsLoading = false
+              })
+          })
       }
     }
   }

@@ -5,7 +5,7 @@ const version = `${process.env.BASE_URL}api/v1`
 
 export default {
   fetchData: (token, url) => {
-    return cachios.get(`${version}/${url}`, {
+    return cachios.get(`${version}${url}`, {
       headers: {
         'Authorization': `Bearer ${token}`
       }
@@ -15,7 +15,7 @@ export default {
   updateData: (token, data, publish, url) => {
     return axios({
       method: 'PUT',
-      url: `${version}/${url}?publishable=${publish}`, 
+      url: `${version}${url}?publishable=${publish}`, 
       headers: {
         'Authorization': `Bearer ${token}`
       },
