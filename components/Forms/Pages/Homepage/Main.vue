@@ -36,8 +36,8 @@
 <script>
   import Vue from 'vue'
   import VeeValidate from 'vee-validate'
-  import mixin from '@/plugins/mixins/common-api-functionality.js'
-  import api from '@/api/homepage/main'
+  import mixin from '@/plugins/mixins/common-api-functionality'
+  import api from '@/api/contentful'
 
   Vue.use(VeeValidate)
 
@@ -57,11 +57,12 @@
       saveForm (publish) {
         const token = this.$store.getters['auth/getToken']
         const formData = this.formData
+        const url = 'homepage/main'
 
         publish ? this.publishIsLoading = true : this.saveIsLoading = true
         this.isSaving = true
 
-        api.updateData(token, formData, publish)
+        api.updateData(token, formData, publish, url)
           .then(res => {
             this.metadata.version = res.data.metadata.version
             this.metadata.publishedVersion = res.data.metadata.publishedVersion

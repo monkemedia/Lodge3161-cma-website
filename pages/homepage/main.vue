@@ -9,7 +9,7 @@
 </template>
 
 <script>
-  import api from '@/api/homepage/main'
+  import api from '@/api/contentful'
   import formDefault from '@/components/Forms/Pages/Homepage/Main.vue'
 
   export default {
@@ -25,8 +25,9 @@
 
     asyncData ({ store, params }) {
       const token = store.getters['auth/getToken']
+      const url = 'homepage/main'
 
-      return api.fetchData(token)
+      return api.fetchData(token, url)
         .then(res => {
           return res.data
         })

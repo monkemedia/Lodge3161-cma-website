@@ -1,21 +1,21 @@
 import cachios from 'cachios'
 import axios from 'axios'
 
-const url = `${process.env.BASE_URL}api/v1`
+const version = `${process.env.BASE_URL}api/v1`
 
 export default {
-  fetchData: (token) => {
-    return cachios.get(`${url}/homepage/main`, {
+  fetchData: (token, url) => {
+    return cachios.get(`${version}/${url}`, {
       headers: {
         'Authorization': `Bearer ${token}`
       }
     })
   },
 
-  updateData: (token, data, publish) => {
+  updateData: (token, data, publish, url) => {
     return axios({
       method: 'PUT',
-      url: `${url}/homepage/main?publishable=${publish}`, 
+      url: `${version}/${url}?publishable=${publish}`, 
       headers: {
         'Authorization': `Bearer ${token}`
       },

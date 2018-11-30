@@ -15,9 +15,7 @@
 </template>
 
 <script>
-  import apiBasic from '@/api/homepage/hero/basic'
-  import apiMedia from '@/api/homepage/hero/media'
-  import apiButton from '@/api/homepage/hero/button'
+  import api from '@/api/contentful'
   import basicForm from '@/components/Forms/Pages/Homepage/Hero/Basic'
   import mediaForm from '@/components/Forms/Pages/Homepage/Hero/Media'
   import buttonForm from '@/components/Forms/Pages/Homepage/Hero/Button'
@@ -37,11 +35,14 @@
 
     asyncData ({ store }) {
       const token = store.getters['auth/getToken']
+      const urlBasic = 'homepage/hero/basic'
+      const urlMedia = 'homepage/hero/media'
+      const urlButton = 'homepage/hero/button'
 
       const promise = Promise.all([
-        apiBasic.fetchData(token),
-        apiMedia.fetchData(token),
-        apiButton.fetchData(token)
+        api.fetchData(token, urlBasic),
+        api.fetchData(token, urlMedia),
+        api.fetchData(token, urlButton)
       ])
 
       return promise
