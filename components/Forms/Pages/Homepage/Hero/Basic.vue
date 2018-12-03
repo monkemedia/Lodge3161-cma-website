@@ -56,7 +56,7 @@
       saveForm (publish) {
         const token = this.$store.getters['auth/getToken']
         const formData = this.formData
-        const urlBasic = '/update/basic'
+        const urlBasic = '/fetch/basic'
         const entryIdBasic = '3qDt3aaDQQMqAu8yg6C4gq'
 
         this.$validator.validateAll()

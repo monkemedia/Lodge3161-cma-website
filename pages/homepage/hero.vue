@@ -58,6 +58,9 @@
             button: button.data.data
           }
         })
+        .catch(err => {
+          console.log('ERROR', err);
+        })
     },
 
     data () {

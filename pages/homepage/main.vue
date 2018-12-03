@@ -5,7 +5,7 @@
         header.header.has-text-centered
           h1.h1 Homepage: <span>Main</span>
         section.page-main__content
-          form-default(:data="data")
+          form-default(:data="main")
 </template>
 
 <script>
@@ -25,11 +25,23 @@
 
     asyncData ({ store, params }) {
       const token = store.getters['auth/getToken']
-      const url = '/homepage/main'
+      const urlMain = '/fetch/main'
+      const entryIdMain = '7tT62M3wjYWqGMqOyAEoC2'
 
-      return api.fetchData(token, url)
+      const promise = Promise.all([
+        api.fetchData(token, urlMain, entryIdMain),
+      ])
+
+      return promise
         .then(res => {
-          return res.data
+          const [main] = res
+
+          return { 
+            main: main.data.data,
+          }
+        })
+        .catch(err => {
+          console.log('ERROR', err);
         })
     }
   }
