@@ -57,7 +57,7 @@
       saveForm (publish) {
         const token = this.$store.getters['auth/getToken']
         const formData = this.formData
-        const url = 'homepage/main'
+        const url = '/homepage/main'
 
         publish ? this.publishIsLoading = true : this.saveIsLoading = true
         this.isSaving = true

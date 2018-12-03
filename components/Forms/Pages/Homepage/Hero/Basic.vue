@@ -56,14 +56,15 @@
       saveForm (publish) {
         const token = this.$store.getters['auth/getToken']
         const formData = this.formData
-        const url = '/homepage/hero/basic'
+        const urlBasic = '/update/basic'
+        const entryIdBasic = '3qDt3aaDQQMqAu8yg6C4gq'
 
         this.$validator.validateAll()
           .then(() => {
             publish ? this.publishIsLoading = true : this.saveIsLoading = true
             this.isSaving = true
 
-            api.updateData(token, formData, publish, url)
+            api.updateData(token, formData, publish, urlBasic, entryIdBasic)
               .then(res => {
                 this.metadata.version = res.data.metadata.version
                 this.metadata.publishedVersion = res.data.metadata.publishedVersion

@@ -4,18 +4,18 @@ import axios from 'axios'
 const version = `${process.env.BASE_URL}api/v1`
 
 export default {
-  fetchData: (token, url) => {
-    return cachios.get(`${version}${url}`, {
+  fetchData: (token, url, entryId) => {
+    return cachios.get(`${version}${url}?entryId=${entryId}`, {
       headers: {
         'Authorization': `Bearer ${token}`
       }
     })
   },
 
-  updateData: (token, data, publish, url) => {
+  updateData: (token, data, publish, url, entryId) => {
     return axios({
       method: 'PUT',
-      url: `${version}${url}?publishable=${publish}`, 
+      url: `${version}${url}?publishable=${publish}&entryId=${entryId}`, 
       headers: {
         'Authorization': `Bearer ${token}`
       },
