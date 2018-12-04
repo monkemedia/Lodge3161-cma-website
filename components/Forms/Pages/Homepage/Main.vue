@@ -38,6 +38,7 @@
   import VeeValidate from 'vee-validate'
   import mixin from '@/plugins/mixins/common-api-functionality'
   import api from '@/api/contentful'
+  import { lang } from '@/utils'
 
   Vue.use(VeeValidate)
 
@@ -47,8 +48,8 @@
     data () {
       return {
         formData: {
-          title: this.data.fields.title,
-          description: this.data.fields.description
+          title: this.data.fields.title[lang()],
+          description: this.data.fields.description[lang()]
         }
       }
     },
@@ -57,12 +58,12 @@
       saveForm (publish) {
         const token = this.$store.getters['auth/getToken']
         const formData = this.formData
-        const url = '/homepage/main'
+        const entryIdMain = '7tT62M3wjYWqGMqOyAEoC2'
 
         publish ? this.publishIsLoading = true : this.saveIsLoading = true
         this.isSaving = true
 
-        api.updateData(token, formData, publish, url)
+        api.updateData(token, formData, publish, entryIdMain)
           .then(res => {
             this.metadata.version = res.data.metadata.version
             this.metadata.publishedVersion = res.data.metadata.publishedVersion
@@ -73,7 +74,7 @@
             this.isSaving = false
           })
           .catch(err => {
-            console.log('something went wrong :( ', err);
+            console.log(err.response.data.error)
             publish ? this.publishIsLoading = false : this.saveIsLoading = false
             this.isSaving = false
           })

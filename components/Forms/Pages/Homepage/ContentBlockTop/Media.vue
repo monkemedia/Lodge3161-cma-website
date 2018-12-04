@@ -52,7 +52,7 @@
   import Vue from 'vue'
   import VeeValidate from 'vee-validate'
   import mixin from '@/plugins/mixins/common-api-functionality'
-  import apiAssets from '@/api/assets'
+  import api from '@/api/contentful'
 
   Vue.use(VeeValidate)
 
@@ -105,7 +105,7 @@
             publish ? this.publishIsLoading = true : this.saveIsLoading = true
             this.isSaving = true
 
-            apiAssets.createAsset(token, imageData, oldAssetId, publish)
+            api.createAsset(token, imageData, oldAssetId, publish)
               .then(res => {
                 this.metadata.version = res.data.data.metadata.version
                 this.metadata.publishedVersion = res.data.data.metadata.publishedVersion

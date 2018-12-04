@@ -37,6 +37,7 @@
   import VeeValidate from 'vee-validate'
   import mixin from '@/plugins/mixins/common-api-functionality.js'
   import api from '@/api/contentful'
+  import { lang } from '@/utils'
 
   Vue.use(VeeValidate)
 
@@ -46,8 +47,8 @@
     data () {
       return {
         formData: {
-          title: this.data.fields.title,
-          path: this.data.fields.path,
+          title: this.data.fields.title[lang()],
+          path: this.data.fields.path[lang()],
         }
       }
     },
@@ -56,14 +57,14 @@
       saveForm (publish) {
         const token = this.$store.getters['auth/getToken']
         const formData = this.formData
-        const url = '/homepage/hero/button'
+        const entryIdButton = '2HRulQjeGIMQMukEwoAk8g'
 
         this.$validator.validateAll()
           .then(() => {
             publish ? this.publishIsLoading = true : this.saveIsLoading = true
             this.isSaving = true
 
-            api.updateData(token, formData, publish, url)
+            api.updateData(token, formData, publish, entryIdButton)
               .then(res => {
                 this.metadata.version = res.data.metadata.version
                 this.metadata.publishedVersion = res.data.metadata.publishedVersion
@@ -74,7 +75,7 @@
                 publish ? this.publishIsLoading = false : this.saveIsLoading = false
               })
               .catch(err => {
-                console.log('something went wrong :( ', err);
+                console.log(err.response.data.error.message)
                 this.isSaving = false
                 publish ? this.publishIsLoading = false : this.saveIsLoading = false
               })

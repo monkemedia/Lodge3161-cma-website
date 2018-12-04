@@ -35,14 +35,14 @@
 
     asyncData ({ store }) {
       const token = store.getters['auth/getToken']
-      const urlBasic = '/homepage/content-block-top/basic'
-      const urlMedia = '/homepage/content-block-top/media'
-      const urlButton = '/homepage/content-block-top/button'
+      const entryIdBasic = '1soSRd7k9igWCQCs0m6SoY'
+      const entryIdMedia = 'd578aNjuTYScCCSc0aaCY'
+      const entryIdButton = '75BP94mOSAqkOYOw8Mqcuy'
 
       const promise = Promise.all([
-        api.fetchData(token, urlBasic),
-        api.fetchData(token, urlMedia),
-        api.fetchData(token, urlButton)
+        api.fetchData(token, entryIdBasic, false),
+        api.fetchData(token, entryIdMedia, true),
+        api.fetchData(token, entryIdButton, false)
       ])
 
       return promise

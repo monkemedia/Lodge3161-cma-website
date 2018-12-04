@@ -52,7 +52,8 @@
   import Vue from 'vue'
   import VeeValidate from 'vee-validate'
   import mixin from '@/plugins/mixins/common-api-functionality'
-  import apiAssets from '@/api/assets'
+  import api from '@/api/contentful'
+  import { lang } from '@/utils/index'
 
   Vue.use(VeeValidate)
 
@@ -62,15 +63,12 @@
     data () {
       return {
         formData: {
-          metadata: {
-            id: this.data.metadata.id
-          },
           image: {
-            title: this.data.fields.title,
+            title: this.data.fields.title[lang()],
             file: {
-              url: this.data.fields.image.file.url,
-              fileName: this.data.fields.image.file.fileName,
-              contentType: this.data.fields.image.file.contentType
+              url: this.data.fields.file[lang()].url,
+              fileName: this.data.fields.file[lang()].fileName,
+              contentType: this.data.fields.file[lang()].contentType
             }
           }
         }
@@ -98,14 +96,14 @@
       saveAsset (publish) {
         const token = this.$store.getters['auth/getToken']
         const imageData = this.formData.image
-        const oldAssetId = this.formData.metadata.id
+        const entryIdMedia = 'pEJywsuGxam0K8kqmsKa0'
 
         this.$validator.validateAll()
           .then(() => {
             publish ? this.publishIsLoading = true : this.saveIsLoading = true
             this.isSaving = true
 
-            apiAssets.createAsset(token, imageData, oldAssetId, publish)
+            api.createAsset(token, imageData, entryIdMedia, publish)
               .then(res => {
                 this.metadata.version = res.data.data.metadata.version
                 this.metadata.publishedVersion = res.data.data.metadata.publishedVersion
@@ -116,7 +114,7 @@
                 publish ? this.publishIsLoading = false : this.saveIsLoading = false
               })
               .catch(err => {
-                console.log('something went wrong :( ', err);
+                console.log(err.message)
                 this.isSaving = false
                 publish ? this.publishIsLoading = false : this.saveIsLoading = false
               })

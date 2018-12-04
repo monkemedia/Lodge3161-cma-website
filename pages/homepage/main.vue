@@ -25,11 +25,10 @@
 
     asyncData ({ store, params }) {
       const token = store.getters['auth/getToken']
-      const urlMain = '/fetch/main'
       const entryIdMain = '7tT62M3wjYWqGMqOyAEoC2'
 
       const promise = Promise.all([
-        api.fetchData(token, urlMain, entryIdMain),
+        api.fetchData(token, entryIdMain, false)
       ])
 
       return promise
@@ -41,7 +40,7 @@
           }
         })
         .catch(err => {
-          console.log('ERROR', err);
+          return err
         })
     }
   }

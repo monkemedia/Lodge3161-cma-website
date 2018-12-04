@@ -1,14 +1,14 @@
 import cachios from 'cachios'
 
-const url = `${process.env.BASE_URL}api/v1`
+const version = `${process.env.BASE_URL}api/v1`
 
 export default {
   getToken: (data) => {
-    return cachios.post(`${url}/auth`, data)
+    return cachios.post(`${version}/auth`, data)
   },
 
   getUser: (token) => {
-    return cachios.get(`${url}/contentful-management/user`, {
+    return cachios.get(`${version}/user`, {
       headers: {
         'Authorization': `Bearer ${token}`
       }
