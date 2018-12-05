@@ -41,7 +41,7 @@
       :saveIsLoading="saveIsLoading"
       :publishIsLoading="publishIsLoading"
       :anyFormErrors="errors.items.length <= 0"
-      @click="saveAsset"
+      @click="saveForm"
     )
 
     .last-saved.has-text-right
@@ -52,7 +52,6 @@
   import Vue from 'vue'
   import VeeValidate from 'vee-validate'
   import mixin from '@/plugins/mixins/common-api-functionality'
-  import api from '@/api/contentful'
   import { lang } from '@/utils/index'
 
   Vue.use(VeeValidate)
@@ -71,7 +70,9 @@
               contentType: this.data.fields.file[lang()].contentType
             }
           }
-        }
+        },
+        entryId: 'pEJywsuGxam0K8kqmsKa0',
+        isAsset: true
       }
     },
 
@@ -93,46 +94,46 @@
         this.imageUpdated = true
       },
 
-      saveAsset (publish) {
-        const token = this.$store.getters['auth/getToken']
-        const imageData = this.formData.image
-        const entryIdMedia = 'pEJywsuGxam0K8kqmsKa0'
+      // saveAsset (publish) {
+      //   const token = this.$store.getters['auth/getToken']
+      //   const imageData = this.formData.image
+      //   const entryIdMedia = 'pEJywsuGxam0K8kqmsKa0'
 
-        this.$validator.validateAll()
-          .then(() => {
-            publish ? this.publishIsLoading = true : this.saveIsLoading = true
-            this.isSaving = true
+      //   this.$validator.validateAll()
+      //     .then(() => {
+      //       publish ? this.publishIsLoading = true : this.saveIsLoading = true
+      //       this.isSaving = true
 
-            api.createAsset(token, imageData, entryIdMedia, publish)
-              .then(res => {
-                this.metadata.version = res.data.data.metadata.version
-                this.metadata.publishedVersion = res.data.data.metadata.publishedVersion
-                this.metadata.updatedAt = res.data.data.metadata.updatedAt
-                this.$validator.reset();
-                this.isReadyToPublish()
-                this.isSaving = false
+      //       api.createAsset(token, imageData, entryIdMedia, publish)
+      //         .then(res => {
+      //           this.metadata.version = res.data.data.metadata.version
+      //           this.metadata.publishedVersion = res.data.data.metadata.publishedVersion
+      //           this.metadata.updatedAt = res.data.data.metadata.updatedAt
+      //           this.$validator.reset();
+      //           this.isReadyToPublish()
+      //           this.isSaving = false
                 
-                if (publish) {
-                  this.publishIsLoading = false
-                  this.$toast.open({
-                    message: 'These changes are now live',
-                    type: 'is-success',
-                    duration: 5000,
-                    position: 'is-bottom-right',
-                    actionText: null
-                  })
-                } else {
-                  this.saveIsLoading = false
-                }
-              })
-              .catch(err => {
-                console.log(err.message)
-                this.isSaving = false
-                this.$validator.reset();
-                publish ? this.publishIsLoading = false : this.saveIsLoading = false
-              })
-          })
-      }
+      //           if (publish) {
+      //             this.publishIsLoading = false
+      //             this.$toast.open({
+      //               message: 'These changes are now live',
+      //               type: 'is-success',
+      //               duration: 5000,
+      //               position: 'is-bottom-right',
+      //               actionText: null
+      //             })
+      //           } else {
+      //             this.saveIsLoading = false
+      //           }
+      //         })
+      //         .catch(err => {
+      //           console.log(err.message)
+      //           this.isSaving = false
+      //           this.$validator.reset();
+      //           publish ? this.publishIsLoading = false : this.saveIsLoading = false
+      //         })
+      //     })
+      // }
     }
   }
 </script>

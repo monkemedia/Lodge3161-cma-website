@@ -23,7 +23,7 @@ export default {
     })
   },
 
-  createAsset: (token, data, entryId, publish) => {
+  createAsset: (token, data, publish, entryId) => {
     // console.log('data', data);
     return axios({
       method: 'POST',
