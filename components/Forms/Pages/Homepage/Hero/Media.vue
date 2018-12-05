@@ -116,6 +116,7 @@
               .catch(err => {
                 console.log(err.message)
                 this.isSaving = false
+                this.$validator.reset();
                 publish ? this.publishIsLoading = false : this.saveIsLoading = false
               })
           })
