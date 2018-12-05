@@ -72,7 +72,19 @@
                 this.$validator.reset();
                 this.isReadyToPublish()
                 this.isSaving = false
-                publish ? this.publishIsLoading = false : this.saveIsLoading = false
+
+                if (publish) {
+                  this.publishIsLoading = false
+                  this.$toast.open({
+                    message: 'These changes are now live',
+                    type: 'is-success',
+                    duration: 5000,
+                    position: 'is-bottom-right',
+                    actionText: null
+                  })
+                } else {
+                  this.saveIsLoading = false
+                }
               })
               .catch(err => {
                 console.log(err.response.data.error.message)
