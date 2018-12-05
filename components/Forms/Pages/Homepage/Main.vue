@@ -96,9 +96,4 @@
 </script>
 
 <style lang="scss">
-  @import '../../../../node_modules/sass-rem/rem';
-
-  .last-saved p {
-    font-size: rem(12px);
-  }
 </style>
