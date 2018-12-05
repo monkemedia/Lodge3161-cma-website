@@ -27,6 +27,7 @@
       background-color: $primary;
       color: $body-color;
       box-shadow: none;
+      border: 0;
     }
   }
   
@@ -48,13 +49,13 @@
   }
   
   &.is-secondary {
-    background-color: $secondary;
-    color: $white;
+    background-color: $white;
+    color: $body-color ;
   
     &:hover,
     &.is-hovered {
-      background: $grey;
-      border: 1px solid $grey;
+      background: $grey-300;
+      color: $body-color;
     }
     
     &:focus:not(:active),
