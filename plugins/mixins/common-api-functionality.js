@@ -7,6 +7,11 @@ export default {
     data: {
       type: Object,
       required: true
+    },
+
+    entryId: {
+      type: String,
+      required: true
     }
   },
 

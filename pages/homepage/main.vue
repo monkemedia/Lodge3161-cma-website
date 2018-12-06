@@ -5,12 +5,14 @@
         header.header.has-text-centered
           h1.h1 Homepage: <span>Main</span>
         section.page-main__content
-          form-default(:data="main")
+          form-default(:data="main" :entryId="entryIdMain")
 </template>
 
 <script>
   import api from '@/api/contentful'
   import formDefault from '@/components/Forms/Pages/Homepage/Main.vue'
+
+  const entryIdMain = '7tT62M3wjYWqGMqOyAEoC2'
 
   export default {
     layout: 'loggedIn',
@@ -23,10 +25,14 @@
       formDefault
     },
 
+    data () {
+      return {
+        entryIdMain
+      }
+    },
+
     asyncData ({ store, params }) {
       const token = store.getters['auth/getToken']
-      const entryIdMain = '7tT62M3wjYWqGMqOyAEoC2'
-
       const promise = Promise.all([
         api.fetchData(token, entryIdMain, false)
       ])

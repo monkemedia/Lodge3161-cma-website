@@ -7,11 +7,11 @@
         section.page-main__content
           b-tabs(v-model="activeTab")
             b-tab-item(label="Basic")
-              basic-form(:data="basic")
+              basic-form(:data="basic" :entryId="entryIdBasic")
             b-tab-item(label="Media")
-              media-form(:data="media")
+              media-form(:data="media" :entryId="entryIdMedia")
             b-tab-item(label="Button")
-              button-form(:data="button")
+              button-form(:data="button" :entryId="entryIdButton")
 </template>
 
 <script>
@@ -19,6 +19,10 @@
   import basicForm from '@/components/Forms/Pages/Homepage/Hero/Basic'
   import mediaForm from '@/components/Forms/Pages/Homepage/Hero/Media'
   import buttonForm from '@/components/Forms/Pages/Homepage/Hero/Button'
+
+  const entryIdBasic = '3qDt3aaDQQMqAu8yg6C4gq'
+  const entryIdMedia = 'pEJywsuGxam0K8kqmsKa0'
+  const entryIdButton = '2HRulQjeGIMQMukEwoAk8g'
 
   export default {
     layout: 'loggedIn',
@@ -33,12 +37,17 @@
       buttonForm
     },
 
+    data () {
+      return {
+        activeTab: 0,
+        entryIdBasic,
+        entryIdMedia,
+        entryIdButton
+      }
+    },
+
     asyncData ({ store }) {
       const token = store.getters['auth/getToken']
-      const entryIdBasic = '3qDt3aaDQQMqAu8yg6C4gq'
-      const entryIdMedia = 'pEJywsuGxam0K8kqmsKa0'
-      const entryIdButton = '2HRulQjeGIMQMukEwoAk8g'
-
       const promise = Promise.all([
         api.fetchData(token, entryIdBasic, false),
         api.fetchData(token, entryIdMedia, true),
@@ -58,12 +67,6 @@
         .catch(err => {
           console.log('ERROR', err);
         })
-    },
-
-    data () {
-      return {
-        activeTab: 0
-      }
     }
   }
 </script>

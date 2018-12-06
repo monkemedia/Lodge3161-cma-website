@@ -59,7 +59,6 @@
             }
           }
         },
-        entryId: 'pEJywsuGxam0K8kqmsKa0',
         isAsset: true
       }
     },

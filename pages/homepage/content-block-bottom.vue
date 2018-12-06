@@ -3,7 +3,7 @@
     .column.is-8
       .page-main
         header.header.has-text-centered
-          h1.h1 Homepage: <span>Content Block Top</span>
+          h1.h1 Homepage: <span>Content Block Bottom</span>
         section.page-main__content
           b-tabs(v-model="activeTab")
             b-tab-item(label="Basic")
@@ -20,9 +20,9 @@
   import mediaForm from '@/components/Forms/Pages/Homepage/ContentBlockTop/Media'
   import buttonForm from '@/components/Forms/Pages/Homepage/ContentBlockTop/Button'
 
-  const entryIdBasic = '1soSRd7k9igWCQCs0m6SoY'
-  const entryIdMedia = 'd578aNjuTYScCCSc0aaCY'
-  const entryIdButton = '75BP94mOSAqkOYOw8Mqcuy'
+  const entryIdBasic = '23zHiEl1jSqy68Qk04YCMu'
+  const entryIdMedia = '6IFBR4Iz96cOE4w888A0AG'
+  const entryIdButton = '2qhPXlN3msa8sMOa0A4aIW'
 
   export default {
     layout: 'loggedIn',

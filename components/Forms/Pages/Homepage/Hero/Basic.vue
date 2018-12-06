@@ -48,8 +48,7 @@
         formData: {
           title: this.data.fields.title[lang()],
           subtitle: this.data.fields.subtitle[lang()],
-        },
-        entryId: '3qDt3aaDQQMqAu8yg6C4gq'
+        }
       }
     }
   }

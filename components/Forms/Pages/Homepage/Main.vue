@@ -49,8 +49,7 @@
         formData: {
           title: this.data.fields.title[lang()],
           description: this.data.fields.description[lang()]
-        },
-        entryId: '7tT62M3wjYWqGMqOyAEoC2'
+        }
       }
     }
   }
