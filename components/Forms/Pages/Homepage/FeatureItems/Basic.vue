@@ -1,16 +1,6 @@
 <template lang="pug">
   form
     input-field(
-      label="Slug"
-      name="slug"
-      placeholder=""
-      v-validate="'required'"
-      v-model="formData.slug"
-      :disabled="isSaving"
-      :errorText="errors.first('slug')"
-    )
-
-    input-field(
       label="Title"
       name="title"
       placeholder=""
@@ -19,14 +9,15 @@
       :disabled="isSaving"
       :errorText="errors.first('title')"
     )
-    textarea-field(
-      label="Description"
-      name="description"
+    
+    input-field(
+      label="Path"
+      name="path"
       placeholder=""
       v-validate="'required'"
-      v-model="formData.description"
+      v-model="formData.path"
       :disabled="isSaving"
-      :errorText="errors.first('description')"
+      :errorText="errors.first('path')"
     )
 
     save-publish-buttons(
@@ -57,8 +48,7 @@
       return {
         formData: {
           title: this.data.fields.title[lang()],
-          slug: this.data.fields.slug[lang()],
-          description: this.data.fields.description[lang()],
+          path: this.data.fields.path[lang()]
         }
       }
     }

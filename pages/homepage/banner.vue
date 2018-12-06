@@ -3,7 +3,7 @@
     .column.is-8
       .page-main
         header.header.has-text-centered
-          h1.h1 Homepage: <span>Content Block Top</span>
+          h1.h1 Homepage: <span>Banner</span>
         section.page-main__content
           b-tabs(v-model="activeTab")
             b-tab-item(label="Basic")
@@ -16,13 +16,13 @@
 
 <script>
   import api from '@/api/contentful'
-  import basicForm from '@/components/Forms/Pages/Homepage/ContentBlock/Basic'
-  import mediaForm from '@/components/Forms/Pages/Homepage/ContentBlock/Media'
-  import buttonForm from '@/components/Forms/Pages/Homepage/ContentBlock/Button'
+  import basicForm from '@/components/Forms/Pages/Homepage/Banner/Basic'
+  import mediaForm from '@/components/Forms/Pages/Homepage/Banner/Media'
+  import buttonForm from '@/components/Forms/Pages/Homepage/Banner/Button'
 
-  const entryIdBasic = '1soSRd7k9igWCQCs0m6SoY'
-  const entryIdMedia = 'd578aNjuTYScCCSc0aaCY'
-  const entryIdButton = '75BP94mOSAqkOYOw8Mqcuy'
+  const entryIdBasic = 'U8b4USenKguwO8CcWOQyi'
+  const entryIdMedia = '55J5C1Ixe0EcKWgYkYqigW'
+  const entryIdButton = '6egOWOdiDYGu2W6UiWUWGs'
 
   export default {
     layout: 'loggedIn',

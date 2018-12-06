@@ -3,26 +3,22 @@
     .column.is-8
       .page-main
         header.header.has-text-centered
-          h1.h1 Homepage: <span>Content Block Bottom</span>
+          h1.h1 Homepage: <span>Feature Item 2</span>
         section.page-main__content
           b-tabs(v-model="activeTab")
             b-tab-item(label="Basic")
               basic-form(:data="basic" :entryId="entryIdBasic")
             b-tab-item(label="Media")
               media-form(:data="media" :entryId="entryIdMedia")
-            b-tab-item(label="Button")
-              button-form(:data="button" :entryId="entryIdButton")
 </template>
 
 <script>
   import api from '@/api/contentful'
-  import basicForm from '@/components/Forms/Pages/Homepage/ContentBlockTop/Basic'
-  import mediaForm from '@/components/Forms/Pages/Homepage/ContentBlockTop/Media'
-  import buttonForm from '@/components/Forms/Pages/Homepage/ContentBlockTop/Button'
+  import basicForm from '@/components/Forms/Pages/Homepage/FeatureItems/Basic'
+  import mediaForm from '@/components/Forms/Pages/Homepage/FeatureItems/Media'
 
-  const entryIdBasic = '23zHiEl1jSqy68Qk04YCMu'
-  const entryIdMedia = '6IFBR4Iz96cOE4w888A0AG'
-  const entryIdButton = '2qhPXlN3msa8sMOa0A4aIW'
+  const entryIdBasic = '5P6SUHrIDCUI4ym6Qu2OCE'
+  const entryIdMedia = 'tE1JMXvr7Eo28meyU4GK6'
 
   export default {
     layout: 'loggedIn',
@@ -33,16 +29,14 @@
 
     components: {
       basicForm,
-      mediaForm,
-      buttonForm
+      mediaForm
     },
 
     data () {
       return {
         activeTab: 0,
         entryIdBasic,
-        entryIdMedia,
-        entryIdButton
+        entryIdMedia
       }
     },
 
@@ -50,18 +44,16 @@
       const token = store.getters['auth/getToken']
       const promise = Promise.all([
         api.fetchData(token, entryIdBasic, false),
-        api.fetchData(token, entryIdMedia, true),
-        api.fetchData(token, entryIdButton, false)
+        api.fetchData(token, entryIdMedia, true)
       ])
 
       return promise
         .then(res => {
-          const [basic, media, button] = res
+          const [basic, media] = res
 
           return { 
             basic: basic.data.data,
-            media: media.data.data,
-            button: button.data.data
+            media: media.data.data
           }
         })
     }

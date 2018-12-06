@@ -37,6 +37,22 @@
               {
                 component: 'Content Block Bottom',
                 path: '/homepage/content-block-bottom'
+              },
+              {
+                component: 'Banner',
+                path: '/homepage/banner'
+              },
+              {
+                component: 'Feature Item 1',
+                path: '/homepage/feature-item-1'
+              },
+              {
+                component: 'Feature Item 2',
+                path: '/homepage/feature-item-2'
+              },
+              {
+                component: 'Feature Item 3',
+                path: '/homepage/feature-item-3'
               }
             ]
           },
