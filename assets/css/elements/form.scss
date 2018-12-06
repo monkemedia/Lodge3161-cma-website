@@ -4,11 +4,7 @@
 
 .label {
   font-size: $size-130;
-  @include ExtraBoldUppercase();
-
-  // &:not(:last-child) {
-  //   margin-bottom: 0;
-  // }
+  @include Bold();
 }
 
 .input,
@@ -53,6 +49,7 @@
 }
 
 .textarea {
+  height: 250px;
   &.is-danger {
     border: 2px solid $danger;
   }

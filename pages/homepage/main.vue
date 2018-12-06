@@ -7,16 +7,20 @@
         section.page-main__content
           b-tabs(v-model="activeTab")
             b-tab-item(label="Basic")
-              form-default(:data="main" :entryId="entryIdMain")
+              basic-form(:data="basic" :entryId="entryIdMain")
             b-tab-item(label="Media" disabled)
             b-tab-item(label="Button" disabled)
+            b-tab-item(label="Advanced")
+              advanced-form(:data="advanced" :entryId="entryIdAdvanced")
 </template>
 
 <script>
   import api from '@/api/contentful'
-  import formDefault from '@/components/Forms/Pages/Homepage/Main.vue'
+  import basicForm from '@/components/Forms/Pages/Homepage/Main/Basic'
+  import advancedForm from '@/components/Forms/Pages/Homepage/Main/Advanced'
 
-  const entryIdMain = '7tT62M3wjYWqGMqOyAEoC2'
+  const entryIdBasic = '7tT62M3wjYWqGMqOyAEoC2'
+  const entryIdAdvanced = '2kA2UuLqFmAAcUUMKIMQMO'
 
   export default {
     layout: 'loggedIn',
@@ -26,27 +30,31 @@
     ],
 
     components: {
-      formDefault
+      basicForm,
+      advancedForm
     },
 
     data () {
       return {
-        entryIdMain
+        entryIdBasic,
+        entryIdAdvanced
       }
     },
 
     asyncData ({ store, params }) {
       const token = store.getters['auth/getToken']
       const promise = Promise.all([
-        api.fetchData(token, entryIdMain, false)
+        api.fetchData(token, entryIdBasic, false),
+        api.fetchData(token, entryIdAdvanced, false)
       ])
 
       return promise
         .then(res => {
-          const [main] = res
+          const [basic, advanced] = res
 
           return { 
-            main: main.data.data,
+            basic: basic.data.data,
+            advanced: advanced.data.data
           }
         })
         .catch(err => {
