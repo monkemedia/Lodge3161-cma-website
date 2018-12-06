@@ -57,6 +57,14 @@
       background: $grey-300;
       color: $body-color;
     }
+
+    &.is-loading {
+      &:after {
+        border: 2px solid $body-color;
+        border-right-color: transparent;
+        border-top-color: transparent;
+      }
+    }
     
     &:focus:not(:active),
     &:active:not(:focus) {
