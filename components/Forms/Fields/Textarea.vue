@@ -1,6 +1,6 @@
 <template lang="pug">
   .field
-    label.labelName.has-text-weight-bold {{ label }}
+    label.label {{ label }}
     .control
       textarea.textarea(type="textarea" :disabled="disabled" :placeholder="placeholder" :name="name" @input="$emit('input', $event.target.value)" v-model="textareaField")
       p(v-show="errorText" class="help is-danger" v-html="errorText")

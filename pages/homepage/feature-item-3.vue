@@ -10,6 +10,7 @@
               basic-form(:data="basic" :entryId="entryIdBasic")
             b-tab-item(label="Media")
               media-form(:data="media" :entryId="entryIdMedia")
+            b-tab-item(label="Button" disabled)
 </template>
 
 <script>

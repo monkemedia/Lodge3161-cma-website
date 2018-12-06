@@ -1,21 +1,25 @@
 <template lang="pug">
-  section.hero.is-success.is-fullheight(v-cloak)
-   .hero-body
-    .container.has-text-centered
-      .column.is-4.is-offset-4
-        nuxt-link.title.has-text-grey(to="/") Login
-        p.subtitle.has-text-grey Please login to proceed.
-        .notification.is-danger(v-if="errorMessage")
-          p {{ errorMessage }}
-        .box
-          form(@submit.prevent="submitForm")
-            .field
-              .control
-                input.input.is-large(type="email" placeholder="Your Email" v-model="loginForm.username" autofocus="")
-            .field
-              .control
-                input.input.is-large(type="password" placeholder="Your Password" v-model="loginForm.password")
-            button.button.is-block.is-info.is-large.is-fullwidth(:class="{ 'is-loading': isLoading }") Login
+  section.hero.is-fullheight(v-cloak)
+     .hero-body
+      .container
+        .columns
+          .column.is-4.is-offset-4.has-text-centered
+            img.logo(src="/logo-white.svg" alt="Dr James Griffith Hall Lodge - CMA")
+        .columns
+          .column.is-4.is-offset-4
+            .notification.is-danger(v-if="errorMessage")
+              p {{ errorMessage }}
+            .box
+              form(@submit.prevent="submitForm")
+                .field
+                  label.label Email Address
+                  .control
+                    input.input(type="email" v-model="loginForm.username" autofocus="")
+                .field
+                  label.label Password
+                  .control
+                    input.input(type="password" v-model="loginForm.password")
+                button.button.is-block.is-info.is-primary.is-fullwidth(:class="{ 'is-loading': isLoading }") Login
 </template>
 
 <script>
@@ -42,7 +46,7 @@
         this.$store.dispatch('auth/login', this.loginForm)
           .then(res => {
             this.isLoading = false
-            this.$router.push({ path: '/homepage' })
+            this.$router.push({ path: '/homepage/main' })
           })
           .catch(err => {
             console.log(err)
@@ -56,9 +60,24 @@
 
 <style lang="scss" scoped>
   @import '~assets/css/utilities/variables.scss';
+  @import '~assets/css/utilities/mixins.scss';
+  @import '~assets/css/elements/form.scss';
 
-  .hero.is-success {
-    background: $grey-200;
+  .logo {
+    width: 220px;
+    margin-bottom: 30px;
+  }
+
+  .hero {
+    background: url('/login-background.jpg');
+    background-size: cover;
+  }
+
+  .box {
+    border-radius: 0;
+    border: 0;
+    box-shadow: none;
+    padding: 40px;
   }
 
   input {
@@ -67,6 +86,10 @@
 
   p {
     font-weight: 700;
+  }
+
+  .button {
+    margin-bottom: 0;
   }
 
   p.subtitle {
