@@ -5,7 +5,11 @@
         header.header.has-text-centered
           h1.h1 Homepage: <span>Main</span>
         section.page-main__content
-          form-default(:data="main" :entryId="entryIdMain")
+          b-tabs(v-model="activeTab")
+            b-tab-item(label="Basic")
+              form-default(:data="main" :entryId="entryIdMain")
+            b-tab-item(label="Media" disabled)
+            b-tab-item(label="Button" disabled)
 </template>
 
 <script>
