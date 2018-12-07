@@ -14,15 +14,30 @@
                 .field
                   label.label Email Address
                   .control
-                    input.input(type="email" v-model="loginForm.username" autofocus="")
+                    input.input(
+                      type="email" 
+                      name="email" 
+                      v-model="loginForm.username" 
+                      v-validate="'required|email'")
+                    p(v-show="errors.has('email')" class="help is-danger" v-html="errors.first('email')")
                 .field
                   label.label Password
                   .control
-                    input.input(type="password" v-model="loginForm.password")
+                    input.input(
+                      type="password"
+                      name="password"
+                      v-model="loginForm.password" 
+                      v-validate="'required'")
+                    p(v-show="errors.has('password')" class="help is-danger" v-html="errors.first('password')")
                 button.button.is-block.is-info.is-primary.is-fullwidth(:class="{ 'is-loading': isLoading }") Login
 </template>
 
 <script>
+  import Vue from 'vue'
+  import VeeValidate from 'vee-validate'
+
+  Vue.use(VeeValidate)
+
   export default {
     middleware: [
       'isLoginPage'
@@ -41,17 +56,22 @@
 
     methods: {
       submitForm () {
-        this.isLoading = true
+        this.$validator.validateAll()
+          .then(result => {
+            if (!result) {
+              return 
+            }
+            this.isLoading = true
 
-        this.$store.dispatch('auth/login', this.loginForm)
-          .then(res => {
-            this.isLoading = false
-            this.$router.push({ path: '/homepage/main' })
-          })
-          .catch(err => {
-            console.log(err)
-            this.errorMessage = err.response.data ? err.response.data.error : err.message
-            this.isLoading = false
+            this.$store.dispatch('auth/login', this.loginForm)
+              .then(res => {
+                this.isLoading = false
+                this.$router.push({ path: '/homepage/main' })
+              })
+              .catch(err => {
+                this.errorMessage = err.message ? err.response.data.error : err.message
+                this.isLoading = false
+              })
           })
       }
     }
