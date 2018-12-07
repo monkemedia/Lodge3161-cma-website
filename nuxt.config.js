@@ -2,7 +2,7 @@ const pkg = require('./package')
 
 module.exports = {
   env: {
-    BASE_URL: 'http://localhost:6000/'
+    BASE_URL: process.env.BASE_URL || 'http://localhost:6000/'
   },
 
   mode: 'universal',
