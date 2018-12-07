@@ -20,7 +20,12 @@ module.exports = {
     link: [
       { rel: 'stylesheet', href: 'https://fonts.googleapis.com/css?family=Muli:400,700,900' },
       { rel: 'stylesheet', href: 'https://use.fontawesome.com/releases/v5.5.0/css/all.css' },
-      { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
+      { rel: 'icon', type: 'image/x-icon', href: '/favicons/favicon.ico' },
+      { rel: 'apple-touch-icon', sizes: '180x180', href: '/favicons/apple-touch-icon.png' },
+      { rel: 'icon', type: 'image/png', sizes: '32x32', href: '/favicons/favicon-32x32.png' },
+      { rel: 'icon', type: 'image/png', sizes: '16x16', href: '/favicons/favicon-16x16.png' },
+      { rel: 'manifest', href: '/favicons/site.webmanifest' },
+      { rel: 'mask-icon', href: '/favicons/safari-pinned-tab.svg', color: '#4baee7' }
     ]
   },
 

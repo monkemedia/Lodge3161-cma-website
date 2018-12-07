@@ -7,9 +7,9 @@
         section.page-main__content
           b-tabs(v-model="activeTab")
             b-tab-item(label="Basic")
-              basic-form(:data="basic" :entryId="entryIdMain")
-            b-tab-item(label="Media" disabled)
-            b-tab-item(label="Button" disabled)
+              basic-form(:data="basic" :entryId="entryIdBasic")
+            //- b-tab-item(label="Media" disabled)
+            //- b-tab-item(label="Button" disabled)
             b-tab-item(label="Advanced")
               advanced-form(:data="advanced" :entryId="entryIdAdvanced")
 </template>
@@ -36,6 +36,7 @@
 
     data () {
       return {
+        activeTab: 0,
         entryIdBasic,
         entryIdAdvanced
       }
