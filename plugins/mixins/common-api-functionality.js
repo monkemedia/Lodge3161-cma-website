@@ -7,11 +7,6 @@ export default {
     data: {
       type: Object,
       required: true
-    },
-
-    entryId: {
-      type: String,
-      required: true
     }
   },
 
@@ -24,7 +19,8 @@ export default {
       metadata: {
         version: this.data.metadata.version,
         publishedVersion: this.data.metadata.publishedVersion,
-        updatedAt: this.data.metadata.updatedAt
+        updatedAt: this.data.metadata.updatedAt,
+        id: this.data.metadata.id
       },
       isPublishable: false,
       saveIsLoading: false,
@@ -67,9 +63,9 @@ export default {
 
       if (this.isAsset) {
         imageData = this.formData.image
-        myApi = api.createAsset(token, imageData, publish, this.entryId)
+        myApi = api.createAsset(token, imageData, publish, this.metadata.id)
       } else {
-        myApi = api.updateData(token, formData, publish, this.entryId)
+        myApi = api.updateData(token, formData, publish, this.metadata.id)
       }
         
       myApi

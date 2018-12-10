@@ -56,20 +56,20 @@
               }
             ]
           },
-          // {
-          //   page: 'About Us',
-          //   path: '/about-us',
-          //   links: [
-          //     {
-          //       component: 'Main',
-          //       path: '/about-us/main'
-          //     },
-          //     {
-          //       component: 'Hero',
-          //       path: '/about-us/hero'
-          //     }
-          //   ]
-          // },
+          {
+            page: 'About us',
+            path: '/page/16hXUx0Vq24k0AwsC0U42m/main',
+            links: [
+              {
+                component: 'Main',
+                path: '/page/16hXUx0Vq24k0AwsC0U42m/main'
+              },
+              {
+                component: 'Hero',
+                path: '/page/2tNMVUfNWEYkIa6cE8gyks/hero'
+              }
+            ]
+          },
           {
             page: 'Becoming a Freemason',
             path: '/becoming-a-freemason',
@@ -108,6 +108,7 @@
         const paths = Array.isArray(menuItem) ? menuItem : [menuItem];
     
         return paths.some(path => {
+          console.log('path', path);
           return this.$route.path.indexOf(path) === 0 // current path starts with this path string
         })
       },
