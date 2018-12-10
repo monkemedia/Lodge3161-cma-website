@@ -2,7 +2,14 @@
   .field
     label.label {{ label }}
     .control
-      textarea.textarea(type="textarea" :disabled="disabled" :placeholder="placeholder" :name="name" @input="$emit('input', $event.target.value)" v-model="textareaField")
+      no-ssr
+        markdown-editor.editor(
+          v-model="content"
+          :configs="configs"
+          ref="editor" 
+          @input="$emit('input', content)" 
+          :disabled="disabled"
+          :name="name")
       p(v-show="errorText" class="help is-danger" v-html="errorText")
 </template>
 
@@ -53,12 +60,23 @@
 
     data () {
       return {
-        textareaField: this.value
+        content: this.value,
+        configs: {
+          status: false,
+          spellChecker: false,
+          hideIcons: [
+            'image'
+          ]
+        }
       }
     }
   }
 </script>
 
 <style lang="scss" scoped>
+  @import '../../../node_modules/sass-rem/rem';
 
+  .editor {
+    font-size: rem(13px);
+  }
 </style>

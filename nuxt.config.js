@@ -47,7 +47,8 @@ module.exports = {
   plugins: [
     '~/plugins/form-components',
     '~/plugins/vue-lazy-load',
-    '~/plugins/vue-buefy'
+    '~/plugins/vue-buefy',
+    '~/plugins/vue-simplemde'
   ],
 
   /*

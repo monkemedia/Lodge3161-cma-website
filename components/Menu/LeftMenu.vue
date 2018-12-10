@@ -56,7 +56,6 @@
               }
             ]
           },
-
           {
             page: 'About',
             path: '/about',
@@ -64,6 +63,16 @@
               {
                 component: 'Main',
                 path: '/about/main'
+              }
+            ]
+          },
+          {
+            page: 'Location',
+            path: '/location',
+            links: [
+              {
+                component: 'Main',
+                path: '/location/main'
               }
             ]
           }
