@@ -19,7 +19,7 @@
       :disabled="isSaving"
       :errorText="errors.first('title')"
     )
-    textarea-field(
+    markdown-textarea-field(
       label="Description"
       name="description"
       placeholder=""

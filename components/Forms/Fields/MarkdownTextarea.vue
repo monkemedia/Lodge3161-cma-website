@@ -2,11 +2,14 @@
   .field
     label.label {{ label }}
     .control
-      textarea.textarea(
-        v-model="content"
-        @input="$emit('input', content)" 
-        :disabled="disabled"
-        :name="name")
+      no-ssr
+        markdown-editor.editor(
+          v-model="content"
+          :configs="configs"
+          ref="editor" 
+          @input="$emit('input', content)" 
+          :disabled="disabled"
+          :name="name")
       p(v-show="errorText" class="help is-danger" v-html="errorText")
 </template>
 
@@ -57,7 +60,14 @@
 
     data () {
       return {
-        content: this.value
+        content: this.value,
+        configs: {
+          status: false,
+          spellChecker: false,
+          hideIcons: [
+            'image'
+          ]
+        }
       }
     }
   }

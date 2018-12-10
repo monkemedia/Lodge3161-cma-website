@@ -1,6 +1,6 @@
 <template lang="pug">
   form
-    textarea-field(
+    markdown-textarea-field(
       label="Address"
       name="address"
       placeholder=""

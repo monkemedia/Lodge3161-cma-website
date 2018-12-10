@@ -9,15 +9,6 @@
       :disabled="isSaving"
       :errorText="errors.first('title')"
     )
-    markdown-textarea-field(
-      label="Description"
-      name="description"
-      placeholder=""
-      v-validate="'required'"
-      v-model="formData.description"
-      :disabled="isSaving"
-      :errorText="errors.first('description')"
-    )
 
     save-publish-buttons(
       :isPublish="isPublish"
@@ -30,13 +21,12 @@
 
     .last-saved.has-text-right
       p Last saved {{ lastSaved }}
-
 </template>
 
 <script>
   import Vue from 'vue'
   import VeeValidate from 'vee-validate'
-  import mixin from '@/plugins/mixins/common-api-functionality'
+  import mixin from '@/plugins/mixins/common-api-functionality.js'
   import { lang } from '@/utils'
 
   Vue.use(VeeValidate)
@@ -47,8 +37,7 @@
     data () {
       return {
         formData: {
-          title: this.data.fields.title[lang()],
-          description: this.data.fields.description[lang()]
+          title: this.data.fields.title[lang()]
         }
       }
     }
@@ -56,4 +45,5 @@
 </script>
 
 <style lang="scss">
+
 </style>

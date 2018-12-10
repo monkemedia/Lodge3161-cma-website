@@ -56,13 +56,31 @@
               }
             ]
           },
+          // {
+          //   page: 'About Us',
+          //   path: '/about-us',
+          //   links: [
+          //     {
+          //       component: 'Main',
+          //       path: '/about-us/main'
+          //     },
+          //     {
+          //       component: 'Hero',
+          //       path: '/about-us/hero'
+          //     }
+          //   ]
+          // },
           {
-            page: 'About',
-            path: '/about',
+            page: 'Becoming a Freemason',
+            path: '/becoming-a-freemason',
             links: [
               {
                 component: 'Main',
-                path: '/about/main'
+                path: '/becoming-a-freemason/main'
+              },
+              {
+                component: 'Hero',
+                path: '/becoming-a-freemason/hero'
               }
             ]
           },
