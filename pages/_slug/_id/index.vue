@@ -12,14 +12,16 @@
               basic-form(:data="basic")
             b-tab-item(label="Media" :disabled="!media")
               media-form(:data="media" v-if="media")
+            b-tab-item(label="Button" :disabled="!button")
+              button-form(:data="button" v-if="button")
 </template>
 
 <script>
   import api from '@/api/contentful'
   import basicForm from '@/components/Forms/Pages/Page/Main/Basic'
   import mediaForm from '@/components/Forms/Pages/Page/Main/Media'
-  // import advancedForm from '@/components/Forms/Pages/Page/Main/Advanced'
-  // import { lang } from '@/utils'
+  import buttonForm from '@/components/Forms/Pages/Page/Main/Button'
+  import { lang } from '@/utils'
 
   export default {
     layout: 'loggedIn',
@@ -30,7 +32,8 @@
 
     components: {
       basicForm,
-      mediaForm
+      mediaForm,
+      buttonForm
     },
 
     data () {
@@ -42,38 +45,36 @@
     asyncData ({ store, params }) {
       const token = store.getters['auth/getToken']
       const entryId = params.id
-      const newArray = []
+      const promises = []
+      let promise
+      // const newArray = []
 
       return api.fetchData(token, entryId, false)
-        .then(res => {
-          newArray.push(res.data)
+        .then(response => {
+          const fields = response.data.fields
 
-          if (res.data.fields.image) {
-            return api.fetchData(token, res.data.fields.image['en-GB'].sys.id, true)
-          }
-
-        })
-        .then(res => {
-          // console.log('res', res);
-          console.log('monkey', res);
-          if (res) {
-            newArray.push(res.data)
-            const [basic, media] = newArray
-
-            return { 
-              basic,
-              media,
+          Object.keys(fields).forEach((key) => {
+            // console.log(fields[key][lang()]);
+            if (fields[key][lang()].sys) {
+              const isAsset = key === 'image' || key === 'mobileImage'
+              console.log(key, fields[key][lang()].sys.id)
+              promise = api.fetchData(token, fields[key][lang()].sys.id, isAsset)
+              promises.push(promise)
             }
-          } else {
+          })
 
-            const [basic] = newArray
-            console.log('no asset');
+          return Promise.all(promises)
+            .then(res => {
+              const [basic, media, button] = res
 
-            return { 
-              basic,
-              media: false
-            }
-          }
+              console.log('BASIC', basic.data);
+
+              return { 
+                basic: basic.data,
+                media: media.data,
+                button: button.data
+              }
+            })
         })
     },
 

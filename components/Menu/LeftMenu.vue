@@ -32,7 +32,6 @@
 
     methods: {
       isActiveOnLoad (menuItem) {
-        console.log(menuItem);
         const paths = Array.isArray(menuItem) ? menuItem : [menuItem];
     
         return paths.some(path => {

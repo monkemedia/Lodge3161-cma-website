@@ -10,16 +10,17 @@
       :disabled="isSaving"
       :errorText="errors.first('title')"
     )
-    markdown-textarea-field(
-      v-if="formData.description"
-      label="Description"
-      name="description"
+    input-field(
+      v-if="formData.path"
+      label="Path"
+      name="path"
       placeholder=""
       v-validate="'required'"
-      v-model="formData.description"
+      v-model="formData.path"
       :disabled="isSaving"
-      :errorText="errors.first('description')"
+      :errorText="errors.first('path')"
     )
+
 
     save-publish-buttons(
       :isPublish="isPublish"
@@ -50,7 +51,7 @@
       return {
         formData: {
           title: this.data.fields.title ? this.data.fields.title[lang()] : null,
-          description: this.data.fields.description ? this.data.fields.description[lang()] : null
+          path: this.data.fields.path ? this.data.fields.path[lang()] : null
         }
       }
     }
