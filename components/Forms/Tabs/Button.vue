@@ -1,6 +1,7 @@
 <template lang="pug">
   form
     input-field(
+      v-if="formData.title"
       label="Title"
       name="title"
       placeholder=""
@@ -9,15 +10,26 @@
       :disabled="isSaving"
       :errorText="errors.first('title')"
     )
-    markdown-textarea-field(
-      label="Description"
-      name="description"
+    input-field(
+      v-if="formData.path"
+      label="Path"
+      name="path"
       placeholder=""
       v-validate="'required'"
-      v-model="formData.description"
+      v-model="formData.path"
       :disabled="isSaving"
-      :errorText="errors.first('description')"
+      :errorText="errors.first('path')"
     )
+    //- input-field(
+    //-   v-if="formData.slug"
+    //-   label="Path"
+    //-   name="slug"
+    //-   placeholder=""
+    //-   v-validate="'required'"
+    //-   v-model="formData.slug"
+    //-   :disabled="isSaving"
+    //-   :errorText="errors.first('slug')"
+    //- )
 
     save-publish-buttons(
       :isPublish="isPublish"
@@ -47,8 +59,9 @@
     data () {
       return {
         formData: {
-          title: this.data.fields.title[lang()],
-          description: this.data.fields.description[lang()]
+          title: this.data.fields.title ? this.data.fields.title[lang()] : null,
+          path: this.data.fields.path ? this.data.fields.path[lang()] : null,
+          // slug: this.data.fields.slug ? this.data.fields.slug[lang()] : null
         }
       }
     }

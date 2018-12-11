@@ -18,9 +18,9 @@
 
 <script>
   import api from '@/api/contentful'
-  import basicForm from '@/components/Forms/Pages/Page/Main/Basic'
-  import mediaForm from '@/components/Forms/Pages/Page/Main/Media'
-  import buttonForm from '@/components/Forms/Pages/Page/Main/Button'
+  import basicForm from '@/components/Forms/Tabs/Basic'
+  import mediaForm from '@/components/Forms/Tabs/Media'
+  import buttonForm from '@/components/Forms/Tabs/Button'
   import { lang } from '@/utils'
 
   export default {
@@ -51,12 +51,14 @@
 
       return api.fetchData(token, entryId, false)
         .then(response => {
+          promises.push(response)
           const fields = response.data.fields
 
           Object.keys(fields).forEach((key) => {
             // console.log(fields[key][lang()]);
             if (fields[key][lang()].sys) {
-              const isAsset = key === 'image' || key === 'mobileImage'
+              console.log('KEY', key);
+              const isAsset = key === 'image' || key === 'mobileImage' || key === 'backgroundImage'
               console.log(key, fields[key][lang()].sys.id)
               promise = api.fetchData(token, fields[key][lang()].sys.id, isAsset)
               promises.push(promise)
@@ -65,14 +67,21 @@
 
           return Promise.all(promises)
             .then(res => {
+              console.log('RES', res);
               const [basic, media, button] = res
 
-              console.log('BASIC', basic.data);
+              console.log('BASIC', basic);
+              console.log('MEDIA', media)
+              console.log('BUTTON', button)
+
+              // console.log('BASIC', basic.data);
+              // console.log('MEDIA', media.data);
+              // console.log('BUTTON', basic);
 
               return { 
-                basic: basic.data,
-                media: media.data,
-                button: button.data
+                basic: basic ? basic.data : null,
+                media: media ? media.data : null,
+                button: button ? button.data : null
               }
             })
         })
