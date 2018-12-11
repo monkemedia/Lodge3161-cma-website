@@ -12,6 +12,14 @@ export default {
     })
   },
 
+  fetchAllData: (token, contentType) => {
+    return cachios.get(`${version}/fetch/all?contentType=${contentType}`, {
+      headers: {
+        'Authorization': `Bearer ${token}`
+      }
+    })
+  },
+
   updateData: (token, data, publish, entryId) => {
     return axios({
       method: 'PUT',

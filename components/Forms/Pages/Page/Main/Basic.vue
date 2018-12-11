@@ -1,15 +1,7 @@
 <template lang="pug">
   form
     input-field(
-      label="Slug"
-      name="slug"
-      placeholder=""
-      v-validate="'required'"
-      v-model="formData.slug"
-      :disabled="isSaving"
-      :errorText="errors.first('slug')"
-    )
-    input-field(
+      v-if="formData.title"
       label="Title"
       name="title"
       placeholder=""
@@ -19,6 +11,7 @@
       :errorText="errors.first('title')"
     )
     markdown-textarea-field(
+      v-if="formData.description"
       label="Description"
       name="description"
       placeholder=""
@@ -56,9 +49,9 @@
     data () {
       return {
         formData: {
-          title: this.data.fields.title[lang()],
-          description: this.data.fields.description[lang()],
-          slug: this.data.fields.slug[lang()]
+          title: this.data.fields.title ? this.data.fields.title[lang()] : null,
+          description: this.data.fields.description ? this.data.fields.description[lang()] : null,
+          // slug: this.data.fields.slug[lang()]
         }
       }
     }

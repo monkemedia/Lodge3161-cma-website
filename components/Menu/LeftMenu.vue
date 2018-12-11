@@ -2,114 +2,41 @@
   aside.aside
     nav
       ul.accordions
-        li.accordion(v-for="m in menu" :class="{ 'is-active' : m.active || isActiveOnLoad(m.path) }")
-          nuxt-link.accordion-header(:event="''" :to="m.path") {{ m.page }}
-          .accordion-body(:class="{ 'is-active' : m.active || isActiveOnLoad(m.path) }")
+        li.accordion(v-for="(page, index) in pages" :class="{ 'is-active' : isActiveOnLoad(page.path) }")
+          nuxt-link.accordion-header(:to="'/' + page.path + '/' + page.id + '?parent=' + page.title + '&isHomepage=' + (index < 1)") 
+            span(v-if="index < 1") Homepage 
+            span(v-else) {{ page.title }}
+          .accordion-body(:class="{ 'is-active' : isActiveOnLoad(page.path) }")
             ul.accordion-content
-              li(v-for="link in m.links")
-                nuxt-link(:to="link.path" exact) {{ link.component }}
+              li(v-for="sublink in page.subLinks")
+                nuxt-link(:to="'/' + page.path + '/' + sublink.id + '?parent=' + page.title + '&title=' + removeCamelCase(sublink.title) + '&asset=' + (sublink.title === 'hero')") {{ removeCamelCase(sublink.title) }}
         </article>
 </template>
 
 <script>
+  import _ from 'lodash'
+
   export default {
     name: 'LeftMenu',
-
-    data () {
-      return {
-        menu: [
-          {
-            page: 'Homepage',
-            path: '/homepage',
-            links: [
-              {
-                component: 'Main',
-                path: '/homepage/main'
-              },
-              {
-                component: 'Hero',
-                path: '/homepage/hero'
-              },
-              {
-                component: 'Content Block Top',
-                path: '/homepage/content-block-top'
-              },
-              {
-                component: 'Content Block Bottom',
-                path: '/homepage/content-block-bottom'
-              },
-              {
-                component: 'Banner',
-                path: '/homepage/banner'
-              },
-              {
-                component: 'Feature Item 1',
-                path: '/homepage/feature-item-1'
-              },
-              {
-                component: 'Feature Item 2',
-                path: '/homepage/feature-item-2'
-              },
-              {
-                component: 'Feature Item 3',
-                path: '/homepage/feature-item-3'
-              }
-            ]
-          },
-          {
-            page: 'About us',
-            path: '/page/16hXUx0Vq24k0AwsC0U42m/main',
-            links: [
-              {
-                component: 'Main',
-                path: '/page/16hXUx0Vq24k0AwsC0U42m/main'
-              },
-              {
-                component: 'Hero',
-                path: '/page/2tNMVUfNWEYkIa6cE8gyks/hero'
-              }
-            ]
-          },
-          {
-            page: 'Becoming a Freemason',
-            path: '/becoming-a-freemason',
-            links: [
-              {
-                component: 'Main',
-                path: '/becoming-a-freemason/main'
-              },
-              {
-                component: 'Hero',
-                path: '/becoming-a-freemason/hero'
-              }
-            ]
-          },
-          {
-            page: 'Location',
-            path: '/location',
-            links: [
-              {
-                component: 'Main',
-                path: '/location/main'
-              }
-            ]
-          }
-        ]
-      }
-    },
 
     mounted () {
       this.toggle()
       this.openMenuOnLoad()
     },
 
+    computed: {
+      pages () {
+        return this.$store.getters['content/getAllData']
+      }
+    },
+
     methods: {
       isActiveOnLoad (menuItem) {
+        console.log(menuItem);
         const paths = Array.isArray(menuItem) ? menuItem : [menuItem];
     
         return paths.some(path => {
-          console.log('path', path);
-          return this.$route.path.indexOf(path) === 0 // current path starts with this path string
+          return this.$route.params.slug === path // current path starts with this path string
         })
       },
 
@@ -150,6 +77,10 @@
             event.target.parentNode.classList.add('is-active')
           })
         }
+      },
+
+      removeCamelCase (string) {
+        return _.startCase(string);
       }
     }
   }
