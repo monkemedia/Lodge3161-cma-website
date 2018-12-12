@@ -1,6 +1,6 @@
 <template lang="pug">
   .field
-    b-checkbox(v-model="checkboxField" :name="name") 
+    b-checkbox(v-model="checkboxField" :name="name"  @input="$emit('input', checkboxField)" ) 
       span.label {{ label }}
 </template>
 
