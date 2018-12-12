@@ -1,5 +1,15 @@
 <template lang="pug">
   form
+    checkbox-field(
+      v-if="formData.mainNavigation !== null"
+      label="Add to navigation"
+      name="mainNavigation"
+      placeholder=""
+      v-validate="'required'"
+      v-model="formData.mainNavigation"
+      :disabled="isSaving"
+      :errorText="errors.first('mainNavigation')"
+    )
     input-field(
       v-if="formData.slug"
       label="Slug"
@@ -79,6 +89,7 @@
     data () {
       return {
         formData: {
+          mainNavigation: this.data.fields.mainNavigation ? this.data.fields.mainNavigation[lang()] : null,
           slug: this.data.fields.slug ? this.data.fields.slug[lang()] : null,
           title: this.data.fields.title ? this.data.fields.title[lang()] : null,
           subtitle: this.data.fields.subtitle ? this.data.fields.subtitle[lang()] : null,

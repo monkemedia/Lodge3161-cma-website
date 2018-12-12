@@ -57,7 +57,6 @@
 
           Object.keys(fields).forEach((key) => {
             if (fields[key][lang()].sys) {
-              console.log('KEY', key);
               const isAsset = key === 'image' || key === 'backgroundImage'
               console.log(key, fields[key][lang()].sys.id)
               const id = fields[key][lang()].sys.id
