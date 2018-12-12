@@ -42,41 +42,41 @@
       }
     },
 
-    asyncData ({ store, params }) {
+    asyncData ({ store, params, query }) {
       const token = store.getters['auth/getToken']
       const entryId = params.id
+      const isParent = query.isParent
       const promises = []
       let promise
-      // const newArray = []
 
       return api.fetchData(token, entryId, false)
         .then(response => {
-          promises.push(response)
           const fields = response.data.fields
 
+          promises.push(response)
+
           Object.keys(fields).forEach((key) => {
-            // console.log(fields[key][lang()]);
             if (fields[key][lang()].sys) {
               console.log('KEY', key);
-              const isAsset = key === 'image' || key === 'mobileImage' || key === 'backgroundImage'
+              const isAsset = key === 'image' || key === 'backgroundImage'
               console.log(key, fields[key][lang()].sys.id)
-              promise = api.fetchData(token, fields[key][lang()].sys.id, isAsset)
+              const id = fields[key][lang()].sys.id
+              promise = api.fetchData(token, id, isAsset)
               promises.push(promise)
             }
           })
 
           return Promise.all(promises)
             .then(res => {
-              console.log('RES', res);
+              if (isParent) {
+                return {
+                  basic: res[0].data,
+                  media: false,
+                  button: false
+                }
+              }
+
               const [basic, media, button] = res
-
-              console.log('BASIC', basic);
-              console.log('MEDIA', media)
-              console.log('BUTTON', button)
-
-              // console.log('BASIC', basic.data);
-              // console.log('MEDIA', media.data);
-              // console.log('BUTTON', basic);
 
               return { 
                 basic: basic ? basic.data : null,
@@ -91,7 +91,6 @@
       isHomepage () {
         return this.$route.query['isHomepage']
       }
-      
     }
   }
 </script>

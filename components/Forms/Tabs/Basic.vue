@@ -1,6 +1,16 @@
 <template lang="pug">
   form
     input-field(
+      v-if="formData.slug"
+      label="Slug"
+      name="slug"
+      placeholder=""
+      v-validate="'required'"
+      v-model="formData.slug"
+      :disabled="isSaving"
+      :errorText="errors.first('slug')"
+    )
+    input-field(
       v-if="formData.title"
       label="Title"
       name="title"
@@ -69,6 +79,7 @@
     data () {
       return {
         formData: {
+          slug: this.data.fields.slug ? this.data.fields.slug[lang()] : null,
           title: this.data.fields.title ? this.data.fields.title[lang()] : null,
           subtitle: this.data.fields.subtitle ? this.data.fields.subtitle[lang()] : null,
           path: this.data.fields.path ? this.data.fields.path[lang()] : null,

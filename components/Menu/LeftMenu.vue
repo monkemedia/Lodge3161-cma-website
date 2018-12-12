@@ -3,7 +3,7 @@
     nav
       ul.accordions
         li.accordion(v-for="(page, index) in pages" :class="{ 'is-active' : isActiveOnLoad(page.path) }")
-          nuxt-link.accordion-header(:to="'/' + page.path + '/' + page.id + '?parent=' + page.title + '&isHomepage=' + (index < 1)") 
+          nuxt-link.accordion-header(:to="'/' + page.path + '/' + page.id + '?parent=' + page.title + '&isHomepage=' + (index < 1) + '&isParent=true'") 
             span(v-if="index < 1") Homepage 
             span(v-else) {{ page.title }}
           .accordion-body(:class="{ 'is-active' : isActiveOnLoad(page.path) }")
