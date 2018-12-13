@@ -4,7 +4,7 @@
       .page-main
         header.header.has-text-centered
           h1.h1
-            span(v-if="isHomepage") Homepage
+            span(v-if="isHomepage === 'true'") Homepage
             span(v-else) {{ $route.query.parent }} <span class="sub" v-if="$route.query.title">: {{ $route.query.title }}</span>
         section.page-main__content
           b-tabs(v-model="activeTab")
