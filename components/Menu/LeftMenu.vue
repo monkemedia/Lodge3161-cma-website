@@ -1,23 +1,31 @@
 <template lang="pug">
-  aside.aside
-    nav
-      ul.accordions
-        li.accordion(v-for="(page, index) in pages" :class="{ 'is-active' : isActiveOnLoad(page.path) }")
-          nuxt-link.accordion-header(:to="'/' + page.path + '/' + page.id + '?parent=' + page.title + '&isHomepage=' + (index < 1) + '&isParent=true'") 
-            span(v-if="index < 1") Homepage 
-            span(v-else) {{ page.title }}
-          .accordion-body(:class="{ 'is-active' : isActiveOnLoad(page.path) }")
-            ul.accordion-content
-              li(v-for="sublink in page.subLinks")
-                nuxt-link(:to="'/' + page.path + '/' + sublink.id + '?parent=' + page.title + '&title=' + removeCamelCase(sublink.title) + '&asset=' + (sublink.title === 'hero')") {{ removeCamelCase(sublink.title) }}
-        </article>
+  .column.is-2
+    aside.aside.sticky
+        nav
+          ul.accordions
+            draggable(v-model="pages" @start="drag=true" @end="drag=false" @change="updateApiOrder")
+              transition-group
+                li.accordion(v-for="(page, index) in pages" :class="{ 'is-active' : isActiveOnLoad(page.path) }" :key="page.id")
+                  nuxt-link.accordion-header(:to="'/' + page.path + '/' + page.id + '?parent=' + page.title + '&isHomepage=' + (index < 1) + '&isParent=true'") 
+                    span(v-if="index < 1") Homepage 
+                    span(v-else) {{ page.title }}
+                  .accordion-body(:class="{ 'is-active' : isActiveOnLoad(page.path) }")
+                    ul.accordion-content
+                      li(v-for="sublink in page.subLinks")
+                        nuxt-link(:to="'/' + page.path + '/' + sublink.id + '?parent=' + page.title + '&title=' + removeCamelCase(sublink.title) + '&asset=' + (sublink.title === 'hero')") {{ removeCamelCase(sublink.title) }}
 </template>
 
 <script>
   import _ from 'lodash'
+  import api from '@/api/contentful'
+  import draggable from 'vuedraggable'
 
   export default {
     name: 'LeftMenu',
+
+    components: {
+      draggable
+    },
 
     mounted () {
       this.toggle()
@@ -25,18 +33,24 @@
     },
 
     computed: {
-      pages () {
-        return this.$store.getters['content/getAllData']
+      pages: {
+        get () {
+          return this.$store.getters['content/getAllData']
+        },
+
+        set(value) {
+          this.$store.commit('content/SET_DATA', value)
+        }
       }
     },
 
     methods: {
       isActiveOnLoad (menuItem) {
-        const paths = Array.isArray(menuItem) ? menuItem : [menuItem];
+        // const paths = Array.isArray(menuItem) ? menuItem : [menuItem];
     
-        return paths.some(path => {
-          return this.$route.params.slug === path // current path starts with this path string
-        })
+        // return paths.some(path => {
+        //   return this.$route.params.slug === path // current path starts with this path string
+        // })
       },
 
       openMenuOnLoad () {
@@ -80,6 +94,37 @@
 
       removeCamelCase (string) {
         return _.startCase(string);
+      },
+
+      updateApiOrder ({ publishable }) {
+        const token = this.$store.getters['auth/getToken']
+        const publish = publishable || false
+        const promises = []
+
+        this.pages.forEach((page, index) => {
+          const entryId = page.id
+          const formData = {
+            order: index
+          }
+          if (page.path === 'home') { return } // Ignore homepage
+
+          promises.push(api.updateData(token, formData, publish, entryId))
+        })
+
+        return Promise.all(promises)
+          .then(res => {
+            if (!publish) {
+              this.updateApiOrder({ publishable: true })
+              return
+            }
+            this.$toast.open({
+              message: 'These changes are now live',
+              type: 'is-success',
+              duration: 5000,
+              position: 'is-bottom-right',
+              actionText: null
+            })
+          })
       }
     }
   }
@@ -88,6 +133,12 @@
 <style lang="scss">
   @import '~assets/css/utilities/variables.scss';
   @import '~assets/css/utilities/mixins.scss';
+
+  .sticky {
+    position: sticky;
+    top: 0;
+    width: 209px;
+  }
 
   .aside {
     padding-top: 0;

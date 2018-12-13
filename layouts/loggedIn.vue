@@ -2,7 +2,7 @@
   div.container
     main-header
     .columns.is-gapless
-      left-menu.column.is-2
+      left-menu
       main.column.is-10
         nuxt
 </template>
@@ -21,6 +21,6 @@
   }
 </script>
 
-<style>
+<style lang="scss">
 
 </style>
