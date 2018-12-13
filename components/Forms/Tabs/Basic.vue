@@ -8,10 +8,10 @@
       v-validate="'required'"
       v-model="formData.mainNavigation"
       :disabled="isSaving"
-      :errorText="errors.first('mainNavigation')"
     )
+
     input-field(
-      v-if="formData.slug"
+      v-if="formData.slug !== null && formData.slug.length >= 0"
       label="Slug"
       name="slug"
       placeholder=""
@@ -20,8 +20,9 @@
       :disabled="isSaving"
       :errorText="errors.first('slug')"
     )
+
     input-field(
-      v-if="formData.title"
+      v-if="formData.title !== null && formData.title.length >= 0"
       label="Title"
       name="title"
       placeholder=""
@@ -30,8 +31,9 @@
       :disabled="isSaving"
       :errorText="errors.first('title')"
     )
+
     input-field(
-      v-if="formData.subtitle"
+      v-if="formData.subtitle !== null && formData.subtitle.length >= 0"
       label="Subtitle"
       name="subtitle"
       placeholder=""
@@ -40,8 +42,9 @@
       :disabled="isSaving"
       :errorText="errors.first('subtitle')"
     )
+
     input-field(
-      v-if="formData.path"
+      v-if="formData.path !== null && formData.slug.length >= 0"
       label="Path"
       name="path"
       placeholder=""
@@ -50,8 +53,9 @@
       :disabled="isSaving"
       :errorText="errors.first('path')"
     )
+
     markdown-textarea-field(
-      v-if="formData.description"
+      v-if="formData.description !== null && formData.description.length >= 0"
       label="Description"
       name="description"
       placeholder=""
