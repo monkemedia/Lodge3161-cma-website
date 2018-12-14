@@ -5,8 +5,6 @@ module.exports = {
     BASE_URL: process.env.BASE_URL || 'http://localhost:6001/'
   },
 
-  mode: 'universal',
-
   /*
   ** Headers of the page
   */

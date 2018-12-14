@@ -35,7 +35,7 @@ export default {
     // console.log('data', data);
     return axios({
       method: 'POST',
-      url: `${version}/createAsset?entryId=${entryId}&publishable=${publish}&asset=true`, 
+      url: `${version}/create/asset?entryId=${entryId}&publishable=${publish}&asset=true`, 
       headers: {
         'Authorization': `Bearer ${token}`
       },

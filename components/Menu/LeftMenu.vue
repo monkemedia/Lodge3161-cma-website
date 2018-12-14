@@ -46,11 +46,11 @@
 
     methods: {
       isActiveOnLoad (menuItem) {
-        // const paths = Array.isArray(menuItem) ? menuItem : [menuItem];
+        const paths = Array.isArray(menuItem) ? menuItem : [menuItem];
     
-        // return paths.some(path => {
-        //   return this.$route.params.slug === path // current path starts with this path string
-        // })
+        return paths.some(path => {
+          return this.$route.params.slug === path // current path starts with this path string
+        })
       },
 
       openMenuOnLoad () {

@@ -105,10 +105,6 @@
             justify-content: center;
             align-items: center;
             display: flex;
-
-            .fa-stack-2x {
-              font-size: rem(40px);
-            }
           }
         }
 
@@ -140,10 +136,6 @@
           justify-content: center;
           align-items: center;
           display: flex;
-
-          .fa-stack-2x {
-            font-size: rem(40px);
-          }
         }
 
         .dropbox__upload-hover__icon {
