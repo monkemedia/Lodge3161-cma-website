@@ -8,10 +8,13 @@
               img(src="/logo.svg" alt="Dr James Griffith Hall Lodge - CMA")
 
           .navbar-menu.navbar-end#navMenu
+            a.navbar-item(@click="createModal")
+              | Create
             nuxt-link.navbar-item.is-hoverable.account(v-if="!isAuthenticated" to="/login")
               span.icon.is-small
                 i.fas.fa-user-circle
               | Sign in
+
             .navbar-item.has-dropdown.is-hoverable.account(v-else)
               a.navbar-link
                 | Welcome {{ userDetails.firstName }}
@@ -24,6 +27,8 @@
 </template>
 
 <script>
+  import createModal from '@/components/Modals/Create'
+
   export default {
     name: 'MainHeader',
 
@@ -43,6 +48,14 @@
           .then(() => {
             this.$router.push({ path: '/' })
           })
+      },
+
+      createModal () {
+        this.$modal.open({
+            parent: this,
+            component: createModal,
+            hasModalCard: true
+        })
       }
     }
   }

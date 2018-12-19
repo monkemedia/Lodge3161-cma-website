@@ -31,6 +31,18 @@ export default {
     })
   },
 
+  create: (token, data) => {
+    // console.log('data', data);
+    return axios({
+      method: 'POST',
+      url: `${version}/create`, 
+      headers: {
+        'Authorization': `Bearer ${token}`
+      },
+      data
+    })
+  },
+
   createAsset: (token, data, publish, entryId) => {
     // console.log('data', data);
     return axios({

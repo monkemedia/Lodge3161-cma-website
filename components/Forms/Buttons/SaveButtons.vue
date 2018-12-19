@@ -1,0 +1,32 @@
+<template lang="pug">
+  .field.is-grouped.is-grouped-right.is-marginless
+    .control
+      button.button.is-primary(:disabled="!isFormDirty || !anyFormErrors" :class="{ 'is-loading': saveIsLoading }" @click.prevent="$emit('click', false)") Save
+</template>
+
+<script>
+  export default {
+    props: {
+      isFormDirty: {
+        type: Boolean,
+        required: true
+      },
+
+      saveIsLoading: {
+        type: Boolean,
+        required: true
+      },
+
+      anyFormErrors: {
+        type: Boolean,
+        required: true
+      }
+    }
+  }
+</script>
+
+<style lang="scss" scoped>
+   .button {
+      min-width: 200px;
+    }
+</style>

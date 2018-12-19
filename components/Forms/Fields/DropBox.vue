@@ -1,9 +1,9 @@
 <template lang="pug">
   .dropbox(@click="launchFilePicker()" :class="{ 'disabled' : isSaving }")
       .dropbox__inner
-        figure(v-if="data.image.file.url")
+        figure(v-if="data && data.image.file.url")
           img(:src="data.image.file.url")
-        .text-container(v-if="!data.image.file.url")
+        .text-container
           span.icon
             .fa-stack
               i.far.fa-circle.fa-stack-2x
@@ -17,7 +17,7 @@
           :disabled="isSaving"
           @change="onFileChange($event.target.name, $event.target.files[0])" 
           accept="image/*")
-        a.dropbox__upload-hover(v-if="data.image.file.url")
+        a.dropbox__upload-hover(v-if="data && data.image.file.url")
           span.icon
             .fa-stack
               i.fas.fa-cloud-upload-alt.dropbox__upload-hover__icon
@@ -38,7 +38,7 @@
     props: {
       data: {
         type: Object,
-        required: true
+        required: false
       },
 
       isSaving: {
@@ -81,6 +81,10 @@
       pointer-events: none;
     }
 
+    figure {
+      z-index: 1;
+    }
+
     &__inner {
       cursor: pointer;
       background: $white;
@@ -96,6 +100,7 @@
 
       .text-container {
         text-align: center;
+        position: absolute;
 
         .icon {
           width: 40px;
@@ -127,6 +132,7 @@
       margin-top: -20px;
       margin-left: -20px;
       display: none;
+      z-index: 2;
 
      .icon {
         width: 40px;
