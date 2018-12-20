@@ -12,6 +12,9 @@ export default () => {
       nuxtServerInit ({ dispatch, getters }, context) {
         return dispatch('auth/initAuth', context.req)
           .then(() => {
+            if (!getters['auth/isAuthenticated']) {
+              return
+            }
             const token = getters['auth/getToken']
             return dispatch('content/fetchAll', token)
           })
