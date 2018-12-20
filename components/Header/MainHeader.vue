@@ -8,8 +8,9 @@
               img(src="/logo.svg" alt="Dr James Griffith Hall Lodge - CMA")
 
           .navbar-menu.navbar-end#navMenu
-            a.navbar-item(@click="createModal")
-              | Create
+            a.navbar-item(@click="createModal" title="Create new page")
+              span.icon
+                i.fas.fa-plus
             nuxt-link.navbar-item.is-hoverable.account(v-if="!isAuthenticated" to="/login")
               span.icon.is-small
                 i.fas.fa-user-circle
@@ -46,7 +47,7 @@
       logout () {
         return this.$store.dispatch('auth/logout')
           .then(() => {
-            this.$router.push({ path: '/' })
+            this.$router.push({ path: '/login' })
           })
       },
 
