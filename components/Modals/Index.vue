@@ -11,9 +11,20 @@
 </script>
 
 <style lang="scss" scope>
+  .modal-card-head,
+  .modal-card-body {
+    padding-left: 40px;
+    padding-right: 40px;
+  }
+
   .modal-card-head {
+    padding-top: 40px;
     background: white;
     border-bottom: 0;
     border-radius: 0;
+  }
+
+  .modal-card-body {
+    padding-bottom: 40px;
   }
 </style>
