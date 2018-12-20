@@ -1,5 +1,8 @@
 <template lang="pug">
   form
+    error-message(
+      :error-message="errorMessage")
+
     input-field(
       label="Slug"
       name="slug"
@@ -7,8 +10,7 @@
       v-validate="'required'"
       v-model="formData.slug"
       :disabled="isSaving"
-      :errorText="errors.first('slug')"
-    )
+      :error-text="errors.first('slug')")
 
     input-field(
       label="Title"
@@ -17,8 +19,7 @@
       v-validate="'required'"
       v-model="formData.title"
       :disabled="isSaving"
-      :errorText="errors.first('title')"
-    )
+      :error-text="errors.first('title')")
 
     input-field(
       label="Subtitle"
@@ -27,8 +28,7 @@
       v-validate="'required'"
       v-model="formData.subtitle"
       :disabled="isSaving"
-      :errorText="errors.first('subtitle')"
-    )
+      :error-text="errors.first('subtitle')")
 
     checkbox-field(
       label="Add to navigation"
@@ -36,8 +36,7 @@
       placeholder=""
       v-validate="'required'"
       v-model="formData.mainNavigation"
-      :disabled="isSaving"
-    )
+      :disabled="isSaving")
 
     markdown-textarea-field(
       label="Description"
@@ -46,8 +45,7 @@
       v-validate="'required'"
       v-model="formData.description"
       :disabled="isSaving"
-      :errorText="errors.first('description')"
-    )
+      :error-text="errors.first('description')")
 
     .message
       .message-body
@@ -65,25 +63,20 @@
           v-validate="'required'"
           v-model="formData.image.alt"
           :disabled="isSaving"
-          :errorText="errors.first('alt')"
-        )
+          :error-text="errors.first('alt')")
 
     save-buttons(
-      :isFormDirty="isFormDirty"
-      :saveIsLoading="saveIsLoading"
-      :anyFormErrors="errors.items.length <= 0"
-      @click="saveForm"
-    )
+      :is-form-dirty="isFormDirty"
+      :save-is-loading="saveIsLoading"
+      :any-form-errors="errors.items.length <= 0"
+      @click="saveForm")
 
 </template>
 
 <script>
-  import Vue from 'vue'
-  import VeeValidate from 'vee-validate'
+  import api from '@/api/contentful'
   import DropBox from '@/components/Forms/Fields/DropBox'
   import SaveButtons from '@/components/Forms/Buttons/SaveButtons'
-
-  Vue.use(VeeValidate)
 
   export default {
     components: {
@@ -93,6 +86,7 @@
 
     data () {
       return {
+        errorMessage: '',
         saveIsLoading: false,
         isSaving: false,
         formData: {
@@ -116,8 +110,43 @@
     },
 
     methods: {
-      saveForm () {
-        console.log('save form');
+      saveForm (publish) {
+        this.$validator.validateAll()
+          .then(result => {
+            if (!result) {
+              setTimeout(() => {
+                const element = document.querySelectorAll('.is-error')[0]
+
+                this.$scrollTo(element, {
+                  container: '.modal-card-body',
+                })
+              })
+              return 
+            }
+
+            const token = this.$store.getters['auth/getToken']
+            const formData = this.formData
+
+            this.isSaving = true
+              
+            api.create(token, formData)
+              .then(res => {
+                this.$validator.reset();
+                this.isSaving = false
+              })
+              .catch(err => {
+                this.errorMessage = err.message ? err.message : err.response.data.error
+                setTimeout(() => {
+                  const element = document.querySelectorAll('.is-error')[0]
+
+                  this.$scrollTo(element, {
+                    container: '.modal-card-body',
+                  })
+                }, 300)
+                
+                this.isLoading = false
+              })
+            })
       },
 
       updateData (data) {

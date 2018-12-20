@@ -8,7 +8,7 @@
       v-validate="'required'"
       v-model="formData.title"
       :disabled="isSaving"
-      :errorText="errors.first('title')"
+      :error-text="errors.first('title')"
     )
     input-field(
       v-if="formData.path"
@@ -18,25 +18,15 @@
       v-validate="'required'"
       v-model="formData.path"
       :disabled="isSaving"
-      :errorText="errors.first('path')"
+      :error-text="errors.first('path')"
     )
-    //- input-field(
-    //-   v-if="formData.slug"
-    //-   label="Path"
-    //-   name="slug"
-    //-   placeholder=""
-    //-   v-validate="'required'"
-    //-   v-model="formData.slug"
-    //-   :disabled="isSaving"
-    //-   :errorText="errors.first('slug')"
-    //- )
 
     save-publish-buttons(
-      :isPublish="isPublish"
-      :isFormDirty="isFormDirty"
-      :saveIsLoading="saveIsLoading"
-      :publishIsLoading="publishIsLoading"
-      :anyFormErrors="errors.items.length <= 0"
+      :is-publish="isPublish"
+      :is-form-dirty="isFormDirty"
+      :save-is-loading="saveIsLoading"
+      :publish-is-loading="publishIsLoading"
+      :any-form-errors="errors.items.length <= 0"
       @click="saveForm"
     )
 
@@ -46,12 +36,8 @@
 </template>
 
 <script>
-  import Vue from 'vue'
-  import VeeValidate from 'vee-validate'
   import mixin from '@/plugins/mixins/common-api-functionality'
   import { lang } from '@/utils'
-
-  Vue.use(VeeValidate)
 
   export default {
     mixins: [mixin],

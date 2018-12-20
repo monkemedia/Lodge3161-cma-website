@@ -11,7 +11,10 @@
         :disabled="disabled"
         :name="name")
       </no-ssr>
-      p(v-show="errorText" class="help is-danger" v-html="errorText")
+      p(
+        v-show="errorText" 
+        class="help is-danger" 
+        v-html="errorText")
 </template>
 
 <script>

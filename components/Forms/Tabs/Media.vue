@@ -15,15 +15,15 @@
       v-validate="'required'"
       v-model="formData.image.alt"
       :disabled="isSaving"
-      :errorText="errors.first('alt')"
+      :error-text="errors.first('alt')"
     )
 
     save-publish-buttons(
-      :isPublish="isPublish"
-      :isFormDirty="isFormDirty"
-      :saveIsLoading="saveIsLoading"
-      :publishIsLoading="publishIsLoading"
-      :anyFormErrors="errors.items.length <= 0"
+      :is-publish="isPublish"
+      :is-form-dirty="isFormDirty"
+      :save-is-loading="saveIsLoading"
+      :publish-is-loading="publishIsLoading"
+      :any-form-errors="errors.items.length <= 0"
       @click="saveForm"
     )
 
@@ -32,13 +32,9 @@
 </template>
 
 <script>
-  import Vue from 'vue'
-  import VeeValidate from 'vee-validate'
   import mixin from '@/plugins/mixins/common-api-functionality'
   import { lang } from '@/utils/index'
   import DropBox from '@/components/Forms/Fields/DropBox'
-
-  Vue.use(VeeValidate)
 
   export default {
     mixins: [mixin],

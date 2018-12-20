@@ -1,9 +1,19 @@
 <template lang="pug">
-  .field
+  .field(:class="{ 'is-error': !!errorText }")
     label.label {{ label }}
     .control
-      input.input(type="text" :disabled="disabled" :placeholder="placeholder" :name="name" @input="$emit('input', $event.target.value)" v-model="inputField")
-      p(v-show="errorText" class="help is-danger" v-html="errorText")
+      input.input(
+        type="text" 
+        :disabled="disabled" 
+        :placeholder="placeholder" 
+        :name="name" 
+        @input="$emit('input', $event.target.value)"
+        v-model="inputField")
+
+      p(
+        v-show="errorText" 
+        class="help is-danger"
+        v-html="errorText")
 </template>
 
 <script>
