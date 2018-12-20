@@ -33,11 +33,6 @@
 </template>
 
 <script>
-  import Vue from 'vue'
-  import VeeValidate from 'vee-validate'
-
-  Vue.use(VeeValidate)
-
   export default {
     middleware: [
       'isLoginPage'
@@ -66,7 +61,7 @@
             this.$store.dispatch('auth/login', this.loginForm)
               .then(res => {
                 this.isLoading = false
-                this.$router.push({ path: '/homepage/main' })
+                window.location.href = '/'
               })
               .catch(err => {
                 this.errorMessage = err.message ? err.response.data.error : err.message
