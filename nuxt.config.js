@@ -46,6 +46,11 @@ module.exports = {
     '~/plugins/form-components',
     '~/plugins/vue-lazy-load',
     '~/plugins/vue-buefy',
+    '~/plugins/vue-veevalidate',
+    {
+      src: '~/plugins/vue-scrollto',
+      ssr: false
+    },
     { 
       src: '~/plugins/vue-simplemde',
       ssr: false
