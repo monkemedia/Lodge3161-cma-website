@@ -32,10 +32,10 @@
 
     checkbox-field(
       label="Add to navigation"
-      name="mainNavigation"
+      name="navigation"
       placeholder=""
       v-validate="'required'"
-      v-model="formData.mainNavigation"
+      v-model="formData.navigation"
       :disabled="isSaving")
 
     markdown-textarea-field(
@@ -47,11 +47,43 @@
       :disabled="isSaving"
       :error-text="errors.first('description')")
 
+    legend.legend Page Meta
     .message
       .message-body
+        input-field(
+          label="Title"
+          name="title"
+          placeholder=""
+          v-validate="'required'"
+          v-model="formData.pageMeta.title"
+          :disabled="isSaving"
+          :error-text="errors.first('title')")
+
+        textarea-field(
+          label="Description"
+          name="description"
+          placeholder=""
+          v-validate="'required'"
+          v-model="formData.pageMeta.description"
+          :disabled="isSaving"
+          :error-text="errors.first('description')")
+
+    legend.legend Hero
+    .message
+      .message-body
+        input-field(
+          label="Title"
+          name="title"
+          placeholder=""
+          v-validate="'required'"
+          v-model="formData.hero.title"
+          :disabled="isSaving"
+          :error-text="errors.first('title')")
+
         drop-box(
-          :isSaving="isSaving"
-          v-model="formData.image.file"
+          :data="formData.hero"
+          :is-saving="isSaving"
+          v-model="formData.hero.image.file"
           v-validate="'required'"
           name="dropBox"
           @dropbox="updateData")
@@ -61,13 +93,34 @@
           name="alt"
           placeholder=""
           v-validate="'required'"
-          v-model="formData.image.alt"
+          v-model="formData.hero.image.alt"
           :disabled="isSaving"
           :error-text="errors.first('alt')")
 
+        legend.legend Button
+        .message
+          .message-body
+            input-field(
+              label="Title"
+              name="title"
+              placeholder=""
+              v-validate="'required'"
+              v-model="formData.hero.cta.title"
+              :disabled="isSaving"
+              :error-text="errors.first('title')")
+
+            input-field(
+              label="Path"
+              name="path"
+              placeholder=""
+              v-validate="'required'"
+              v-model="formData.hero.cta.path"
+              :disabled="isSaving"
+              :error-text="errors.first('path')")
+
     save-buttons(
       :is-form-dirty="isFormDirty"
-      :save-is-loading="saveIsLoading"
+      :save-is-loading="isSaving"
       :any-form-errors="errors.items.length <= 0"
       @click="saveForm")
 
@@ -87,18 +140,29 @@
     data () {
       return {
         errorMessage: '',
-        saveIsLoading: false,
         isSaving: false,
         formData: {
           slug: '',
           title: '',
           subtitle: '',
-          mainNavigation: false,
+          navigation: false,
           description: '',
-          image: {
-            file: '',
-            alt: ''
+          hero: {
+            title: '',
+            image: {
+              file: '',
+              alt: ''
+            },
+            cta: {
+              title: '',
+              path: ''
+            }
+          },
+          pageMeta: {
+            title: '',
+            description: ''
           }
+          
         }
       }
     },
@@ -133,6 +197,14 @@
               .then(res => {
                 this.$validator.reset();
                 this.isSaving = false
+                this.$nuxt.$emit('close-modal')
+                this.$toast.open({
+                  message: 'Page has been created',
+                  type: 'is-success',
+                  duration: 5000,
+                  position: 'is-bottom-right',
+                  actionText: null
+                })
               })
               .catch(err => {
                 this.errorMessage = err.message ? err.message : err.response.data.error

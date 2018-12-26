@@ -1,27 +1,27 @@
 <template lang="pug">
   .dropbox(@click="launchFilePicker()" :class="{ 'disabled' : isSaving }")
-      .dropbox__inner
-        figure(v-if="data && data.image.file.url")
-          img(:src="data.image.file.url")
-        .text-container
-          span.icon
-            .fa-stack
-              i.far.fa-circle.fa-stack-2x
-              i.fas.fa-cloud-upload-alt
-          p Upload image
-        input(
-          hidden="true"
-          ref="file"
-          type="file" 
-          name="file"
-          :disabled="isSaving"
-          @change="onFileChange($event.target.name, $event.target.files[0])" 
-          accept="image/*")
-        a.dropbox__upload-hover(v-if="data && data.image.file.url")
-          span.icon
-            .fa-stack
-              i.fas.fa-cloud-upload-alt.dropbox__upload-hover__icon
-              i.fas.fa-circle.fa-stack-2x.dropbox__upload-hover__background
+    .dropbox__inner
+      figure(v-if="data && data.image.file.url")
+        img(:src="data.image.file.url")
+      .text-container
+        span.icon
+          .fa-stack
+            i.far.fa-circle.fa-stack-2x
+            i.fas.fa-cloud-upload-alt
+        p Upload image
+      input(
+        hidden="true"
+        ref="file"
+        type="file" 
+        name="file"
+        :disabled="isSaving"
+        @change="onFileChange($event.target.name, $event.target.files[0])" 
+        accept="image/*")
+      a.dropbox__upload-hover(v-if="data && data.image.file.url")
+        span.icon
+          .fa-stack
+            i.fas.fa-cloud-upload-alt.dropbox__upload-hover__icon
+            i.fas.fa-circle.fa-stack-2x.dropbox__upload-hover__background
 </template>
 
 <script>
