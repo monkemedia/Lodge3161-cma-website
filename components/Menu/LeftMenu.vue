@@ -5,7 +5,7 @@
           ul.accordions
             draggable(v-model="pages" @start="drag=true" @end="drag=false" @change="updateApiOrder")
               transition-group
-                li.accordion(v-for="(page, index) in pages" :class="{ 'is-active' : isActiveOnLoad(page.path) }" :key="page.id")
+                li.accordion(v-for="(page, index) in pages" :class="{ 'is-active is-selected' : isActiveOnLoad(page.path) }" :key="page.id")
                   nuxt-link.accordion-header(:to="'/' + page.path + '/' + page.id + '?parent=' + page.title + '&isHomepage=' + (index < 1) + '&isParent=true'") 
                     span(v-if="index < 1") Homepage 
                     span(v-else) {{ page.title }}
@@ -76,8 +76,14 @@
           header.addEventListener('click', (event) => {
             const body = event.target.nextElementSibling;
 
+            if (event.target.parentElement.classList.contains('is-active')) {
+              event.target.nextElementSibling.style.maxHeight = null
+              event.target.parentElement.classList.remove('is-active', 'is-selected')
+              return
+            }
+
             for(let j = 0; j < allBodies.length; j++) {
-              accordion[j].classList.remove('is-active')
+              accordion[j].classList.remove('is-active', 'is-selected')
               allBodies[j].style.maxHeight = null
             }  
 
@@ -87,7 +93,7 @@
               body.style.maxHeight = `${body.scrollHeight}px`
             }
 
-            event.target.parentNode.classList.add('is-active')
+            event.target.parentNode.classList.add('is-active', 'is-selected')
           })
         }
       },
