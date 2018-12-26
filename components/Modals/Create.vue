@@ -14,6 +14,16 @@
     components: {
       modal,
       createForm
+    },
+
+    created () {
+      this.$nuxt.$on('close-modal', this.closeModal)
+    },
+
+    methods: {
+      closeModal () {
+        this.$emit('close')
+      }
     }
   }
 </script>
