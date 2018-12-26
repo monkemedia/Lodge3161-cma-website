@@ -1,5 +1,5 @@
 <template lang="pug">
-  .notification.is-danger(
+  .notification.is-danger.has-text-centered(
     v-if="errorMessage" 
     :class="{ 'is-error': errorMessage }")
     p {{ errorMessage }}

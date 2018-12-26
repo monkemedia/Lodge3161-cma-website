@@ -1,0 +1,12 @@
+.message {
+  background: $grey-lighter;
+
+  .message-body {
+    border: 0;
+  }
+
+  // Nested message
+  .message {
+    background: $grey-200;
+  }
+}
