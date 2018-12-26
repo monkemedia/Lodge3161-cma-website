@@ -32,7 +32,6 @@ export default {
   },
 
   create: (token, data) => {
-    // console.log('data', data);
     return axios({
       method: 'POST',
       url: `${version}/create`, 
