@@ -7,6 +7,12 @@
   @include Bold();
 }
 
+.legend {
+  font-size: $size-150;
+  @include Bold();
+  margin-bottom: 0.5em;
+}
+
 .input,
 .textarea,
 .select > select {
