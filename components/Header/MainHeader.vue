@@ -8,9 +8,10 @@
               img(src="/logo.svg" alt="Dr James Griffith Hall Lodge - CMA")
 
           .navbar-menu.navbar-end#navMenu
-            a.navbar-item(@click="createModal" title="Create new page")
-              span.icon
-                i.fas.fa-plus
+            b-tooltip(label="Create new page" type="is-dark" position="is-bottom" square)
+              a.navbar-item(@click="createModal")
+                span.icon
+                  i.fas.fa-plus
             nuxt-link.navbar-item.is-hoverable.account(v-if="!isAuthenticated" to="/login")
               span.icon.is-small
                 i.fas.fa-user-circle
