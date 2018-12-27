@@ -38,16 +38,23 @@
 
     data () {
       return {
-        activeTab: 0
+        activeTab: 0,
+        basic: null,
+        media: null,
+        button: null
       }
     },
 
-    asyncData ({ store, params, query }) {
+    asyncData ({ store, params, query, error }) {
       const token = store.getters['auth/getToken']
       const entryId = params.id
       const isParent = query.isParent
       const promises = []
       let promise
+
+      if (entryId === undefined) { 
+        return error({ statusCode: 404, message: 'Sadly this page cannot be found.' })
+      }
 
       return api.fetchData(token, entryId, false)
         .then(response => {
@@ -58,7 +65,6 @@
           Object.keys(fields).forEach((key) => {
             if (fields[key][lang()].sys) {
               const isAsset = key === 'image' || key === 'backgroundImage'
-              console.log(key, fields[key][lang()].sys.id)
               const id = fields[key][lang()].sys.id
               promise = api.fetchData(token, id, isAsset)
               promises.push(promise)
@@ -78,11 +84,14 @@
               const [basic, media, button] = res
 
               return { 
-                basic: basic ? basic.data : null,
-                media: media ? media.data : null,
-                button: button ? button.data : null
+                basic: basic.data,
+                media: media.data,
+                button: button.data
               }
             })
+        })
+        .catch(() => {
+            error({ statusCode: 500, message: 'Something went wrong.' })
         })
     },
 

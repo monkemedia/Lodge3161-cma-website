@@ -45,6 +45,15 @@ main {
   }
 }
 
+.link {
+  font-size: rem(12px);
+  text-decoration: underline;
+
+  &:hover {
+    text-decoration: none;
+  }
+}
+
 .last-saved p {
   font-size: rem(12px);
 }

@@ -5,7 +5,6 @@ import SavePublishButtons from '@/components/Forms/Buttons/SavePublishButtons'
 export default {
   props: {
     data: {
-      type: Object,
       required: true
     }
   },
@@ -17,10 +16,10 @@ export default {
   data () {
     return {
       metadata: {
-        version: this.data.metadata.version,
-        publishedVersion: this.data.metadata.publishedVersion,
-        updatedAt: this.data.metadata.updatedAt,
-        id: this.data.metadata.id
+        version: this.data && this.data.metadata.version,
+        publishedVersion: this.data && this.data.metadata.publishedVersion,
+        updatedAt: this.data && this.data.metadata.updatedAt,
+        id: this.data && this.data.metadata.id
       },
       isPublishable: false,
       saveIsLoading: false,

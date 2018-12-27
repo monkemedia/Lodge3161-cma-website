@@ -89,12 +89,12 @@
     data () {
       return {
         formData: {
-          mainNavigation: this.data.fields.mainNavigation ? this.data.fields.mainNavigation[lang()] : null,
-          slug: this.data.fields.slug ? this.data.fields.slug[lang()] : null,
-          title: this.data.fields.title ? this.data.fields.title[lang()] : null,
-          subtitle: this.data.fields.subtitle ? this.data.fields.subtitle[lang()] : null,
-          path: this.data.fields.path ? this.data.fields.path[lang()] : null,
-          description: this.data.fields.description ? this.data.fields.description[lang()] : null
+          mainNavigation: this.data && this.data.fields.mainNavigation ? this.data.fields.mainNavigation[lang()] : null,
+          slug: this.data && this.data.fields.slug ? this.data.fields.slug[lang()] : null,
+          title: this.data && this.data.fields.title ? this.data.fields.title[lang()] : null,
+          subtitle: this.data && this.data.fields.subtitle ? this.data.fields.subtitle[lang()] : null,
+          path: this.data && this.data.fields.path ? this.data.fields.path[lang()] : null,
+          description: this.data && this.data.fields.description ? this.data.fields.description[lang()] : null
         }
       }
     }
