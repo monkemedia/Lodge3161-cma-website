@@ -78,7 +78,7 @@
 
             if (event.target.parentElement.classList.contains('is-active')) {
               event.target.nextElementSibling.style.maxHeight = null
-              event.target.parentElement.classList.remove('is-active', 'is-selected')
+              event.target.parentElement.classList.remove('is-active')
               return
             }
 

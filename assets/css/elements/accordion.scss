@@ -51,14 +51,18 @@
       }
     }
 
+    &.is-active {
+      .accordion-header {
+        &:after {
+          content: '-';
+        }
+      }
+    }
+
     &.is-selected {
       .accordion-header {
         background: $grey-light;
         color: $white;
-
-        &:after {
-          content: '-';
-        }
       }
     }
   }
