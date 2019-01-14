@@ -84,14 +84,15 @@
               const [basic, media, button] = res
 
               return { 
-                basic: basic.data,
-                media: media.data,
-                button: button.data
+                basic: basic ? basic.data : false,
+                media: media ? media.data : false,
+                button: button ? button.data : false
               }
             })
         })
-        .catch(() => {
-            error({ statusCode: 500, message: 'Something went wrong.' })
+        .catch(err => {
+          console.log('ERROR:', err)
+          error({ statusCode: 500, message: 'Something went wrong.' })
         })
     },
 
