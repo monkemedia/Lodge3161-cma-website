@@ -1,11 +1,13 @@
 <template lang="pug">
   .field.is-grouped.is-grouped-right.is-marginless
     .control
-      button.button.is-secondary(:disabled="!isFormDirty || !anyFormErrors" :class="{ 'is-loading': saveIsLoading }" @click.prevent="$emit('click', false)") Save
+      button.button.is-secondary(:class="{ 'is-loading': saveIsLoading }" @click.prevent="$emit('delete-page')" v-if="isParent") Delete Page
 
-      button.button.is-primary(v-if="!isPublish" :disabled="!isPublish" :class="{ 'is-loading': publishIsLoading }" @click.prevent="$emit('click', true)") Publish
-      button.button.is-primary(v-if="isPublish && !isFormDirty" :disabled="!isPublish" :class="{ 'is-loading': publishIsLoading }" @click.prevent="$emit('click', true)") Publish
-      button.button.is-primary(v-if="isPublish && isFormDirty" :disabled="isPublish" :class="{ 'is-loading': publishIsLoading }" @click.prevent="$emit('click', true)") Publish
+      button.button(:disabled="!isFormDirty || !anyFormErrors" :class="{ 'is-loading': saveIsLoading }" @click.prevent="$emit('click', false)") Save
+
+      button.button(v-if="!isPublish" :disabled="!isPublish" :class="{ 'is-loading': publishIsLoading }" @click.prevent="$emit('click', true)") Publish
+      button.button(v-if="isPublish && !isFormDirty" :disabled="!isPublish" :class="{ 'is-loading': publishIsLoading }" @click.prevent="$emit('click', true)") Publish
+      button.button(v-if="isPublish && isFormDirty" :disabled="isPublish" :class="{ 'is-loading': publishIsLoading }" @click.prevent="$emit('click', true)") Publish
 </template>
 
 <script>
@@ -35,12 +37,28 @@
         type: Boolean,
         required: true
       }
+    },
+
+    computed: {
+      isParent () {
+        return this.$route.query.isParent
+      }
     }
   }
 </script>
 
 <style lang="scss" scoped>
-   .button {
-      min-width: 200px;
+  @import '~assets/css/utilities/variables.scss';
+
+  .button {
+    width: 33.3333%;
+    border-top: 1px solid $grey-300;
+    border-bottom: 1px solid $grey-300;
+    border-right: 1px solid $grey-300;
+    background: $white;
+
+    &:last-child {
+      border-right: 0;
     }
+  }
 </style>

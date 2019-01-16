@@ -100,11 +100,15 @@ export default {
       const version = this.metadata.version
       const publishedVersion = this.metadata.publishedVersion
 
-      if (version > publishedVersion + 1)  {
+      if (publishedVersion === undefined || version > publishedVersion + 1)  {
         this.isPublishable = true
       } else {
         this.isPublishable = false
       }
+    },
+
+    deletePage () {
+      console.log('delete page');
     }
   }
 }
