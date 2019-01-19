@@ -6,6 +6,7 @@
           h1.h1
             span(v-if="isHomepage === 'true'") Homepage
             span(v-else) {{ $route.query.parent }} <span class="sub" v-if="$route.query.title">: {{ $route.query.title }}</span>
+          span.id-subtitle ID: {{ $route.params.id }}
         section.page-main__content
           b-tabs(v-model="activeTab")
             b-tab-item(label="Basic")
@@ -105,5 +106,17 @@
 </script>
 
 <style lang="scss" scoped>
+  @import '~assets/css/utilities/variables.scss';
+  @import '../../../node_modules/sass-rem/rem';
+
+  .h1 {
+    margin-bottom: 15px;
+  }
+
+  .id-subtitle {
+    font-size: rem(11px);
+    color: $grey-light;
+    font-weight: bold;
+  }
 
 </style>
