@@ -87,6 +87,8 @@ export default {
             })
           } else {
             this.saveIsLoading = false
+            // Refresh page so updated data shows
+            window.location.reload(true)
           }
         })
         .catch(err => {
