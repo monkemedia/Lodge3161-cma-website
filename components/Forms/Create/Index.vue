@@ -195,6 +195,10 @@
               
             api.create(token, formData)
               .then(res => {
+                const data = res.data.data
+                const slug = data.title
+                const id = data.id
+
                 this.$validator.reset();
                 this.isSaving = false
                 this.$nuxt.$emit('close-modal')
@@ -205,6 +209,9 @@
                   position: 'is-bottom-right',
                   actionText: null
                 })
+
+                // Redirect user to newly created page
+                window.location.href = `/${slug}/${id}?parent=${slug}&isHomepage=false&isParent=true`
               })
               .catch(err => {
                 this.errorMessage = err.message ? err.message : err.response.data.error
