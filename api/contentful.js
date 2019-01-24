@@ -42,6 +42,16 @@ export default {
     })
   },
 
+  deletePage: (token, entryId) => {
+    return axios({
+      method: 'DELETE',
+      url: `${version}/delete?entryId=${entryId}`, 
+      headers: {
+        'Authorization': `Bearer ${token}`
+      }
+    })
+  },
+
   createAsset: (token, data, publish, entryId) => {
     // console.log('data', data);
     return axios({

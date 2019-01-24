@@ -1,13 +1,13 @@
 <template lang="pug">
-  .field.is-grouped.is-grouped-right.is-marginless
+  .field.is-grouped.is-grouped-right
     .control
-      button.button.is-secondary(:class="{ 'is-loading': saveIsLoading }" @click.prevent="$emit('delete-page')" v-if="isParent") Delete Page
-
-      button.button(:disabled="!isFormDirty || !anyFormErrors" :class="{ 'is-loading': saveIsLoading }" @click.prevent="$emit('click', false)") Save
-
-      button.button(v-if="!isPublish" :disabled="!isPublish" :class="{ 'is-loading': publishIsLoading }" @click.prevent="$emit('click', true)") Publish
-      button.button(v-if="isPublish && !isFormDirty" :disabled="!isPublish" :class="{ 'is-loading': publishIsLoading }" @click.prevent="$emit('click', true)") Publish
-      button.button(v-if="isPublish && isFormDirty" :disabled="isPublish" :class="{ 'is-loading': publishIsLoading }" @click.prevent="$emit('click', true)") Publish
+      button.button.is-secondary(:class="{ 'is-loading': deletingIsLoading }" @click.prevent="$emit('delete-page')" v-if="isParent && pageType === 'pages'") Delete Page
+    .control
+      button.button.is-secondary(:disabled="!isFormDirty || !anyFormErrors" :class="{ 'is-loading': saveIsLoading }" @click.prevent="$emit('click', false)") Save
+    .control
+      button.button.is-secondary(v-if="!isPublish" :disabled="!isPublish" :class="{ 'is-loading': publishIsLoading }" @click.prevent="$emit('click', true)") Publish
+      button.button.is-secondary(v-if="isPublish && !isFormDirty" :disabled="!isPublish" :class="{ 'is-loading': publishIsLoading }" @click.prevent="$emit('click', true)") Publish
+      button.button.is-secondary(v-if="isPublish && isFormDirty" :disabled="isPublish" :class="{ 'is-loading': publishIsLoading }" @click.prevent="$emit('click', true)") Publish
 </template>
 
 <script>
@@ -33,9 +33,19 @@
         required: true
       },
 
+      deletingIsLoading: {
+        type: Boolean,
+        required: true
+      },
+
       anyFormErrors: {
         type: Boolean,
         required: true
+      },
+
+      pageType: {
+        type: String,
+        required: false
       }
     },
 
@@ -51,14 +61,6 @@
   @import '~assets/css/utilities/variables.scss';
 
   .button {
-    width: 33.3333%;
-    border-top: 1px solid $grey-300;
-    border-bottom: 1px solid $grey-300;
-    border-right: 1px solid $grey-300;
-    background: $white;
-
-    &:last-child {
-      border-right: 0;
-    }
+    min-width: 211px;
   }
 </style>

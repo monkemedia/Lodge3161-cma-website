@@ -15,15 +15,11 @@ export default {
 
   data () {
     return {
-      metadata: {
-        version: this.data && this.data.metadata.version,
-        publishedVersion: this.data && this.data.metadata.publishedVersion,
-        updatedAt: this.data && this.data.metadata.updatedAt,
-        id: this.data && this.data.metadata.id
-      },
+      metadata: this.data && this.data.metadata,
       isPublishable: false,
       saveIsLoading: false,
       publishIsLoading: false,
+      deletingIsLoading: false,
       isSaving: false
     }
   },
@@ -110,7 +106,25 @@ export default {
     },
 
     deletePage () {
-      console.log('delete page');
+      const token = this.$store.getters['auth/getToken']
+
+      this.deletingIsLoading = true
+
+      api.deletePage(token, this.metadata.id)
+        .then(() => {
+         this.$toast.open({
+            message: 'This page has been successfully deleted',
+            type: 'is-success',
+            duration: 5000,
+            position: 'is-bottom-right',
+            actionText: null
+          })
+          window.location.href = '/'
+        })
+        .catch(err => {
+          console.log(err)
+          this.deletingIsLoading = false
+        })
     }
   }
 }

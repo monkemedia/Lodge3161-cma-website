@@ -66,12 +66,15 @@
     )
 
     save-publish-buttons(
+      :page-type="formData.pageType"
       :is-publish="isPublish"
       :is-form-dirty="isFormDirty"
       :save-is-loading="saveIsLoading"
+      :deleting-is-loading="deletingIsLoading"
       :publish-is-loading="publishIsLoading"
       :any-form-errors="errors.items.length <= 0"
       @click="saveForm"
+      @delete-page="deletePage"
     )
 
     .last-saved.has-text-right
@@ -94,7 +97,8 @@
           title: this.data && this.data.fields.title ? this.data.fields.title[lang()] : null,
           subtitle: this.data && this.data.fields.subtitle ? this.data.fields.subtitle[lang()] : null,
           path: this.data && this.data.fields.path ? this.data.fields.path[lang()] : null,
-          description: this.data && this.data.fields.description ? this.data.fields.description[lang()] : null
+          description: this.data && this.data.fields.description ? this.data.fields.description[lang()] : null,
+          pageType: this.data && this.data.metadata.type
         }
       }
     }

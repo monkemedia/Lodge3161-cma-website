@@ -1,5 +1,5 @@
 <template lang="pug">
-  .field.is-grouped.is-grouped-right.is-marginless
+  .field.is-grouped.is-grouped-right
     .control
       button.button.is-primary(:disabled="!isFormDirty || !anyFormErrors" :class="{ 'is-loading': saveIsLoading }" @click.prevent="$emit('click', false)") Save
 </template>
@@ -27,6 +27,6 @@
 
 <style lang="scss" scoped>
    .button {
-      min-width: 200px;
+      min-width: 211px;
     }
 </style>
