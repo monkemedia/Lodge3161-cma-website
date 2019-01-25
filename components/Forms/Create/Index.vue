@@ -1,7 +1,6 @@
 <template lang="pug">
   form
-    error-message(
-      :error-message="errorMessage")
+    error-message(:error-message="errorMessage")
 
     input-field(
       label="Slug"

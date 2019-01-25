@@ -1,6 +1,7 @@
 import moment from 'moment'
 import api from '@/api/contentful'
 import SavePublishButtons from '@/components/Forms/Buttons/SavePublishButtons'
+import deleteModal from '@/components/Modals/Delete'
 
 export default {
   props: {
@@ -105,26 +106,15 @@ export default {
       }
     },
 
-    deletePage () {
-      const token = this.$store.getters['auth/getToken']
-
-      this.deletingIsLoading = true
-
-      api.deletePage(token, this.metadata.id)
-        .then(() => {
-         this.$toast.open({
-            message: 'This page has been successfully deleted',
-            type: 'is-success',
-            duration: 5000,
-            position: 'is-bottom-right',
-            actionText: null
-          })
-          window.location.href = '/'
-        })
-        .catch(err => {
-          console.log(err)
-          this.deletingIsLoading = false
-        })
+    deleteModal () {
+      this.$modal.open({
+          parent: this,
+          component: deleteModal,
+          hasModalCard: true,
+          props: {
+            pageId: this.metadata.id
+          }
+      })
     }
   }
 }

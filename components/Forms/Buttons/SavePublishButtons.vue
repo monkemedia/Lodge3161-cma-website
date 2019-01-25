@@ -1,7 +1,7 @@
 <template lang="pug">
   .field.is-grouped.is-grouped-right
     .control
-      button.button.is-secondary(:class="{ 'is-loading': deletingIsLoading }" @click.prevent="$emit('delete-page')" v-if="isParent && pageType === 'pages'") Delete Page
+      button.button.is-secondary(@click.prevent="$emit('delete-modal')" v-if="isParent && pageType === 'pages'") Delete Page
     .control
       button.button.is-secondary(:disabled="!isFormDirty || !anyFormErrors" :class="{ 'is-loading': saveIsLoading }" @click.prevent="$emit('click', false)") Save
     .control

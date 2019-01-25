@@ -74,7 +74,7 @@
       :publish-is-loading="publishIsLoading"
       :any-form-errors="errors.items.length <= 0"
       @click="saveForm"
-      @delete-page="deletePage"
+      @delete-modal="deleteModal"
     )
 
     .last-saved.has-text-right
