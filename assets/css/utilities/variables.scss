@@ -1,25 +1,29 @@
 @import '../../../node_modules/sass-rem/rem';
 
 // Colours
-$grey-lighter                          :   #f2f2f2;
+$grey-lighter                          :   #888888;
 $grey-light                            :   #4f4f4f;
-$grey                                  :   #242424;
+$grey                                  :   #232323;
 $grey-dark                             :   #191919;
 
 $red                                   :   #df3333;
 $pink                                  :   #fd4067;
 $light-blue                            :   #4BAEE7;
-$blue                                  :   #235EA4;
+$blue                                  :   #3c76f4;
 $light-pink                            :   #fae0e0;
 $dark-red                              :   #cc1d35;
 $green                                 :   #24c965;
 $green-dark                            :   #159588;
 $white                                 :   #ffffff;
 
-$grey-100                              :   #e1e1e1;
+$grey-100                              :   #f4f7fc;
 $grey-200                              :   #e5e5e5;
 $grey-300                              :   #dddddd;
 $grey-400                              :   #4f4f4f;
+
+$blue-100                              :   #f4f7fc;
+$blue-200                              :   #f4f9ff;
+$blue-300                              :   #ecf3fc;
 
 $primary                               :   $blue;
 $secondary                             :   $grey;

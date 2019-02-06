@@ -44,7 +44,7 @@
     )
 
     input-field(
-      v-if="formData.path !== null && formData.slug.length >= 0"
+      v-if="formData.path !== null && formData.path.length >= 0"
       label="Path"
       name="path"
       placeholder=""

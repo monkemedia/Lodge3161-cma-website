@@ -1,13 +1,13 @@
 <template lang="pug">
-  .columns.is-centered
-    .column.is-8
+  .columns
+    .column.is-10
       .page-main
-        header.header.has-text-centered
-          h1.h1
-            span(v-if="isHomepage === 'true'") Homepage
-            span(v-else) {{ $route.query.parent }} <span class="sub" v-if="$route.query.title">: {{ $route.query.title }}</span>
-          span.id-subtitle ID: {{ $route.params.id }}
+        header.header
+          h1.h1 Pages
         section.page-main__content
+          h2.h2 {{ $route.params.query }}
+            | {{ removeCamelCase($route.params.slug) }} <span class="sub" v-if="!$route.query.isParent && $route.query.entries">: {{ removeCamelCase($route.query.entries) }} </span>
+          span.id-subtitle ID: {{ $route.params.id }}
           b-tabs(v-model="activeTab")
             b-tab-item(label="Basic")
               basic-form(:data="basic")
@@ -18,6 +18,7 @@
 </template>
 
 <script>
+  import _ from 'lodash'
   import api from '@/api/contentful'
   import basicForm from '@/components/Forms/Tabs/Basic'
   import mediaForm from '@/components/Forms/Tabs/Media'
@@ -101,13 +102,19 @@
       isHomepage () {
         return this.$route.query['isHomepage']
       }
+    },
+
+    methods: {
+      removeCamelCase (string) {
+        return _.startCase(string);
+      }
     }
   }
 </script>
 
 <style lang="scss" scoped>
   @import '~assets/css/utilities/variables.scss';
-  @import '../../../node_modules/sass-rem/rem';
+  @import '../../../../node_modules/sass-rem/rem';
 
   .h1 {
     margin-bottom: 15px;
@@ -115,8 +122,18 @@
 
   .id-subtitle {
     font-size: rem(11px);
-    color: $grey-light;
+    color: $grey-lighter;
     font-weight: bold;
+  }
+
+  .page-main__content {
+    background: $white;
+    padding: 30px;
+    box-shadow: 0 0 23px -5px rgba(0, 0, 0, 0.04);
+  }
+
+  .b-tabs {
+    margin-top: 30px;
   }
 
 </style>

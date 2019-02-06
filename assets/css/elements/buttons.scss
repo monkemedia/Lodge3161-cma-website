@@ -21,58 +21,58 @@
     width: auto;
   }
 
-  &:not([disabled]) {
-    &:hover,
-    &.is-hovered {
-      background-color: $primary;
-      color: $body-color;
-      box-shadow: none;
-      border: 0;
-    }
-  }
+  // &:not([disabled]) {
+  //   &:hover,
+  //   &.is-hovered {
+  //     background-color: $primary;
+  //     color: $body-color;
+  //     box-shadow: none;
+  //     border: 0;
+  //   }
+  // }
   
-  &.is-primary {
-    background-color: $primary;
+  // &.is-primary {
+  //   background-color: $primary;
   
-    &:not([disabled]) {
-      &:hover,
-      &.is-hovered {
-        background: $secondary;
-        color: $white;
-      }
-    }
+  //   &:not([disabled]) {
+  //     &:hover,
+  //     &.is-hovered {
+  //       background: $secondary;
+  //       color: $white;
+  //     }
+  //   }
     
-    &:focus:not(:active),
-    &:active:not(:focus) {
-      box-shadow: none;
-    }
-  }
+  //   &:focus:not(:active),
+  //   &:active:not(:focus) {
+  //     box-shadow: none;
+  //   }
+  // }
   
-  &.is-secondary {
-    background-color: $white;
-    color: $body-color ;
+  // &.is-secondary {
+  //   background-color: $white;
+  //   color: $body-color ;
   
-    &:hover,
-    &.is-hovered {
-      background: $grey-300;
-      color: $body-color;
-    }
+  //   &:hover,
+  //   &.is-hovered {
+  //     background: $grey-300;
+  //     color: $body-color;
+  //   }
 
-    &.is-loading {
-      &:after {
-        border: 2px solid $body-color;
-        border-right-color: transparent;
-        border-top-color: transparent;
-      }
-    }
+  //   &.is-loading {
+  //     &:after {
+  //       border: 2px solid $body-color;
+  //       border-right-color: transparent;
+  //       border-top-color: transparent;
+  //     }
+  //   }
     
-    &:focus:not(:active),
-    &:active:not(:focus) {
-      box-shadow: none;
-    }
-  }
+  //   &:focus:not(:active),
+  //   &:active:not(:focus) {
+  //     box-shadow: none;
+  //   }
+  // }
 
-  &[disabled] {
-    border: 0;
-  }
+  // &[disabled] {
+  //   border: 0;
+  // }
 }

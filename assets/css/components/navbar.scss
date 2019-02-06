@@ -1,8 +1,9 @@
 .navbar {
+  background: $primary;
+
   .navbar-brand {
     .navbar-brand-logo {
       width: 208px;
-      border-right: 1px solid $grey-200;
 
       img {
         max-height: 22px;
@@ -21,11 +22,17 @@
     .navbar-link {
       @include Bold();
       font-size: rem(12px);
-      color: $secondary;
+      color: $white;
 
       &.is-active,
       &:hover {
         // background-color: transparent;
+      }
+
+      &:not(.is-arrowless){
+        &::after {
+          border-color: $white;
+        }
       }
     }
 

@@ -1,7 +1,7 @@
 <template lang="pug">
-  div.container
+  div
     main-header
-    .columns.is-gapless
+    .columns
       left-menu
       main.column.is-10
         nuxt

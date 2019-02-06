@@ -1,13 +1,13 @@
 <template lang="pug">
   .field.is-grouped.is-grouped-right
     .control
-      button.button.is-secondary(@click.prevent="$emit('delete-modal')" v-if="isParent && pageType === 'pages'") Delete Page
+      button.button.is-danger(@click.prevent="$emit('delete-modal')" v-if="isParent && pageType === 'pages'") Delete Page
     .control
-      button.button.is-secondary(:disabled="!isFormDirty || !anyFormErrors" :class="{ 'is-loading': saveIsLoading }" @click.prevent="$emit('click', false)") Save
+      button.button.is-success(:disabled="!isFormDirty || !anyFormErrors" :class="{ 'is-loading': saveIsLoading }" @click.prevent="$emit('click', false)") Save
     .control
-      button.button.is-secondary(v-if="!isPublish" :disabled="!isPublish" :class="{ 'is-loading': publishIsLoading }" @click.prevent="$emit('click', true)") Publish
-      button.button.is-secondary(v-if="isPublish && !isFormDirty" :disabled="!isPublish" :class="{ 'is-loading': publishIsLoading }" @click.prevent="$emit('click', true)") Publish
-      button.button.is-secondary(v-if="isPublish && isFormDirty" :disabled="isPublish" :class="{ 'is-loading': publishIsLoading }" @click.prevent="$emit('click', true)") Publish
+      button.button.is-primary(v-if="!isPublish" :disabled="!isPublish" :class="{ 'is-loading': publishIsLoading }" @click.prevent="$emit('click', true)") Publish
+      button.button.is-primary(v-if="isPublish && !isFormDirty" :disabled="!isPublish" :class="{ 'is-loading': publishIsLoading }" @click.prevent="$emit('click', true)") Publish
+      button.button.is-primary(v-if="isPublish && isFormDirty" :disabled="isPublish" :class="{ 'is-loading': publishIsLoading }" @click.prevent="$emit('click', true)") Publish
 </template>
 
 <script>
@@ -35,7 +35,7 @@
 
       deletingIsLoading: {
         type: Boolean,
-        required: true
+        required: false
       },
 
       anyFormErrors: {

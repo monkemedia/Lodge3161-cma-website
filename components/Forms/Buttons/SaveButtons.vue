@@ -1,7 +1,7 @@
 <template lang="pug">
   .field.is-grouped.is-grouped-right
     .control
-      button.button.is-primary(:disabled="!isFormDirty || !anyFormErrors" :class="{ 'is-loading': saveIsLoading }" @click.prevent="$emit('click', false)") Save
+      button.button.is-success(:disabled="!isFormDirty || !anyFormErrors" :class="{ 'is-loading': saveIsLoading }" @click.prevent="$emit('click', false)") Save
 </template>
 
 <script>

@@ -1,9 +1,9 @@
 <template lang="pug">
-  .columns.is-centered
-    .column.is-8
+  .columns
+    .column.is-7
       .page-main
-        header.header.has-text-centered
-          h1.h1 Index
+        header.header
+          h1.h1 Dashboard
 </template>
 
 <script>

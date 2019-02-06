@@ -24,20 +24,16 @@ hr {
 }
 
 main {
-  background-color: $grey-lighter;
-  position: relative;
-  display: inline-block;
-  width: 100%;
-  padding: 0 !important;
-  border-right: 1px solid $grey-200;
+  background-color: $blue-100;
+  margin-top: .75rem;
+  box-shadow: inset 10px 10px 23px -5px rgba(0,0,0,0.04);
 }
 
 .page-main {
-  margin-top: 30px;
-  margin-bottom: 30px;
+  margin: 20px 40px;
 
   .header {
-    margin-bottom: 50px;
+    margin-bottom: 30px;
 
     .sub {
       font-weight: normal
