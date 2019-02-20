@@ -47,7 +47,7 @@
       }
     },
 
-    asyncData ({ store, params, query, error }) {
+    async asyncData ({ store, params, query, error }) {
       const token = store.getters['auth/getToken']
       const entryId = params.id
       const isParent = query.isParent
@@ -58,44 +58,40 @@
         return error({ statusCode: 404, message: 'Sadly this page cannot be found.' })
       }
 
-      return api.fetchData(token, entryId, false)
-        .then(response => {
-          const fields = response.data.fields
+      try {
+        let fetchData = await api.fetchData(token, entryId, false)
+        const fields = fetchData.data.fields
+        let promiseAll
 
-          promises.push(response)
-
-          Object.keys(fields).forEach((key) => {
-            if (fields[key][lang()].sys) {
-              const isAsset = key === 'image' || key === 'backgroundImage'
-              const id = fields[key][lang()].sys.id
-              promise = api.fetchData(token, id, isAsset)
-              promises.push(promise)
-            }
-          })
-
-          return Promise.all(promises)
-            .then(res => {
-              if (isParent) {
-                return {
-                  basic: res[0].data,
-                  media: false,
-                  button: false
-                }
-              }
-
-              const [basic, media, button] = res
-
-              return { 
-                basic: basic ? basic.data : false,
-                media: media ? media.data : false,
-                button: button ? button.data : false
-              }
-            })
+        Object.keys(fields).forEach((key) => {
+          if (fields[key][lang()].sys) {
+            const isAsset = key === 'image' || key === 'backgroundImage'
+            const id = fields[key][lang()].sys.id
+            promise = api.fetchData(token, id, isAsset)
+            promises.push(promise)
+          }
         })
-        .catch(err => {
-          console.log('ERROR:', err)
+
+        promiseAll = await Promise.all(promises)
+        
+        if (isParent) {
+          return {
+            basic: promiseAll[0].data,
+            media: false,
+            button: false
+          }
+        }
+
+        const [basic, media, button] = promiseAll
+
+        return { 
+          basic: basic ? basic.data : false,
+          media: media ? media.data : false,
+          button: button ? button.data : false
+        }
+      } catch(err) {
           error({ statusCode: 500, message: 'Something went wrong.' })
-        })
+      }
     },
 
     computed: {
@@ -124,12 +120,6 @@
     font-size: rem(11px);
     color: $grey-lighter;
     font-weight: bold;
-  }
-
-  .page-main__content {
-    background: $white;
-    padding: 30px;
-    box-shadow: 0 0 23px -5px rgba(0, 0, 0, 0.04);
   }
 
   .b-tabs {

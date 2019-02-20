@@ -50,24 +50,21 @@
     },
 
     methods: {
-      submitForm () {
-        this.$validator.validateAll()
-          .then(result => {
-            if (!result) {
-              return 
-            }
-            this.isLoading = true
+      async submitForm () {
+        try {
+          let result = await this.$validator.validateAll()
+          if (!result) {
+            return 
+          }
 
-            this.$store.dispatch('auth/login', this.loginForm)
-              .then(res => {
-                this.isLoading = false
-                window.location.href = '/'
-              })
-              .catch(err => {
-                this.errorMessage = err.message ? err.response.data.error : err.message
-                this.isLoading = false
-              })
-          })
+          this.isLoading = true
+          await this.$store.dispatch('auth/login', this.loginForm)
+          this.isLoading = false
+          window.location.href = '/'
+        } catch (err) {
+          this.errorMessage = err.message ? err.response.data.error : err.message
+          this.isLoading = false
+        }
       }
     }
   }
