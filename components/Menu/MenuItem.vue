@@ -18,7 +18,7 @@
           :key="ind"
           :index="ind"
           :model="model")
-        li.add(@click="createModal" v-if="model.name === 'pages'")
+        li.add(@click="createModal" v-if="model.name === 'templates'")
           label
             i.fas.fa-plus.plus-icon 
             span Add New Page
