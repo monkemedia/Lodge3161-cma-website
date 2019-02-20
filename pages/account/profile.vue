@@ -10,11 +10,13 @@
             img(:src="image.file[lang].url + '?h=96&q=80'" :alt="image.title[lang]")
           p {{ firstName }} {{ lastName }}
           p {{ about }}
+          button(@click="editProfileModal") Edit
 </template>
 
 <script>
   import api from '@/api/contentful'
   import { lang } from '@/utils'
+  import editProfileModal from '@/components/Modals/EditProfile'
 
   export default {
     layout: 'loggedIn',
@@ -45,7 +47,25 @@
         }
         
       }
- 
+    },
+
+    methods: {
+      editProfileModal () {
+        const prop = {
+          userData: {
+            firstName: this.firstName,
+            lastName: this.lastName,
+            about: this.about,
+            image: this.image
+          }
+        }
+        this.$modal.open({
+          parent: this,
+          component: editProfileModal,
+          hasModalCard: true,
+          props: prop
+        })
+      }
     }
   }
 </script>
