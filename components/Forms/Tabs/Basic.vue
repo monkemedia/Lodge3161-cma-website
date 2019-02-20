@@ -33,14 +33,14 @@
     )
 
     input-field(
-      v-if="formData.subtitle !== null && formData.subtitle.length >= 0"
-      label="Subtitle"
-      name="subtitle"
+      v-if="formData.blurb !== null && formData.blurb.length >= 0"
+      label="Blurb"
+      name="blurb"
       placeholder=""
       v-validate="'required'"
-      v-model="formData.subtitle"
+      v-model="formData.blurb"
       :disabled="isSaving"
-      :error-text="errors.first('subtitle')"
+      :error-text="errors.first('blurb')"
     )
 
     input-field(
@@ -95,7 +95,7 @@
           mainNavigation: this.data && this.data.fields.mainNavigation ? this.data.fields.mainNavigation[lang()] : null,
           slug: this.data && this.data.fields.slug ? this.data.fields.slug[lang()] : null,
           title: this.data && this.data.fields.title ? this.data.fields.title[lang()] : null,
-          subtitle: this.data && this.data.fields.subtitle ? this.data.fields.subtitle[lang()] : null,
+          blurb: this.data && this.data.fields.blurb ? this.data.fields.blurb[lang()] : null,
           path: this.data && this.data.fields.path ? this.data.fields.path[lang()] : null,
           description: this.data && this.data.fields.description ? this.data.fields.description[lang()] : null,
           pageType: this.data && this.data.metadata.type

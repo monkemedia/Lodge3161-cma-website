@@ -21,13 +21,13 @@
       :error-text="errors.first('title')")
 
     input-field(
-      label="Subtitle"
-      name="subtitle"
+      label="Blurb"
+      name="blurb"
       placeholder=""
       v-validate="'required'"
-      v-model="formData.subtitle"
+      v-model="formData.blurb"
       :disabled="isSaving"
-      :error-text="errors.first('subtitle')")
+      :error-text="errors.first('blurb')")
 
     checkbox-field(
       label="Add to navigation"
@@ -143,7 +143,7 @@
         formData: {
           slug: '',
           title: '',
-          subtitle: '',
+          blurb: '',
           navigation: false,
           description: '',
           hero: {
