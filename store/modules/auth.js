@@ -5,7 +5,8 @@ const state = () => ({
   accessToken: null,
   firstName: null,
   lastName: null,
-  email: null
+  email: null,
+  userId: null
 })
 
 const mutations = {
@@ -25,6 +26,10 @@ const mutations = {
     store.email = data
   },
 
+  SET_USER_ID (store, data) {
+    store.userId = data
+  },
+
   CLEAR_TOKEN (store) {
     store.accessToken = null
   },
@@ -39,6 +44,10 @@ const mutations = {
 
   CLEAR_EMAIL (store) {
     store.email = null
+  },
+
+  CLEAR_USER_ID (store) {
+    store.userId = null
   }
 }
 
@@ -46,7 +55,7 @@ const actions = {
   initAuth ({ dispatch, commit, getters }, req) {
 
     console.log('is client - ', process.client)
-    let token, firstName, lastName, email
+    let token, firstName, lastName, email, userId
 
     if (req) {
       if (!req.headers.cookie) {
@@ -73,15 +82,21 @@ const actions = {
         .split(';')
         .find(c => c.trim().startsWith('email='))
 
+      const userIdCookie = req.headers.cookie
+        .split(';')
+        .find(c => c.trim().startsWith('user_id='))
+
       token = tokenCookie.substring(tokenCookie.indexOf('=') + 1) // Using this method as tokens contain more than 1 equals (=) sign
       firstName = firstNameCookie.substring(firstNameCookie.indexOf('=') + 1)
       lastName = lastNameCookie.substring(lastNameCookie.indexOf('=') + 1)
       email = emailCookie.substring(emailCookie.indexOf('=') + 1)
+      userId = userIdCookie ? userIdCookie.substring(userIdCookie.indexOf('=') + 1) : null
     } else {
       token = localStorage.getItem('access_token')
       firstName = localStorage.getItem('first_name')
       lastName = localStorage.getItem('last_name')
       email = localStorage.getItem('email')
+      userId = localStorage.getItem('user_id')
     }
 
     if (!token) {
@@ -94,6 +109,7 @@ const actions = {
     commit('SET_FIRST_NAME', firstName)
     commit('SET_LAST_NAME', lastName)
     commit('SET_EMAIL', email)
+    commit('SET_USER_ID', userId)
   },
 
   setAuthData ({ commit }, data) {
@@ -101,17 +117,20 @@ const actions = {
     commit('SET_FIRST_NAME', data.first_name)
     commit('SET_LAST_NAME', data.last_name)
     commit('SET_EMAIL', data.email)
+    commit('SET_USER_ID', data.userId)
 
     Cookie.set('access_token', data.access_token)
     Cookie.set('first_name', data.first_name)
     Cookie.set('last_name', data.last_name)
     Cookie.set('email', data.email)
+    Cookie.set('user_id', data.userId)
 
     if (process.client) {
       localStorage.setItem('access_token', data.access_token)
       localStorage.setItem('first_name', data.first_name)
       localStorage.setItem('last_name', data.last_name)
       localStorage.setItem('email', data.email)
+      localStorage.setItem('user_id', data.userId)
     }
   },
 
@@ -128,7 +147,8 @@ const actions = {
           access_token: res.token,
           first_name: res.res.data.firstName,
           last_name: res.res.data.lastName,
-          email: res.res.data.email
+          email: res.res.data.email,
+          userId: res.res.data.sys.id
         })
       })
   },
@@ -138,11 +158,13 @@ const actions = {
     commit('CLEAR_FIRST_NAME')
     commit('CLEAR_LAST_NAME')
     commit('CLEAR_EMAIL')
+    commit('CLEAR_USER_ID')
 
     Cookie.remove('access_token')
     Cookie.remove('first_name')
     Cookie.remove('last_name')
     Cookie.remove('email')
+    Cookie.remove('user_id')
 
     // Clear all moltin data
 
@@ -151,6 +173,7 @@ const actions = {
       localStorage.removeItem('first_name')
       localStorage.removeItem('last_name')
       localStorage.removeItem('email')
+      localStorage.removeItem('user_id')
     }
 
     return {
@@ -172,7 +195,8 @@ const getters = {
     return {
       firstName: state.firstName,
       lastName: state.lastName,
-      email: state.email
+      email: state.email,
+      userId: state.userId
     }
   }
 }
