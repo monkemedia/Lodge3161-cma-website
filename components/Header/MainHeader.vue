@@ -19,7 +19,7 @@
           | Welcome {{ userDetails.firstName }}
 
         .navbar-dropdown.is-right
-          nuxt-link.navbar-item(to="/")
+          nuxt-link.navbar-item(to="/account/profile")
             | Profile
           a.navbar-item(@click="logout")
             | Logout

@@ -32,6 +32,12 @@ main {
 .page-main {
   margin: 20px 40px;
 
+  &__content {
+    background: $white;
+    padding: 30px;
+    box-shadow: 0 0 23px -5px rgba(0, 0, 0, 0.04);
+  }
+
   .header {
     margin-bottom: 30px;
 

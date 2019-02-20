@@ -62,5 +62,15 @@ export default {
       },
       data
     })
+  },
+
+  userProfile: {
+    fetchData: (token, postId) => {
+      return cachios.get(`${version}/userProfile/fetch/${postId}`, {
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      })
+    }
   }
 }
