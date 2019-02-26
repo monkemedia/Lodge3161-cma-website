@@ -16,7 +16,7 @@
 
       .navbar-item.has-dropdown.is-hoverable.account(v-else)
         a.navbar-link
-          | Welcome {{ userDetails.firstName }}
+          | Welcome
 
         .navbar-dropdown.is-right
           nuxt-link.navbar-item(to="/account/profile")
@@ -32,10 +32,6 @@
     name: 'MainHeader',
 
     computed: {
-      userDetails () {
-        return this.$store.getters['auth/getUser']
-      },
-
       isAuthenticated () {
         return this.$store.getters['auth/isAuthenticated']
       }

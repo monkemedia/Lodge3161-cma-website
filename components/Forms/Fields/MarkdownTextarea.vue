@@ -3,13 +3,13 @@
     label.label {{ label }}
     .control
       <no-ssr>
-      markdown-editor.editor(
-        v-model="content"
-        :configs="configs"
-        ref="editor"
-        @input="$emit('input', content)" 
-        :disabled="disabled"
-        :name="name")
+        markdown-editor.editor(
+          v-model="content"
+          :configs="configs"
+          ref="editor"
+          @input="$emit('input', content)" 
+          :disabled="disabled"
+          :name="name")
       </no-ssr>
       p(
         v-show="errorText" 

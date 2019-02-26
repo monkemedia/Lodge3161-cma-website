@@ -1,9 +1,9 @@
 <template lang="pug">
-  form
+  div
     drop-box(
-      :data="formData"
+      :data="mediaData.fields"
       :isSaving="isSaving"
-      v-model="formData.image.file"
+      v-model="mediaData.fields.file[lang]"
       v-validate="'required'"
       name="dropBox"
       @dropbox="updateData")
@@ -13,57 +13,58 @@
       name="alt"
       placeholder=""
       v-validate="'required'"
-      v-model="formData.image.alt"
+      v-model="mediaData.fields.title[lang]"
       :disabled="isSaving"
       :error-text="errors.first('alt')"
     )
 
-    save-publish-buttons(
-      :is-publish="isPublish"
-      :is-form-dirty="isFormDirty"
-      :save-is-loading="saveIsLoading"
-      :publish-is-loading="publishIsLoading"
-      :any-form-errors="errors.items.length <= 0"
-      @click="saveForm"
-    )
-
-    .last-saved.has-text-right
-      p Last saved {{ lastSaved }}
+    p.is-hidden {{ isFormDirty }}
 </template>
 
 <script>
-  import mixin from '@/plugins/mixins/common-api-functionality'
+  // import mixin from '@/plugins/mixins/common-api-functionality'
   import { lang } from '@/utils/index'
   import DropBox from '@/components/Forms/Fields/DropBox'
 
   export default {
-    mixins: [mixin],
+    // mixins: [mixin],
+    props: {
+      mediaData: {
+        type: Object,
+        required: true
+      },
+
+      isSaving: {
+        type: Boolean,
+        required: true
+      }
+    },
+
+    data () {
+      return {
+        lang
+      }
+    },
 
     components: {
       DropBox
     },
 
-    data () {
-      return {
-        formData: {
-          image: {
-            alt: this.data.fields.title ? this.data.fields.title[lang()] : null,
-            file: {
-              url:  this.data.fields.file ? this.data.fields.file[lang()].url : null,
-              fileName: this.data.fields.file ? this.data.fields.file[lang()].fileName : null,
-              contentType: this.data.fields.file ? this.data.fields.file[lang()].contentType : null
-            }
-          }
-        },
-        isAsset: true
+    computed: {
+      isFormDirty () {
+        return Object.keys(this.fields).forEach(key => {
+          if (!this.fields[key].dirty) return
+          return this.$emit('isFormDirty', this.fields[key].dirty)
+        })
       }
     },
 
     methods: {
       updateData (data) {
-        this.formData.image.file.url = data.url
-        this.formData.image.file.fileName = data.fileName
-        this.formData.image.file.contentType = data.contentType
+        // console.log(data)
+        this.mediaData.fields.file[lang].url = data.url
+        this.mediaData.fields.file[lang].fileName = data.fileName
+        this.mediaData.fields.file[lang].contentType = data.contentType
       }
     }
   }

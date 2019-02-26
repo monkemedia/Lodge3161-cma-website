@@ -60,10 +60,10 @@
     data () {
       return {
         formData: {
-          address: this.data.fields.address[lang()],
+          address: this.data.fields.address[lang],
           location: {
-            lat: this.data.fields.location[lang()].lat,
-            lon: this.data.fields.location[lang()].lon
+            lat: this.data.fields.location[lang].lat,
+            lon: this.data.fields.location[lang].lon
           }
         }
       }

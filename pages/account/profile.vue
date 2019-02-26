@@ -7,9 +7,9 @@
         section.page-main__content
           h2.h2 Profile
           figure.image.is-96x96
-            img(:src="image.file[lang].url + '?h=96&q=80'" :alt="image.title[lang]")
-          p {{ firstName }} {{ lastName }}
-          p {{ about }}
+            img(:src="data.media.file[lang].url + '?h=96&q=80'" :alt="data.media.title[lang]")
+          p {{ data.fields.firstName[lang] }} {{ data.fields.lastName[lang] }}
+          p {{ data.fields.about[lang] }}
           button(@click="editProfileModal") Edit
 </template>
 
@@ -27,43 +27,42 @@
 
     data () {
       return {
-        lang: lang()
+        lang: lang
       }
     },
 
-    async asyncData ({ store, params, query, error }) {
+    async asyncData ({ store, query, error }) {
       const token = store.getters['auth/getToken']
       const user = store.getters['auth/getUser']
+      const params = {
+        content_type: 'user',
+        'fields.userId': user.userId
+      }
 
-      let userProfile = await api.userProfile.fetchData(token, user.userId)
-      let image = await api.fetchData(token, userProfile.data.image.id, true)
+      let userProfile = await api.fetchEntriesData(token, params)
+      const imageId = userProfile.data.fields.image[lang].sys.id
+      let image = await api.fetchData(token, imageId, true)
 
       return {
-        ...userProfile.data,
-        firstName: user.firstName,
-        lastName: user.lastName,
-        image: {
-          ...image.data.fields
+        data: {
+          ...userProfile.data,
+          media: {
+            ...image.data.fields
+          }
         }
-        
       }
     },
 
     methods: {
       editProfileModal () {
-        const prop = {
-          userData: {
-            firstName: this.firstName,
-            lastName: this.lastName,
-            about: this.about,
-            image: this.image
-          }
+        const props = {
+          data: this.data
         }
         this.$modal.open({
           parent: this,
           component: editProfileModal,
           hasModalCard: true,
-          props: prop
+          props
         })
       }
     }

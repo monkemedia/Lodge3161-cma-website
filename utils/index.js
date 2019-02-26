@@ -1,3 +1,3 @@
-export function lang () {
-  return 'en-GB'
+module.exports = {
+  lang: 'en-GB'
 }

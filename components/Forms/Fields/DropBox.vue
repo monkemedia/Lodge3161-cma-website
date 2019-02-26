@@ -1,8 +1,8 @@
 <template lang="pug">
   .dropbox(@click="launchFilePicker()" :class="{ 'disabled' : isSaving }")
     .dropbox__inner
-      figure(v-if="data && data.image.file.url")
-        img(:src="data.image.file.url")
+      figure(v-if="data && data.file[lang].url")
+        img(:src="data.file[lang].url")
       .text-container
         span.icon
           .fa-stack
@@ -17,7 +17,7 @@
         :disabled="isSaving"
         @change="onFileChange($event.target.name, $event.target.files[0])" 
         accept="image/*")
-      a.dropbox__upload-hover(v-if="data && data.image.file.url")
+      a.dropbox__upload-hover(v-if="data && data.file[lang].url")
         span.icon
           .fa-stack
             i.fas.fa-cloud-upload-alt.dropbox__upload-hover__icon
@@ -25,6 +25,8 @@
 </template>
 
 <script>
+  import { lang } from '@/utils/index'
+
   export default {
     $_veeValidate: {
       value () {
@@ -44,6 +46,12 @@
       isSaving: {
         type: Boolean,
         required: true
+      }
+    },
+
+    data () {
+      return {
+        lang
       }
     },
 

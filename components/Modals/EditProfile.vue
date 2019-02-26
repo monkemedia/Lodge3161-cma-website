@@ -3,7 +3,7 @@
     template(slot="title")
       h3.h1 Edit profile
     template(slot="body")
-      edit-profile-form(:userData="userData")
+      edit-profile-form(:data="data")
 </template>
 
 <script>
@@ -17,7 +17,7 @@
     },
 
     props: {
-      userData: {
+      data: {
         type: Object,
         required: true
       }

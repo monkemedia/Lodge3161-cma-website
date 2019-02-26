@@ -1,22 +1,15 @@
-import moment from 'moment'
+// import moment from 'moment'
 import api from '@/api/contentful'
 import SavePublishButtons from '@/components/Forms/Buttons/SavePublishButtons'
 import deleteModal from '@/components/Modals/Delete'
 
 export default {
-  props: {
-    data: {
-      required: true
-    }
-  },
-
   components: {
     SavePublishButtons
   },
 
   data () {
     return {
-      metadata: this.data && this.data.metadata,
       isPublishable: false,
       saveIsLoading: false,
       publishIsLoading: false,
@@ -31,7 +24,7 @@ export default {
 
   computed: {
     isFormDirty () {
-      return Object.keys(this.fields).some(key => this.fields[key].changed);
+      return Object.keys(this.formData.fields).some(key => this.formData.fields[key].changed);
     },
 
     isPublish () {
@@ -42,15 +35,15 @@ export default {
       } 
     },
 
-    lastSaved () {
-      return moment(this.metadata.updatedAt).fromNow();
-    }
+    // lastSaved () {
+    //   return moment(this.metadata.updatedAt).fromNow();
+    // }
   },
 
   methods: {
     saveForm (publish) {
       const token = this.$store.getters['auth/getToken']
-      const formData = this.formData
+      const fields = this.formData.fields
       let myApi
       let imageData
       
@@ -58,17 +51,17 @@ export default {
       this.isSaving = true
 
       if (this.isAsset) {
-        imageData = this.formData.image
+        imageData = fields.image
         myApi = api.createAsset(token, imageData, publish, this.metadata.id)
       } else {
-        myApi = api.updateData(token, formData, publish, this.metadata.id)
+        myApi = api.updateData(token, fields, publish, this.metadata.id)
       }
         
       myApi
         .then(res => {
-          this.metadata.version = res.data.metadata.version
-          this.metadata.publishedVersion = res.data.metadata.publishedVersion
-          this.metadata.updatedAt = res.data.metadata.updatedAt
+          // this.metadata.version = res.data.metadata.version
+          // this.metadata.publishedVersion = res.data.metadata.publishedVersion
+          // this.metadata.updatedAt = res.data.metadata.updatedAt
           this.$validator.reset();
           this.isReadyToPublish()
           this.isSaving = false
@@ -96,14 +89,14 @@ export default {
     },
 
     isReadyToPublish () {
-      const version = this.metadata.version
-      const publishedVersion = this.metadata.publishedVersion
+      // const version = this.metadata.version
+      // const publishedVersion = this.metadata.publishedVersion
 
-      if (publishedVersion === undefined || version > publishedVersion + 1)  {
-        this.isPublishable = true
-      } else {
-        this.isPublishable = false
-      }
+      // if (publishedVersion === undefined || version > publishedVersion + 1)  {
+      //   this.isPublishable = true
+      // } else {
+      //   this.isPublishable = false
+      // }
     },
 
     deleteModal () {
@@ -112,7 +105,7 @@ export default {
           component: deleteModal,
           hasModalCard: true,
           props: {
-            pageId: this.metadata.id
+            pageId: this.formData.metadata.id
           }
       })
     }

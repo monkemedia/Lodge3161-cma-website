@@ -1,105 +1,110 @@
 <template lang="pug">
-  form
+  div
     checkbox-field(
-      v-if="formData.mainNavigation !== null"
+      v-if="formData.fields.mainNavigation"
       label="Add to navigation"
       name="mainNavigation"
       placeholder=""
       v-validate="'required'"
-      v-model="formData.mainNavigation"
+      v-model="formData.fields.mainNavigation[lang]"
       :disabled="isSaving"
     )
 
     input-field(
-      v-if="formData.slug !== null && formData.slug.length >= 0"
+      v-if="formData.fields.slug"
       label="Slug"
       name="slug"
       placeholder=""
       v-validate="'required'"
-      v-model="formData.slug"
+      v-model="formData.fields.slug[lang]"
       :disabled="isSaving"
       :error-text="errors.first('slug')"
     )
 
     input-field(
-      v-if="formData.title !== null && formData.title.length >= 0"
+      v-if="formData.fields.title"
       label="Title"
       name="title"
       placeholder=""
       v-validate="'required'"
-      v-model="formData.title"
+      v-model="formData.fields.title[lang]"
       :disabled="isSaving"
       :error-text="errors.first('title')"
     )
 
     input-field(
-      v-if="formData.blurb !== null && formData.blurb.length >= 0"
+      v-if="formData.fields.blurb"
       label="Blurb"
       name="blurb"
       placeholder=""
       v-validate="'required'"
-      v-model="formData.blurb"
+      v-model="formData.fields.blurb[lang]"
       :disabled="isSaving"
       :error-text="errors.first('blurb')"
     )
 
     input-field(
-      v-if="formData.path !== null && formData.path.length >= 0"
+      v-if="formData.fields.path"
       label="Path"
       name="path"
       placeholder=""
       v-validate="'required'"
-      v-model="formData.path"
+      v-model="formData.fields.path[lang]"
       :disabled="isSaving"
       :error-text="errors.first('path')"
     )
 
     markdown-textarea-field(
-      v-if="formData.description !== null && formData.description.length >= 0"
+      v-if="formData.fields.description"
       label="Description"
       name="description"
       placeholder=""
       v-validate="'required'"
-      v-model="formData.description"
+      v-model="formData.fields.description[lang]"
       :disabled="isSaving"
       :error-text="errors.first('description')"
     )
-
-    save-publish-buttons(
-      :page-type="formData.pageType"
-      :is-publish="isPublish"
-      :is-form-dirty="isFormDirty"
-      :save-is-loading="saveIsLoading"
-      :deleting-is-loading="deletingIsLoading"
-      :publish-is-loading="publishIsLoading"
-      :any-form-errors="errors.items.length <= 0"
-      @click="saveForm"
-      @delete-modal="deleteModal"
-    )
-
-    .last-saved.has-text-right
-      p Last saved {{ lastSaved }}
+    p.is-hidden {{ isFormDirty }}
 
 </template>
 
 <script>
-  import mixin from '@/plugins/mixins/common-api-functionality'
   import { lang } from '@/utils'
+  import SavePublishButtons from '@/components/Forms/Buttons/SavePublishButtons'
 
   export default {
-    mixins: [mixin],
+    props: {
+      formData: {
+        type: Object,
+        required: true
+      },
+
+      isSaving: {
+        type: Boolean,
+        required: true
+      }
+    },
+
+    components: {
+      SavePublishButtons
+    },
 
     data () {
       return {
-        formData: {
-          mainNavigation: this.data && this.data.fields.mainNavigation ? this.data.fields.mainNavigation[lang()] : null,
-          slug: this.data && this.data.fields.slug ? this.data.fields.slug[lang()] : null,
-          title: this.data && this.data.fields.title ? this.data.fields.title[lang()] : null,
-          blurb: this.data && this.data.fields.blurb ? this.data.fields.blurb[lang()] : null,
-          path: this.data && this.data.fields.path ? this.data.fields.path[lang()] : null,
-          description: this.data && this.data.fields.description ? this.data.fields.description[lang()] : null,
-          pageType: this.data && this.data.metadata.type
-        }
+        lang
+      }
+    },
+
+    mounted () {
+      console.log(this)
+    },
+
+    computed: {
+      isFormDirty () {
+        
+        return Object.keys(this.fields).some(key => {
+          return this.$emit('isFormDirty', this.fields[key].dirty)
+        })
       }
     }
   }

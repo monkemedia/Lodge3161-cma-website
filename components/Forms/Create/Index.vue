@@ -217,12 +217,14 @@
                 setTimeout(() => {
                   const element = document.querySelectorAll('.is-error')[0]
 
+                  this.isLoading = false
+
+                  if (!element) return
+
                   this.$scrollTo(element, {
                     container: '.modal-card-body',
                   })
                 }, 300)
-                
-                this.isLoading = false
               })
             })
       },

@@ -62,7 +62,7 @@
           this.isLoading = false
           window.location.href = '/'
         } catch (err) {
-          this.errorMessage = err.message ? err.response.data.error : err.message
+          this.errorMessage = err.message.data ? err.response.data.error : err.message
           this.isLoading = false
         }
       }

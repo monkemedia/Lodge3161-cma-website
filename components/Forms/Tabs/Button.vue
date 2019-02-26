@@ -1,54 +1,61 @@
 <template lang="pug">
-  form
+  div
     input-field(
-      v-if="formData.title"
+      v-if="buttonData.fields.title[lang]"
       label="Title"
       name="title"
       placeholder=""
       v-validate="'required'"
-      v-model="formData.title"
+      v-model="buttonData.fields.title[lang]"
       :disabled="isSaving"
       :error-text="errors.first('title')"
     )
     input-field(
-      v-if="formData.path"
+      v-if="buttonData.fields.path[lang]"
       label="Path"
       name="path"
       placeholder=""
       v-validate="'required'"
-      v-model="formData.path"
+      v-model="buttonData.fields.path[lang]"
       :disabled="isSaving"
       :error-text="errors.first('path')"
     )
 
-    save-publish-buttons(
-      :is-publish="isPublish"
-      :is-form-dirty="isFormDirty"
-      :save-is-loading="saveIsLoading"
-      :publish-is-loading="publishIsLoading"
-      :any-form-errors="errors.items.length <= 0"
-      @click="saveForm"
-    )
-
-    .last-saved.has-text-right
-      p Last saved {{ lastSaved }}
-
+    p.is-hidden {{ isFormDirty }}
 </template>
 
 <script>
-  import mixin from '@/plugins/mixins/common-api-functionality'
   import { lang } from '@/utils'
 
   export default {
-    mixins: [mixin],
+    props: {
+      buttonData: {
+        type: Object,
+        required: true
+      },
+
+      isSaving: {
+        type: Boolean,
+        required: true
+      }
+    },
 
     data () {
       return {
-        formData: {
-          title: this.data.fields.title ? this.data.fields.title[lang()] : null,
-          path: this.data.fields.path ? this.data.fields.path[lang()] : null,
-          // slug: this.data.fields.slug ? this.data.fields.slug[lang()] : null
-        }
+        lang
+      }
+    },
+
+    mounted () {
+      console.log(this)
+    },
+
+    computed: {
+      isFormDirty () {
+        return Object.keys(this.fields).some(key => {
+          if (!this.fields[key].dirty) return false
+          return this.$emit('isFormDirty', this.fields[key].dirty)
+        })
       }
     }
   }

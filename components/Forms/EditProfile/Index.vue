@@ -33,9 +33,9 @@
     .message
       .message-body
         drop-box(
-          :data="formData"
+          :data="formData.media"
           :is-saving="isSaving"
-          v-model="formData.image.file.url"
+          v-model="formData.media.file.url"
           v-validate="'required'"
           name="dropBox"
           @dropbox="updateData")
@@ -45,7 +45,7 @@
           name="alt"
           placeholder=""
           v-validate="'required'"
-          v-model="formData.image.title"
+          v-model="formData.media.title"
           :disabled="isSaving"
           :error-text="errors.first('alt')")
 
@@ -53,7 +53,7 @@
       :is-form-dirty="isFormDirty"
       :save-is-loading="isSaving"
       :any-form-errors="errors.items.length <= 0"
-      @click="saveForm")
+      @click="updateForm")
 
 </template>
 
@@ -62,15 +62,18 @@
   import { lang } from '@/utils'
   import DropBox from '@/components/Forms/Fields/DropBox'
   import SaveButtons from '@/components/Forms/Buttons/SaveButtons'
+  // import mixin from '@/plugins/mixins/common-api-functionality'
 
   export default {
+    // mixins: [mixin],
+
     components: {
       SaveButtons,
       DropBox
     },
 
     props: {
-      userData: {
+      data: {
         type: Object,
         required: true
       }
@@ -78,18 +81,19 @@
 
     data () {
       return {
-        lang: lang(),
+        lang,
         errorMessage: '',
         isSaving: false,
         formData: {
-          firstName: this.userData.firstName || '',
-          lastName: this.userData.lastName || '',
-          about: this.userData.about || '',
-          image: {
+          firstName: this.data.fields.firstName[lang] || '',
+          lastName: this.data.fields.lastName[lang] || '',
+          about: this.data.fields.about[lang] || '',
+          image: this.data.fields.image,
+          media: {
             file: {
-              url: this.userData.image.file[lang()].url || ''
+              url: this.data.media.file[lang].url || ''
             },
-            title: this.userData.image.title[lang()] || ''
+            title: this.data.media.title[lang] || ''
           }
         }
       }
@@ -102,7 +106,7 @@
     },
 
     methods: {
-      saveForm (publish) {
+      updateForm (publish) {
         this.$validator.validateAll()
           .then(result => {
             if (!result) {
@@ -118,40 +122,37 @@
 
             const token = this.$store.getters['auth/getToken']
             const formData = this.formData
+            const publish = false
+            const entryId = this.data.metadata.id
 
             this.isSaving = true
               
-            api.create(token, formData)
+            api.updateData(token, formData, publish, entryId)
               .then(res => {
-                const data = res.data.data
-                const slug = data.title
-                const id = data.id
-
                 this.$validator.reset();
                 this.isSaving = false
                 this.$nuxt.$emit('close-modal')
                 this.$toast.open({
-                  message: 'Page has been created',
+                  message: 'Page has been updated',
                   type: 'is-success',
                   duration: 5000,
                   position: 'is-bottom-right',
                   actionText: null
                 })
-
-                // Redirect user to newly created page
-                window.location.href = `/${slug}/${id}?parent=${slug}&isHomepage=false&isParent=true`
               })
               .catch(err => {
                 this.errorMessage = err.message ? err.message : err.response.data.error
                 setTimeout(() => {
                   const element = document.querySelectorAll('.is-error')[0]
 
+                  this.isLoading = false
+
+                  if (!element) return
+
                   this.$scrollTo(element, {
                     container: '.modal-card-body',
                   })
                 }, 300)
-                
-                this.isLoading = false
               })
             })
       },
