@@ -2,17 +2,15 @@
   .field
     label.label {{ label }}
     .control
-      <no-ssr>
+      no-ssr
         markdown-editor.editor(
           v-model="content"
           :configs="configs"
           ref="editor"
-          @input="$emit('input', content)" 
+          @input="$emit('input', content, value )" 
           :disabled="disabled"
           :name="name")
-      </no-ssr>
-      p(
-        v-show="errorText" 
+      p(v-show="errorText" 
         class="help is-danger" 
         v-html="errorText")
 </template>

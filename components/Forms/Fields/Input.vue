@@ -6,7 +6,7 @@
         type="text" 
         :disabled="disabled" 
         :placeholder="placeholder" 
-        :name="name" 
+        :name="name"
         @input="$emit('input', $event.target.value)"
         v-model="inputField")
 

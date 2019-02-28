@@ -80,7 +80,6 @@
     async asyncData ({ store, params, query, error }) {
       const token = store.getters['auth/getToken']
       const entryId = params.id
-      const promises = []
 
       if (entryId === undefined) { 
         return error({ statusCode: 404, message: 'Sadly this page cannot be found.' })
@@ -94,39 +93,29 @@
         let fetchImage
         let fetchCta
 
-        promises.push({
-          formData: {
-            ...fetchData.data
-          }
-        })
-
         if (data.fields.image && data.fields.image[lang].sys.linkType === 'Asset') {
           id = data.fields.image[lang].sys.id
           isAsset = true
           fetchImage = await api.fetchData(token, id, isAsset)
-          promises.push({
-            mediaData: {
-              ...fetchImage.data
-            }
-          })
         }
 
         if (data.fields.button && data.fields.button[lang].sys.linkType === 'Entry') {
           id = data.fields.button[lang].sys.id
           isAsset = false
           fetchCta = await api.fetchData(token, id, isAsset)
-          promises.push({
-            buttonData: {
-              ...fetchCta.data
-            }
-          })
         }
-        const allData = await Promise.all(promises)
 
-        const mapped = allData.map(item => item)
-        const newObj = Object.assign({}, ...mapped)
-
-        return newObj
+        return {
+          formData: {
+            ...data
+          },
+          mediaData: {
+            ...fetchImage.data
+          },
+          buttonData: {
+            ...fetchCta.data
+          }
+        }
       } catch (err) {
         return error({ statusCode: 500, message: 'Something went wrong.' })
       }
@@ -151,23 +140,25 @@
     },
 
     methods: {
-      saveForm (publish) {
+      async saveForm (publish) {
         const token = this.$store.getters['auth/getToken']
-        const fields = this.formData.fields
-        let myApi
-        let imageData
+        const formDataFields = this.formData.fields
+        const formDataId = this.formData.metadata.id
+        const mediaDataFields = this.mediaData.fields
+        const mediaDataId = this.mediaData.metadata.id
+        let updateFormDataApi
+        let createAssetApi
         
         publish ? this.publishIsLoading = true : this.saveIsLoading = true
         this.isSaving = true
 
-        if (this.isAsset) {
-          imageData = fields.image
-          myApi = api.createAsset(token, imageData, publish, this.metadata.id)
-        } else {
-          myApi = api.updateData(token, fields, publish, this.metadata.id)
+        updateFormDataApi = await api.updateData(token, formDataFields, publish, formDataId)
+
+        if (mediaDataFields) {
+          createAssetApi = api.createAsset(token, mediaDataFields, publish, mediaDataId)
         }
-          
-        myApi
+
+        Promise.all([updateFormDataApi, createAssetApi])
           .then(res => {
             // this.metadata.version = res.data.metadata.version
             // this.metadata.publishedVersion = res.data.metadata.publishedVersion

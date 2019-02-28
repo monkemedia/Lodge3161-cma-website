@@ -8,6 +8,7 @@
       v-validate="'required'"
       v-model="formData.fields.mainNavigation[lang]"
       :disabled="isSaving"
+      @input="hasChanged"
     )
 
     input-field(
@@ -19,6 +20,7 @@
       v-model="formData.fields.slug[lang]"
       :disabled="isSaving"
       :error-text="errors.first('slug')"
+      @input="hasChanged"
     )
 
     input-field(
@@ -30,6 +32,7 @@
       v-model="formData.fields.title[lang]"
       :disabled="isSaving"
       :error-text="errors.first('title')"
+      @input="hasChanged"
     )
 
     input-field(
@@ -41,6 +44,7 @@
       v-model="formData.fields.blurb[lang]"
       :disabled="isSaving"
       :error-text="errors.first('blurb')"
+      @input="hasChanged"
     )
 
     input-field(
@@ -52,6 +56,7 @@
       v-model="formData.fields.path[lang]"
       :disabled="isSaving"
       :error-text="errors.first('path')"
+      @input="hasChanged"
     )
 
     markdown-textarea-field(
@@ -63,8 +68,8 @@
       v-model="formData.fields.description[lang]"
       :disabled="isSaving"
       :error-text="errors.first('description')"
+      @input="hasChanged"
     )
-    p.is-hidden {{ isFormDirty }}
 
 </template>
 
@@ -95,16 +100,13 @@
       }
     },
 
-    mounted () {
-      console.log(this)
-    },
-
-    computed: {
-      isFormDirty () {
-        
-        return Object.keys(this.fields).some(key => {
-          return this.$emit('isFormDirty', this.fields[key].dirty)
-        })
+    methods: {
+      hasChanged (value, content) {
+        if (content && value.length !== content.length) {
+          return this.$emit('isFormDirty', true)
+        } else if (content && !value) {
+          this.$emit('isFormDirty', true)
+        }        
       }
     }
   }
