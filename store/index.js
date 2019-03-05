@@ -1,12 +1,12 @@
 import Vuex from 'vuex'
 import auth from './modules/auth.js'
-import content from './modules/content.js'
+import pages from './modules/pages.js'
 
 export default () => {
   return new Vuex.Store({
     modules: {
       auth,
-      content
+      pages
     },
     actions: {
       nuxtServerInit ({ dispatch, getters }, context) {
@@ -16,7 +16,7 @@ export default () => {
               return
             }
             const token = getters['auth/getToken']
-            return dispatch('content/fetchAll', token)
+            return dispatch('pages/fetchPages', token)
           })
       }
     }

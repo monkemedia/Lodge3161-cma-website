@@ -1,15 +1,13 @@
 <template lang="pug">
   div
-    main-header
-    .columns
-      left-menu
-      main.column.is-10
-        nuxt
+    //- main-header
+    left-menu
+    nuxt
 </template>
 
 <script>
   import MainHeader from '~/components/Header/MainHeader.vue'
-  import LeftMenu from '~/components/Menu/LeftMenu.vue'
+  import LeftMenu from '~/components/Menu/LeftMenuMain.vue'
 
   export default {
     name: 'DefaultLayout',
@@ -21,6 +19,6 @@
   }
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 
 </style>

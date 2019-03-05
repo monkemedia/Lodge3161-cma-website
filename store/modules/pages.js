@@ -11,7 +11,8 @@ const mutations = {
 }
 
 const actions = {
-  fetchAll ({ dispatch, commit }, data) {
+  fetchPages ({ dispatch, commit }, data) {
+    let promise
     const promises = []
     const contentType = [
       'homepage',
@@ -19,7 +20,7 @@ const actions = {
     ]
 
     contentType.forEach(ct => {
-      const promise = api.fetchAllData(data, ct)
+      promise = api.fetchPagesData(data, ct)
       promises.push(promise)
     })
 
@@ -28,7 +29,7 @@ const actions = {
     }))
       .then(response => {
         const concatArray = response.reduce((arr, row) => {
-          return arr.concat(row.data.data);
+          return arr.concat(row.data);
         }, [])
 
         commit('SET_DATA', concatArray)
@@ -37,7 +38,7 @@ const actions = {
 }
 
 const getters = {
-  getAllData (state) {
+  getPagesData (state) {
     return state.data
   }
 }

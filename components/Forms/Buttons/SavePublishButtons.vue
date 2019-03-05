@@ -62,5 +62,9 @@
 
   .button {
     min-width: 211px;
+
+    &.is-loading {
+      pointer-events: none;
+    }
   }
 </style>

@@ -1,5 +1,7 @@
 <template lang="pug">
   .columns
+    .column.is-2
+      left-menu-pages
     .column.is-10
       .page-main
         header.header
@@ -9,14 +11,14 @@
             //- | {{ removeCamelCase($route.params.slug) }} <span class="sub" v-if="!$route.query.isParent && $route.query.entries">: {{ removeCamelCase($route.query.entries) }} </span>
           span.id-subtitle ID: {{ $route.params.id }}
           form
-            media-form(
-              v-if="mediaData"
-              :media-data="mediaData"
-              :is-saving="isSaving"
-              @isFormDirty="isFormDirtyHandler")
             basic-form(
               v-if="formData"
               :form-data="formData"
+              :is-saving="isSaving"
+              @isFormDirty="isFormDirtyHandler")
+            media-form(
+              v-if="mediaData"
+              :media-data="mediaData"
               :is-saving="isSaving"
               @isFormDirty="isFormDirtyHandler")
             button-form(
@@ -44,6 +46,7 @@
   import _ from 'lodash'
   import moment from 'moment'
   import api from '@/api/contentful'
+  import LeftMenuPages from '@/components/Menu/LeftMenuPages'
   import SavePublishButtons from '@/components/Forms/Buttons/SavePublishButtons'
   import BasicForm from '@/components/Forms/Tabs/Basic'
   import MediaForm from '@/components/Forms/Tabs/Media'
@@ -59,6 +62,7 @@
     ],
 
     components: {
+      LeftMenuPages,
       BasicForm,
       MediaForm,
       ButtonForm,
@@ -121,6 +125,10 @@
       }
     },
 
+    mounted() {
+      this.isReadyToPublish()
+    },
+
     computed: {
       isHomepage () {
         return this.$route.query['isHomepage']
@@ -143,32 +151,43 @@
       async saveForm (publish) {
         const token = this.$store.getters['auth/getToken']
         const formDataFields = this.formData.fields
-        const formDataId = this.formData.metadata.id
         const mediaDataFields = this.mediaData.fields
-        const mediaDataId = this.mediaData.metadata.id
+        const buttonDataFields = this.buttonData.fields
+        let formDataId 
+        let mediaDataId
+        let buttonDataId
         let updateFormDataApi
         let createAssetApi
+        let updateButtonDataApi
         
         publish ? this.publishIsLoading = true : this.saveIsLoading = true
         this.isSaving = true
 
-        updateFormDataApi = await api.updateData(token, formDataFields, publish, formDataId)
+        if (formDataFields) {
+          formDataId = this.formData.metadata.id
+          updateFormDataApi = await api.updateData(token, formDataFields, publish, formDataId)
+        }
 
         if (mediaDataFields) {
+          mediaDataId = this.mediaData.metadata.id
           createAssetApi = api.createAsset(token, mediaDataFields, publish, mediaDataId)
         }
 
-        Promise.all([updateFormDataApi, createAssetApi])
+        if (buttonDataFields) {
+          buttonDataId = this.buttonData.metadata.id
+          updateButtonDataApi = await api.updateData(token, buttonDataFields, publish, buttonDataId)
+        }
+
+        Promise.all([updateFormDataApi, createAssetApi, updateButtonDataApi])
           .then(res => {
-            // this.metadata.version = res.data.metadata.version
-            // this.metadata.publishedVersion = res.data.metadata.publishedVersion
-            // this.metadata.updatedAt = res.data.metadata.updatedAt
             this.$validator.reset();
             this.isReadyToPublish()
             this.isSaving = false
 
             if (publish) {
               this.publishIsLoading = false
+              this.isPublishable = false
+
               this.$toast.open({
                 message: 'These changes are now live',
                 type: 'is-success',
@@ -176,6 +195,7 @@
                 position: 'is-bottom-right',
                 actionText: null
               })
+
             } else {
               this.saveIsLoading = false
               // Refresh page so updated data shows
@@ -206,6 +226,32 @@
 
       isFormDirtyHandler (value) {
         this.isFormDirty = value
+      },
+
+      isReadyToPublish () {
+        const formDataMetadata = this.formData.metadata
+        const mediaDataMetadata = this.mediaData.metadata
+        const buttonDataMetadata = this.buttonData.metadata
+        const versions = [
+          formDataMetadata.version,
+          mediaDataMetadata.version,
+          buttonDataMetadata.version
+        ]
+        const publishedVersions = [
+          formDataMetadata.publishedVersion,
+          mediaDataMetadata.publishedVersion,
+          buttonDataMetadata.publishedVersion
+        ]
+
+        const test = versions.filter((version, index) => {
+          return version > publishedVersions[index] + 1
+        })
+
+        if (test.length > 0) {
+          this.isPublishable = true
+        } else {
+          this.isPublishable = false
+        }
       }
     }
   }

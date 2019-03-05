@@ -1,5 +1,5 @@
 <template lang="pug">
-  div
+  .basic
     checkbox-field(
       v-if="formData.fields.mainNavigation"
       label="Add to navigation"
@@ -104,7 +104,7 @@
       hasChanged (value, content) {
         if (content && value.length !== content.length) {
           return this.$emit('isFormDirty', true)
-        } else if (content && !value) {
+        } else if (!content && value) {
           this.$emit('isFormDirty', true)
         }        
       }
@@ -112,5 +112,8 @@
   }
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
+  .basic {
+    margin-bottom: 30px;
+  }
 </style>

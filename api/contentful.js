@@ -13,8 +13,8 @@ export default {
     })
   },
 
-  fetchAllData: (token, contentType) => {
-    return cachios.get(`${version}/fetch/all?contentType=${contentType}`, {
+  fetchPagesData: (token, contentType) => {
+    return cachios.get(`${version}/pages?contentType=${contentType}`, {
       headers: {
         'Authorization': `Bearer ${token}`
       }

@@ -16,7 +16,7 @@ $green                                 :   #24c965;
 $green-dark                            :   #159588;
 $white                                 :   #ffffff;
 
-$grey-100                              :   #f4f7fc;
+$grey-100                              :   #fafafa;
 $grey-200                              :   #e5e5e5;
 $grey-300                              :   #dddddd;
 $grey-400                              :   #4f4f4f;
@@ -32,7 +32,7 @@ $danger                                :   $red;
 $success                               :   $green;
 
 // Generic
-$body-bg                               :   $white;
+$body-bg                               :   $grey-100;
 $body-size                             :   100%;
 $body-color                            :   $tertiary;
 $heading-color                         :   $secondary ;
