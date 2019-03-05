@@ -4,7 +4,7 @@
       li
         a.logo.tooltip.is-tooltip-right(data-tooltip="Dr James Griffith Hall Lodge")
           figure.image.is-32x32
-            img(src="logo.svg")
+            img(src="/logo.svg")
       li.menu-items
         nuxt-link.tooltip.is-tooltip-right(data-tooltip="Dashboard" to="/templates")
           i.fas.fa-tachometer-alt
@@ -69,6 +69,7 @@
     height: 100%;
     position: fixed;
     padding: 30px 0;
+    z-index: 1;
 
     a {
       &.nuxt-link-active,

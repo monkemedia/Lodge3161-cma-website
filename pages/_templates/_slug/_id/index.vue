@@ -1,45 +1,46 @@
 <template lang="pug">
-  .columns
-    .column.is-2
-      left-menu-pages
-    .column.is-10
-      .page-main
-        header.header
-          h1.h1 Pages
-        section.page-main__content
-          h2.h2 {{ $route.params.query }}
-            //- | {{ removeCamelCase($route.params.slug) }} <span class="sub" v-if="!$route.query.isParent && $route.query.entries">: {{ removeCamelCase($route.query.entries) }} </span>
-          span.id-subtitle ID: {{ $route.params.id }}
-          form
-            basic-form(
-              v-if="formData"
-              :form-data="formData"
-              :is-saving="isSaving"
-              @isFormDirty="isFormDirtyHandler")
-            media-form(
-              v-if="mediaData"
-              :media-data="mediaData"
-              :is-saving="isSaving"
-              @isFormDirty="isFormDirtyHandler")
-            button-form(
-              v-if="buttonData"
-              :button-data="buttonData"
-              :is-saving="isSaving"
-              @isFormDirty="isFormDirtyHandler")
-            //- p isFormDirty {{ isFormDirty }}
-            save-publish-buttons(
-              :is-publish="isPublish"
-              :is-form-dirty="isFormDirty"
-              :save-is-loading="saveIsLoading"
-              :deleting-is-loading="deletingIsLoading"
-              :publish-is-loading="publishIsLoading"
-              :any-form-errors="errors.items.length <= 0"
-              @click="saveForm"
-              @delete-modal="deleteModal"
-            ) 
+  main
+    left-menu-pages
+    section
+      .container.is-fluid
+        .columns
+          .column
+            header.header
+              h1.h1 Pages
+            section.page-main__content
+              h2.h2 {{ $route.params.query }}
+                //- | {{ removeCamelCase($route.params.slug) }} <span class="sub" v-if="!$route.query.isParent && $route.query.entries">: {{ removeCamelCase($route.query.entries) }} </span>
+              span.id-subtitle ID: {{ $route.params.id }}
+              form
+                basic-form(
+                  v-if="formData"
+                  :form-data="formData"
+                  :is-saving="isSaving"
+                  @isFormDirty="isFormDirtyHandler")
+                media-form(
+                  v-if="mediaData"
+                  :media-data="mediaData"
+                  :is-saving="isSaving"
+                  @isFormDirty="isFormDirtyHandler")
+                button-form(
+                  v-if="buttonData"
+                  :button-data="buttonData"
+                  :is-saving="isSaving"
+                  @isFormDirty="isFormDirtyHandler")
+                //- p isFormDirty {{ isFormDirty }}
+                save-publish-buttons(
+                  :is-publish="isPublish"
+                  :is-form-dirty="isFormDirty"
+                  :save-is-loading="saveIsLoading"
+                  :deleting-is-loading="deletingIsLoading"
+                  :publish-is-loading="publishIsLoading"
+                  :any-form-errors="errors.items.length <= 0"
+                  @click="saveForm"
+                  @delete-modal="deleteModal"
+                ) 
 
-            .last-saved.has-text-right
-              p Last saved {{ lastSaved }}
+                .last-saved.has-text-right
+                  p Last saved {{ lastSaved }}
 </template>
 
 <script>
@@ -258,21 +259,16 @@
 </script>
 
 <style lang="scss" scoped>
-  @import '~assets/css/utilities/variables.scss';
-  @import '../../../../node_modules/sass-rem/rem';
-
-  .h1 {
-    margin-bottom: 15px;
+  main {
+    display: flex;
   }
 
-  .id-subtitle {
-    font-size: rem(11px);
-    color: $grey-lighter;
-    font-weight: bold;
+  section {
+    flex: 1;
   }
 
-  .b-tabs {
-    margin-top: 30px;
+  header {
+    padding-top: 20px;
   }
 
 </style>

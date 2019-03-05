@@ -21,7 +21,7 @@ body {
   background-color: $body-bg;
   min-height: 100%;
   letter-spacing: rem(.4px);
-  overflow: auto;
+  overflow: hidden;
 }
 
 hr {
