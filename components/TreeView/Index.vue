@@ -1,6 +1,6 @@
 <template lang="pug">
   ul.menu-tree
-    li(v-for="item in items" :item="item" is="menu-tree-item") 
+    li(v-for="item in items" :item="item" :key="item.id" is="menu-tree-item") 
     li
       .add-page(@click="createModal")
         span.icon

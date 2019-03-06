@@ -4,7 +4,7 @@
         span.icon
           i.far.fa-folder(v-if="item.children.length > 0") 
           i.far.fa-file(v-else)
-        span {{ item.name }}
+        span {{ removeCamelCase(item.name) }}
         span.icon.icon-delete.is-small(@click="deleteModal(item.id)")
           i.far.fa-trash-alt
       ul.menu-tree--content(v-if="item.children.length > 0" v-show="item.isActive")
@@ -12,12 +12,12 @@
           nuxt-link(:to="`${child.path}/${child.id}`")
             span.icon
               i.far.fa-file
-            span {{ child.name }}
+            span {{ removeCamelCase(child.name) }}
 </template>
 
 <script>
+  import _ from 'lodash'
   import DeleteModal from '@/components/Modals/Delete'
-  import createModal from '@/components/Modals/Create'
 
   export default {
     name: 'TreeView',
@@ -50,13 +50,9 @@
         })
       },
 
-      createModal () {
-        this.$modal.open({
-            parent: this,
-            component: createModal,
-            hasModalCard: true
-        })
-      }
+      removeCamelCase (string) {
+        return _.startCase(string);
+      },
     }
   }
 </script>

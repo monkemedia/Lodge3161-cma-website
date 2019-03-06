@@ -11,12 +11,18 @@
       li.menu-items
         a.tooltip.is-tooltip-right(data-tooltip="Pages")
           i.fas.fa-file-alt
+    ul.menu-list.menu-list--bottom
+      li.menu-items.menu-items--bottom
+        nuxt-link.avatar.tooltip.is-tooltip-right(to="/account/profile" data-tooltip="My account")
+          figure.image.is-32x32
+            img(:src="`${profile.media.file[lang].url}?h=32&q=80`")
 </template>
 
 <script>
   // import _ from 'lodash'
   // import api from '@/api/contentful'
   import MenuItem from '@/components/Menu/MenuItem'
+  import { lang } from '@/utils'
   // import draggable from 'vuedraggable'
 
   export default {
@@ -51,14 +57,20 @@
                 isParent: true,
                 name: 'news'
             }
-        ]
+        ],
+        lang
+      }
+    },
+
+    computed: {
+      profile () {
+        return this.$store.getters['profile/getProfileData']
       }
     }
   }
 </script>
 
 <style lang="scss">
-  @import 'bulma';
   @import '~bulma-tooltip';
   @import '~assets/css/utilities/variables.scss';
   @import '~assets/css/utilities/mixins.scss';
@@ -70,8 +82,15 @@
     position: fixed;
     padding: 30px 0;
     z-index: 1;
+    display: flex;
+    justify-content: space-between;
+    flex-direction: column;
 
     a {
+      text-align: center;
+      padding-left: 0;
+      padding-right: 0;
+
       &.nuxt-link-active,
       &:hover {
         background: #181818;
@@ -92,18 +111,24 @@
     .menu-items {
       a {
         border-radius: 0;
-        display: flex;
-        justify-content: center;
         font-size: rem(24px);
         color: #4c4c4c;
         margin: 15px 0;
       }
-    }
-  }
 
-  .sticky {
-    position: sticky;
-    top: 0;
-    width: 100%;
+      &--bottom {
+
+        .avatar {
+          width: 100%;
+          margin: 0;
+          display: flex;
+          justify-content: center;
+
+          img {
+            border-radius: 50%;
+          }
+        }
+      }
+    }
   }
 </style>

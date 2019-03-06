@@ -1,12 +1,14 @@
 import Vuex from 'vuex'
 import auth from './modules/auth.js'
 import pages from './modules/pages.js'
+import profile from './modules/profile.js'
 
 export default () => {
   return new Vuex.Store({
     modules: {
       auth,
-      pages
+      pages,
+      profile
     },
     actions: {
       nuxtServerInit ({ dispatch, getters }, context) {
@@ -17,6 +19,15 @@ export default () => {
             }
             const token = getters['auth/getToken']
             return dispatch('pages/fetchPages', token)
+          })
+          .then(() => {
+            const token = getters['auth/getToken']
+            const user = getters['auth/getUser']
+            const params = {
+              content_type: 'user',
+              'fields.userId': user.userId
+            }
+            return dispatch('profile/fetchProfile', { token, params })
           })
       }
     }

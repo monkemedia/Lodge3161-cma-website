@@ -6,11 +6,9 @@
         .columns
           .column
             header.header
-              h1.h1 Pages
-            section.page-main__content
-              h2.h2 {{ $route.params.query }}
-                //- | {{ removeCamelCase($route.params.slug) }} <span class="sub" v-if="!$route.query.isParent && $route.query.entries">: {{ removeCamelCase($route.query.entries) }} </span>
+              h1.h1 {{ removeCamelCase(formData.metadata.type) }}
               span.id-subtitle ID: {{ $route.params.id }}
+            section
               form
                 basic-form(
                   v-if="formData"
@@ -27,7 +25,6 @@
                   :button-data="buttonData"
                   :is-saving="isSaving"
                   @isFormDirty="isFormDirtyHandler")
-                //- p isFormDirty {{ isFormDirty }}
                 save-publish-buttons(
                   :is-publish="isPublish"
                   :is-form-dirty="isFormDirty"
@@ -97,29 +94,29 @@
         let id
         let fetchImage
         let fetchCta
+        let mediaData
+        let buttonData
 
         if (data.fields.image && data.fields.image[lang].sys.linkType === 'Asset') {
           id = data.fields.image[lang].sys.id
           isAsset = true
           fetchImage = await api.fetchData(token, id, isAsset)
+          mediaData = { ...fetchImage.data }
         }
 
         if (data.fields.button && data.fields.button[lang].sys.linkType === 'Entry') {
           id = data.fields.button[lang].sys.id
           isAsset = false
           fetchCta = await api.fetchData(token, id, isAsset)
+          buttonData = { ...fetchCta.data }
         }
 
         return {
           formData: {
             ...data
           },
-          mediaData: {
-            ...fetchImage.data
-          },
-          buttonData: {
-            ...fetchCta.data
-          }
+          mediaData,
+          buttonData
         }
       } catch (err) {
         return error({ statusCode: 500, message: 'Something went wrong.' })
@@ -230,18 +227,24 @@
       },
 
       isReadyToPublish () {
-        const formDataMetadata = this.formData.metadata
-        const mediaDataMetadata = this.mediaData.metadata
-        const buttonDataMetadata = this.buttonData.metadata
+        const formDataMetadata = this.formData ? this.formData.metadata : null
+        const mediaDataMetadata = this.mediaData ? this.mediaData.metadata : null
+        const buttonDataMetadata = this.buttonData ? this.buttonData.metadata : null
+        const formDataMetadataVersion = formDataMetadata ? formDataMetadata.version : null
+        const mediaDataMetadataVersion = mediaDataMetadata ? mediaDataMetadata.version : null
+        const buttonDataMetadataVersion = buttonDataMetadata ? buttonDataMetadata.version : null
+        const formDataMetadataPublishedVersion = formDataMetadata ? formDataMetadata.publishedVersion : null
+        const mediaDataMetadataPublishedVersion = mediaDataMetadata ? mediaDataMetadata.publishedVersion : null
+        const buttonDataMetadataPublishedVersion = buttonDataMetadata ? buttonDataMetadata.publishedVersion : null
         const versions = [
-          formDataMetadata.version,
-          mediaDataMetadata.version,
-          buttonDataMetadata.version
+          formDataMetadataVersion,
+          mediaDataMetadataVersion,
+          buttonDataMetadataVersion
         ]
         const publishedVersions = [
-          formDataMetadata.publishedVersion,
-          mediaDataMetadata.publishedVersion,
-          buttonDataMetadata.publishedVersion
+          formDataMetadataPublishedVersion,
+          mediaDataMetadataPublishedVersion,
+          buttonDataMetadataPublishedVersion
         ]
 
         const test = versions.filter((version, index) => {
@@ -259,6 +262,9 @@
 </script>
 
 <style lang="scss" scoped>
+  @import '~assets/css/utilities/variables.scss';
+  @import '~assets/css/utilities/mixins.scss';
+
   main {
     display: flex;
   }
@@ -268,7 +274,15 @@
   }
 
   header {
-    padding-top: 20px;
+    padding-top: 30px;
+    margin-bottom: 30px;
+  }
+
+  .id-subtitle {
+    font-size: rem(11px);
+    text-transform: uppercase;
+    @include Bold();
+    color: #cacaca;
   }
 
 </style>

@@ -7,7 +7,7 @@
         section.page-main__content
           h2.h2 Profile
           figure.image.is-96x96
-            img(:src="data.media.file[lang].url + '?h=96&q=80'" :alt="data.media.title[lang]")
+            img(:src="`${data.media.file[lang].url}?h=96&q=80`" :alt="data.media.title[lang]")
           p {{ data.fields.firstName[lang] }} {{ data.fields.lastName[lang] }}
           p {{ data.fields.about[lang] }}
           button(@click="editProfileModal") Edit
