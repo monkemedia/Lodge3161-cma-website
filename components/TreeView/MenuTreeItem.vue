@@ -5,9 +5,9 @@
           i.far.fa-folder(v-if="item.children.length > 0") 
           i.far.fa-file(v-else)
         span {{ removeCamelCase(item.name) }}
-        span.icon.icon-delete.is-small(@click="deleteModal(item.id)")
+        span.icon.icon-delete.is-small(@click.stop="deleteModal(item.id)")
           i.far.fa-trash-alt
-        span.icon.icon-settings.is-small(@click="goToSettings(item)")
+        span.icon.icon-settings.is-small(@click.stop="goToSettings(item)")
           i.fas.fa-cog
       ul.menu-tree--content(v-if="item.children.length > 0" v-show="item.isActive")
         li.child(v-for="child in item.children" v-if="child.name !== 'pageMeta'") 
