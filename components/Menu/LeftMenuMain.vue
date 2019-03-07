@@ -81,7 +81,7 @@
     height: 100%;
     position: fixed;
     padding: 30px 0;
-    z-index: 1;
+    z-index: 2;
     display: flex;
     justify-content: space-between;
     flex-direction: column;

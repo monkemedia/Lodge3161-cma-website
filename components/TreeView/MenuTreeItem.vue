@@ -7,8 +7,10 @@
         span {{ removeCamelCase(item.name) }}
         span.icon.icon-delete.is-small(@click="deleteModal(item.id)")
           i.far.fa-trash-alt
+        span.icon.icon-settings.is-small(@click="goToSettings(item)")
+          i.fas.fa-cog
       ul.menu-tree--content(v-if="item.children.length > 0" v-show="item.isActive")
-        li.child(v-for="child in item.children") 
+        li.child(v-for="child in item.children" v-if="child.name !== 'pageMeta'") 
           nuxt-link(:to="`${child.path}/${child.id}`")
             span.icon
               i.far.fa-file
@@ -53,6 +55,16 @@
       removeCamelCase (string) {
         return _.startCase(string);
       },
+
+      goToSettings (item) {
+        console.log(item)
+        const pageMetaName = item.children.filter(it => {
+          return it.name === 'pageMeta'
+        })
+
+        console.log('pageMetaName', pageMetaName[0])
+        return this.$router.push(`${item.path}/${pageMetaName[0].id}`)
+      }
     }
   }
 </script>
@@ -122,14 +134,13 @@
         }
       }
 
-      .icon-delete {
+      .icon-delete,
+      .icon-settings {
         position: absolute;
-        left: 5px;
-        top: 10px;
         cursor: pointer;
-        transform: translatex(-160%);
         transition: all .2s ease-in-out;
         opacity: .8;
+        z-index: 1;
 
         &:hover {
           i {
@@ -137,15 +148,38 @@
             opacity: 1;
           }
         }
+      }
+
+      &:hover {
+        .icon-delete,
+        .icon-settings {
+          transform: translatex(0);
+        }
+
+        .icon-settings {
+          i {
+            opacity: 1;
+          }
+        }
+      }
+
+      .icon-delete {
+        left: 5px;
+        transform: translatex(-160%);
+        top: 10px;
 
         i {
           font-size: rem(11px);
         }
       }
 
-      &:hover {
-        .icon-delete {
-          transform: translatex(0);
+      .icon-settings {
+        right: 50px;
+        top: 11px;
+
+        i {
+          font-size: rem(13px);
+          opacity: 0;
         }
       }
     }

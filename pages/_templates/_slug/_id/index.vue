@@ -6,7 +6,8 @@
         .columns
           .column
             header.header
-              h1.h1 {{ removeCamelCase(formData.metadata.type) }}
+              h1.h1(v-if="formData.metadata.type === 'pageMeta'") Page Settings
+              h1.h1(v-else) {{ removeCamelCase(formData.metadata.type) }}
               span.id-subtitle ID: {{ $route.params.id }}
             section
               form
