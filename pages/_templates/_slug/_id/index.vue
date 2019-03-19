@@ -1,7 +1,7 @@
 <template lang="pug">
-  main
+  main.main
     left-menu-pages
-    section
+    section.section
       .container.is-fluid
         .columns
           .column
@@ -265,19 +265,6 @@
 <style lang="scss" scoped>
   @import '~assets/css/utilities/variables.scss';
   @import '~assets/css/utilities/mixins.scss';
-
-  main {
-    display: flex;
-  }
-
-  section {
-    flex: 1;
-  }
-
-  header {
-    padding-top: 30px;
-    margin-bottom: 30px;
-  }
 
   .id-subtitle {
     font-size: rem(11px);

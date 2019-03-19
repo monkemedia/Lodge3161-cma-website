@@ -1,6 +1,5 @@
 <template lang="pug">
   div
-    //- main-header
     left-menu
     nuxt
 </template>

@@ -7,7 +7,7 @@
       name="firstName"
       placeholder=""
       v-validate="'required'"
-      v-model="formData.firstName"
+      v-model="formData.fields.firstName"
       :disabled="isSaving"
       :error-text="errors.first('firstName')")
 
@@ -16,7 +16,7 @@
       name="lastName"
       placeholder=""
       v-validate="'required'"
-      v-model="formData.lastName"
+      v-model="formData.fields.lastName"
       :disabled="isSaving"
       :error-text="errors.first('lastName')")
 
@@ -25,7 +25,7 @@
       name="about"
       placeholder=""
       v-validate="'required'"
-      v-model="formData.about"
+      v-model="formData.fields.about"
       :disabled="isSaving"
       :error-text="errors.first('about')")
 
@@ -33,7 +33,7 @@
     .message
       .message-body
         drop-box(
-          :data="formData.media"
+          :data="data.media"
           :is-saving="isSaving"
           v-model="formData.media.file.url"
           v-validate="'required'"
@@ -62,11 +62,8 @@
   import { lang } from '@/utils'
   import DropBox from '@/components/Forms/Fields/DropBox'
   import SaveButtons from '@/components/Forms/Buttons/SaveButtons'
-  // import mixin from '@/plugins/mixins/common-api-functionality'
 
   export default {
-    // mixins: [mixin],
-
     components: {
       SaveButtons,
       DropBox
@@ -85,10 +82,12 @@
         errorMessage: '',
         isSaving: false,
         formData: {
-          firstName: this.data.fields.firstName[lang] || '',
-          lastName: this.data.fields.lastName[lang] || '',
-          about: this.data.fields.about[lang] || '',
-          image: this.data.fields.image,
+          fields: {
+            firstName: this.data.fields.firstName[lang] || '',
+            lastName: this.data.fields.lastName[lang] || '',
+            about: this.data.fields.about[lang] || '',
+          },
+          // image: this.data.fields.image,
           media: {
             file: {
               url: this.data.media.file[lang].url || ''
@@ -96,17 +95,23 @@
             title: this.data.media.title[lang] || ''
           }
         }
+
       }
+    },
+
+    mounted () {
+      console.log(this)
     },
 
     computed: {
       isFormDirty () {
-        return Object.keys(this.fields).some(key => this.fields[key].changed);
+        return Object.keys(this.fields).some(key => this.fields[key].dirty);
       },
     },
 
     methods: {
       updateForm (publish) {
+        console.log('this.$validator', this.$validator)
         this.$validator.validateAll()
           .then(result => {
             if (!result) {
@@ -123,29 +128,31 @@
             const token = this.$store.getters['auth/getToken']
             const formData = this.formData
             const publish = false
+            const isUpdateAndPublish = true
             const entryId = this.data.metadata.id
 
             this.isSaving = true
               
-            api.updateData(token, formData, publish, entryId)
+            api.updateData(token, formData, publish, isUpdateAndPublish, entryId)
               .then(res => {
                 this.$validator.reset();
                 this.isSaving = false
                 this.$nuxt.$emit('close-modal')
                 this.$toast.open({
-                  message: 'Page has been updated',
+                  message: 'Your details have been saved',
                   type: 'is-success',
                   duration: 5000,
                   position: 'is-bottom-right',
                   actionText: null
                 })
+                window.location.reload(true)
               })
               .catch(err => {
                 this.errorMessage = err.message ? err.message : err.response.data.error
                 setTimeout(() => {
                   const element = document.querySelectorAll('.is-error')[0]
 
-                  this.isLoading = false
+                  this.isSaving = false
 
                   if (!element) return
 

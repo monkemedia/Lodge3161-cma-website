@@ -129,6 +129,8 @@
 
     &--header {
       &:hover {
+        background: #e9e9e9;
+
         &:after {
           color: $secondary;
         }

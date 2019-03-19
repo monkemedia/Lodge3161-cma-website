@@ -35,10 +35,10 @@ export default {
     })
   },
 
-  updateData: (token, data, publish, entryId) => {
+  updateData: (token, data, publish, isUpdateAndPublish, entryId) => {
     return axios({
       method: 'PUT',
-      url: `${version}/update?entryId=${entryId}&publishable=${publish}`, 
+      url: `${version}/update?entryId=${entryId}&publishable=${publish}&isUpdateAndPublish=${isUpdateAndPublish}`, 
       headers: {
         'Authorization': `Bearer ${token}`
       },

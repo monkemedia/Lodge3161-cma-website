@@ -28,8 +28,18 @@ hr {
   background-color: $grey-300;
 }
 
-main {
+main.main {
   padding-left: 60px;
+  display: flex;
+}
+
+section.section {
+  flex: 1;
+  padding: 30px 0;
+}
+
+header.header {
+  margin-bottom: 30px;
 }
 
 .link {

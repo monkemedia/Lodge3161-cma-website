@@ -1,20 +1,19 @@
 <template lang="pug">
   aside
     article
-      h4.title Pages
+      h4.title Account
       p At vero eos et accusam et iusto odio ducimus qui.
-    tree-view(:items="items")
+    ul.menu
+      li
+        nuxt-link(to="/account/profile")
+          span.icon
+            i.far.fa-file
+          span Profile
 </template>
 
 <script>
-  import TreeView from '@/components/TreeView'
-
   export default {
-    name: 'LeftMenuPages',
-
-    components: {
-      TreeView
-    },
+    name: 'LeftMenuAccount',
 
     computed: {
       items () {
@@ -46,6 +45,23 @@
 
     p {
       font-size: rem(11px);
+    }
+  }
+
+  .menu {
+    li {
+      a {
+        height: 38px;
+        align-items: center;
+        display: flex;
+        padding: 0 30px;
+        font-size: rem(13px);
+
+        &.nuxt-link-exact-active,
+        &:hover {
+          background: #e9e9e9;
+        }
+      }
     }
   }
 

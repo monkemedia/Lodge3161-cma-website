@@ -1,7 +1,7 @@
 <template lang="pug">
-  main
+  main.main
     left-menu-pages
-    section
+    section.section
       .container.is-fluid
         .columns
           .column

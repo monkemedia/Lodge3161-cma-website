@@ -94,6 +94,7 @@
       updateApiOrder ({ publishable }) {
         const token = this.$store.getters['auth/getToken']
         const publish = publishable || false
+        const isUpdateAndPublish = false
         const promises = []
 
         this.pages.forEach((page, index) => {
@@ -103,7 +104,7 @@
           }
           if (page.path === 'home') { return } // Ignore homepage
 
-          promises.push(api.updateData(token, formData, publish, entryId))
+          promises.push(api.updateData(token, formData, publish, isUpdateAndPublish, entryId))
         })
 
         return Promise.all(promises)

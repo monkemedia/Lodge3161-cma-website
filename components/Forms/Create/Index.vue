@@ -46,27 +46,6 @@
       :disabled="isSaving"
       :error-text="errors.first('description')")
 
-    legend.legend Page Meta
-    .message
-      .message-body
-        input-field(
-          label="Title"
-          name="title"
-          placeholder=""
-          v-validate="'required'"
-          v-model="formData.pageMeta.title"
-          :disabled="isSaving"
-          :error-text="errors.first('title')")
-
-        textarea-field(
-          label="Description"
-          name="description"
-          placeholder=""
-          v-validate="'required'"
-          v-model="formData.pageMeta.description"
-          :disabled="isSaving"
-          :error-text="errors.first('description')")
-
     legend.legend Hero
     .message
       .message-body
@@ -116,6 +95,27 @@
               v-model="formData.hero.cta.path"
               :disabled="isSaving"
               :error-text="errors.first('path')")
+
+    legend.legend Page Settings
+    .message
+      .message-body
+        input-field(
+          label="Title"
+          name="title"
+          placeholder=""
+          v-validate="'required'"
+          v-model="formData.pageMeta.title"
+          :disabled="isSaving"
+          :error-text="errors.first('title')")
+
+        textarea-field(
+          label="Description"
+          name="description"
+          placeholder=""
+          v-validate="'required'"
+          v-model="formData.pageMeta.description"
+          :disabled="isSaving"
+          :error-text="errors.first('description')")
 
     save-buttons(
       :is-form-dirty="isFormDirty"
