@@ -149,9 +149,10 @@
     methods: {
       async saveForm (publish) {
         const token = this.$store.getters['auth/getToken']
-        const formDataFields = this.formData.fields
-        const mediaDataFields = this.mediaData.fields
-        const buttonDataFields = this.buttonData.fields
+        const formData = this.formData
+        const mediaData = this.mediaData.fields
+        const buttonData = this.buttonData
+        const isUpdateAndPublish = false
         let formDataId 
         let mediaDataId
         let buttonDataId
@@ -162,19 +163,19 @@
         publish ? this.publishIsLoading = true : this.saveIsLoading = true
         this.isSaving = true
 
-        if (formDataFields) {
+        if (formData) {
           formDataId = this.formData.metadata.id
-          updateFormDataApi = await api.updateData(token, formDataFields, publish, formDataId)
+          updateFormDataApi = await api.updateData(token, formData, publish, isUpdateAndPublish, formDataId)
         }
 
-        if (mediaDataFields) {
+        if (mediaData) {
           mediaDataId = this.mediaData.metadata.id
-          createAssetApi = api.createAsset(token, mediaDataFields, publish, mediaDataId)
+          createAssetApi = api.createAsset(token, mediaData, publish, isUpdateAndPublish, mediaDataId)
         }
 
-        if (buttonDataFields) {
+        if (buttonData) {
           buttonDataId = this.buttonData.metadata.id
-          updateButtonDataApi = await api.updateData(token, buttonDataFields, publish, buttonDataId)
+          updateButtonDataApi = await api.updateData(token, buttonData, publish, isUpdateAndPublish, buttonDataId)
         }
 
         Promise.all([updateFormDataApi, createAssetApi, updateButtonDataApi])
@@ -205,6 +206,7 @@
             console.log(err)
             publish ? this.publishIsLoading = false : this.saveIsLoading = false
             this.isSaving = false
+            this.saveIsLoading = false
           })
       },
 

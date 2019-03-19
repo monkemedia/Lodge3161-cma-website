@@ -67,11 +67,11 @@ export default {
     })
   },
 
-  createAsset: (token, data, publish, entryId) => {
+  createAsset: (token, data, publish, isUpdateAndPublish, entryId) => {
     // console.log('data', data);
     return axios({
       method: 'POST',
-      url: `${version}/create/asset?entryId=${entryId}&publishable=${publish}&asset=true`, 
+      url: `${version}/create/asset?entryId=${entryId}&publishable=${publish}&asset=true&isUpdateAndPublish=${isUpdateAndPublish}`, 
       headers: {
         'Authorization': `Bearer ${token}`
       },
