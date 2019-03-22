@@ -1,9 +1,9 @@
 @import '../../../node_modules/sass-rem/rem';
 
 // Colours
-$grey-lighter                          :   #888888;
-$grey-light                            :   #4f4f4f;
-$grey                                  :   #232323;
+$grey-lighter                          :   #f7f7f7;
+$grey-light                            :   #e9e9e9;
+$grey                                  :   #e0e0e0;
 $grey-dark                             :   #191919;
 
 $red                                   :   #df3333;
@@ -27,14 +27,14 @@ $blue-300                              :   #ecf3fc;
 
 $primary                               :   $blue;
 $secondary                             :   $grey;
-$tertiary                              :   $grey-light;
+$tertiary                              :   $grey-dark;
 $danger                                :   $red;
 $success                               :   $green;
 
 // Generic
 $body-bg                               :   transparent;
 $body-size                             :   100%;
-$body-color                            :   $tertiary;
+$body-color                            :   $grey-dark;
 $heading-color                         :   $secondary ;
 $link-color                            :   $secondary;
 $link-hover                            :   $secondary;

@@ -1,7 +1,8 @@
 <template lang="pug">
    modal
     template(slot="title")
-      h3.h1 Edit profile
+      h3.h1(v-if="data") Edit profile
+      h3.h1(v-else) Create profile
     template(slot="body")
       edit-profile-form(:data="data")
 </template>
@@ -18,8 +19,8 @@
 
     props: {
       data: {
-        type: Object,
-        required: true
+        type: [Object, String],
+        required: false
       }
     },
 

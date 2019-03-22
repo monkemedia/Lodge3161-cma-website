@@ -75,7 +75,7 @@
 
 
   a {
-    color: $secondary;
+    color: $body-color;
     height: 100%;
     display: flex;
     font-size: rem(13px);
@@ -97,7 +97,7 @@
         .menu-tree--header {
           &:after {
             content: '\f078';
-            color: $secondary;
+            color: $body-color;
           }
         }
       }
@@ -129,7 +129,7 @@
 
     &--header {
       &:hover {
-        background: #e9e9e9;
+        background: $grey-light;
 
         &:after {
           color: $secondary;
@@ -194,7 +194,7 @@
     align-items: center;
 
     &:hover {
-      background: #e9e9e9;
+      background: $grey-light;
     }
 
     a {

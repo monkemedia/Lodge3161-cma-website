@@ -10,10 +10,22 @@
             section
               h2.h2 Profile
               figure.avatar.image.is-96x96
-                img(:src="`${profile.media.file[lang].url}?h=96&q=80`" :alt="profile.media.title[lang]")
-              p {{ profile.fields.firstName[lang] }} {{ profile.fields.lastName[lang] }}
-              p {{ profile.fields.about[lang] }}
-              button(@click="editProfileModal") Edit
+                img(v-if="profile" :src="`${profile.media.file[lang].url}?h=96&f=face&fit=thumb`" :alt="profile.media.title[lang]")
+                img(v-else src="/default-avatar.jpg" alt="Please add an avatar")  
+              ul.profile-table
+                li
+                  span.label First name:
+                  span.value(v-if="profile") {{ profile.fields.firstName[lang] }}
+                  span.value(v-else) Please add your first name
+                li
+                  span.label Last name:
+                  span.value(v-if="profile") {{ profile.fields.lastName[lang] }}
+                  span.value(v-else) Please add your last name
+                li
+                  span.label Bio:
+                  span.value(v-if="profile") {{ profile.fields.about[lang] }}
+                  span.value(v-else) Please add a short description about yourself here
+              button.button.is-primary(@click="editProfileModal") Edit
 </template>
 
 <script>
@@ -40,7 +52,12 @@
 
     computed: {
       profile () {
-        return this.$store.getters['profile/getProfileData']
+        const getProfileData = this.$store.getters['profile/getProfileData']
+
+        if (getProfileData) {
+          return getProfileData
+        } 
+        return ''
       }
     },
 
@@ -61,9 +78,39 @@
 </script>
 
 <style lang="scss" scoped>
+  @import '~assets/css/utilities/variables.scss';
+
+  .h2 {
+    margin-bottom: 20px;
+  }
+
   .avatar {
-    img {
-      border-radius: 50%;
+    margin-bottom: 20px;
+    border-radius: 50%;
+    overflow: hidden;
+    border: 2px solid $grey;
+  }
+
+  .profile-table {
+    li {
+      font-size: rem(14px);
+      border-bottom: 1px solid #e0e0e0;
+      padding: 12px 0;
+      display: flex;
+
+      &:last-child {
+        border: 0;
+      }
+
+      .label {
+        margin-bottom: 0;
+        flex: 1;
+        font-weight: bold;
+      }
+
+      .value {
+        flex: 3;
+      }
     }
   }
 </style>

@@ -7,7 +7,7 @@
       name="firstName"
       placeholder=""
       v-validate="'required'"
-      v-model="formData.fields.firstName"
+      v-model="formData.fields.firstName[lang]"
       :disabled="isSaving"
       :error-text="errors.first('firstName')")
 
@@ -16,7 +16,7 @@
       name="lastName"
       placeholder=""
       v-validate="'required'"
-      v-model="formData.fields.lastName"
+      v-model="formData.fields.lastName[lang]"
       :disabled="isSaving"
       :error-text="errors.first('lastName')")
 
@@ -25,7 +25,7 @@
       name="about"
       placeholder=""
       v-validate="'required'"
-      v-model="formData.fields.about"
+      v-model="formData.fields.about[lang]"
       :disabled="isSaving"
       :error-text="errors.first('about')")
 
@@ -33,9 +33,9 @@
     .message
       .message-body
         drop-box(
-          :data="data.media"
+          :data="formData.media"
           :is-saving="isSaving"
-          v-model="formData.media.file.url"
+          v-model="formData.media.file[lang]"
           v-validate="'required'"
           name="dropBox"
           @dropbox="updateData")
@@ -45,7 +45,7 @@
           name="alt"
           placeholder=""
           v-validate="'required'"
-          v-model="formData.media.title"
+          v-model="formData.media.title[lang]"
           :disabled="isSaving"
           :error-text="errors.first('alt')")
 
@@ -71,47 +71,55 @@
 
     props: {
       data: {
-        type: Object,
-        required: true
+        type: [Object, String],
+        required: false
       }
     },
 
     data () {
+      const user = this.$store.getters['auth/getUser']
       return {
         lang,
         errorMessage: '',
         isSaving: false,
         formData: {
           fields: {
-            firstName: this.data.fields.firstName[lang] || '',
-            lastName: this.data.fields.lastName[lang] || '',
-            about: this.data.fields.about[lang] || '',
-          },
-          // image: this.data.fields.image,
-          media: {
-            file: {
-              url: this.data.media.file[lang].url || ''
+            firstName: {
+              [lang]: this.data ? this.data.fields.firstName[lang] : ''
             },
-            title: this.data.media.title[lang] || ''
-          }
+            lastName: {
+              [lang]: this.data ? this.data.fields.lastName[lang] : ''
+            },
+            about: {
+              [lang]: this.data ? this.data.fields.about[lang] : ''
+            }
+          },
+          media: {
+            title: {
+              [lang]: this.data ? this.data.media.title[lang] : ''
+            },
+            file: {
+              [lang]: {
+                url: this.data ? this.data.media.file[lang].url : '',
+                fileName: this.data ? this.data.media.file[lang].fileName : '',
+                contentType: this.data ? this.data.media.file[lang].contentType : ''
+              }
+            }
+          },
+          userId: user ? user.userId : ''
         }
 
       }
     },
 
-    mounted () {
-      console.log(this)
-    },
-
     computed: {
       isFormDirty () {
         return Object.keys(this.fields).some(key => this.fields[key].dirty);
-      },
+      }
     },
 
     methods: {
       updateForm (publish) {
-        console.log('this.$validator', this.$validator)
         this.$validator.validateAll()
           .then(result => {
             if (!result) {
@@ -129,45 +137,68 @@
             const formData = this.formData
             const publish = false
             const isUpdateAndPublish = true
-            const entryId = this.data.metadata.id
 
             this.isSaving = true
-              
-            api.updateData(token, formData, publish, isUpdateAndPublish, entryId)
-              .then(res => {
-                this.$validator.reset();
-                this.isSaving = false
-                this.$nuxt.$emit('close-modal')
-                this.$toast.open({
-                  message: 'Your details have been saved',
-                  type: 'is-success',
-                  duration: 5000,
-                  position: 'is-bottom-right',
-                  actionText: null
-                })
-                window.location.reload(true)
-              })
-              .catch(err => {
-                this.errorMessage = err.message ? err.message : err.response.data.error
-                setTimeout(() => {
-                  const element = document.querySelectorAll('.is-error')[0]
 
+            if (!this.data) {
+              // Create New Entry
+              console.log('create form')
+              return api.createProfile(token, formData)
+                .then(res => {
+                  this.$validator.reset();
                   this.isSaving = false
-
-                  if (!element) return
-
-                  this.$scrollTo(element, {
-                    container: '.modal-card-body',
+                  this.$nuxt.$emit('close-modal')
+                  this.$toast.open({
+                    message: 'Profile has been created',
+                    type: 'is-success',
+                    duration: 5000,
+                    position: 'is-bottom-right',
+                    actionText: null
                   })
-                }, 300)
-              })
+
+                  // Redirect user to newly created page
+                  window.location.reload(true)
+                })
+            }
+
+            // Update Entry
+            const entryId = this.data.metadata.id
+
+            return api.updateData(token, formData, publish, isUpdateAndPublish, entryId)
+          })
+          .then(res => {
+            this.$validator.reset();
+            this.isSaving = false
+            this.$nuxt.$emit('close-modal')
+            this.$toast.open({
+              message: 'Your details have been saved',
+              type: 'is-success',
+              duration: 5000,
+              position: 'is-bottom-right',
+              actionText: null
             })
+            window.location.reload(true)
+          })
+          .catch(err => {
+            this.errorMessage = err.message ? err.message : err.response.data.error
+            setTimeout(() => {
+              const element = document.querySelectorAll('.is-error')[0]
+
+              this.isSaving = false
+
+              if (!element) return
+
+              this.$scrollTo(element, {
+                container: '.modal-card-body',
+              })
+            }, 300)
+          })
       },
 
-      updateData (data) {
-        this.formData.image.file.url = data.url
-        this.formData.image.file.fileName = data.fileName
-        this.formData.image.file.contentType = data.contentType
+      updateData (imageData) {
+        this.formData.image.file[lang].url = imageData.url
+        this.formData.image.file[lang].fileName = imageData.fileName
+        this.formData.image.file[lang].contentType = imageData.contentType
       }
     }
   }

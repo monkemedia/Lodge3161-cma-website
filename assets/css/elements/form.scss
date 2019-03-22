@@ -16,16 +16,17 @@
 .input,
 .textarea,
 .select > select {
-  border: 1px solid $grey-300;
+  border: 1px solid $grey;
   box-shadow: none;
   border-radius: 0;
   font-size: $size-130;
   padding-left: 15px;
   padding-right: 15px;
+  color: $grey-dark;
   
   &:focus,
   &:hover {
-    border: 1px solid $grey-300;
+    border: 1px solid $grey;
     box-shadow: none;
   }
 }

@@ -15,7 +15,8 @@
       li.menu-items.menu-items--bottom
         nuxt-link.avatar.tooltip.is-tooltip-right(to="/account/profile" data-tooltip="My account")
           figure.image.is-32x32
-            img(:src="`${profile.media.file[lang].url}?h=32&q=80`")
+            img(v-if="profile" :src="`${profile.media.file[lang].url}?h=32&f=face&fit=thumb`")
+            img(v-else src="/default-avatar.jpg")
 </template>
 
 <script>
@@ -124,8 +125,9 @@
           display: flex;
           justify-content: center;
 
-          img {
+          figure {
             border-radius: 50%;
+            overflow: hidden; 
           }
         }
       }

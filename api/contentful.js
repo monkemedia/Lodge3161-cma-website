@@ -57,6 +57,17 @@ export default {
     })
   },
 
+  createProfile: (token, data) => {
+    return axios({
+      method: 'POST',
+      url: `${version}/create/profile`, 
+      headers: {
+        'Authorization': `Bearer ${token}`
+      },
+      data
+    })
+  },
+
   deletePage: (token, entryId) => {
     return axios({
       method: 'DELETE',

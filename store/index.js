@@ -14,20 +14,19 @@ export default () => {
       nuxtServerInit ({ dispatch, getters }, context) {
         return dispatch('auth/initAuth', context.req)
           .then(() => {
-            if (!getters['auth/isAuthenticated']) {
-              return
-            }
+            if (!getters['auth/isAuthenticated']) return
+
             const token = getters['auth/getToken']
             return dispatch('pages/fetchPages', token)
-          })
-          .then(() => {
-            const token = getters['auth/getToken']
-            const user = getters['auth/getUser']
-            const params = {
-              content_type: 'user',
-              'fields.userId': user.userId
-            }
-            return dispatch('profile/fetchProfile', { token, params })
+              .then(() => {
+                const user = getters['auth/getUser']
+                const token = getters['auth/getToken']
+                const params = {
+                  content_type: 'user',
+                  'fields.userId': user.userId
+                }
+                return dispatch('profile/fetchProfile', { token, params })
+              })
           })
       }
     }

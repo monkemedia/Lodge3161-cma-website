@@ -16,6 +16,9 @@ const actions = {
     const token = data.token
     const params = data.params
     let userProfile = await api.fetchEntriesData(token, params)
+
+    if (userProfile.status === 204) return
+    
     const imageId = userProfile.data.fields.image[lang].sys.id
     let image = await api.fetchData(token, imageId, true)
 

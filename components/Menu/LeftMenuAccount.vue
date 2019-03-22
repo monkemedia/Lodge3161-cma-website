@@ -9,11 +9,25 @@
           span.icon
             i.far.fa-file
           span Profile
+      li
+        a(@click.prevent="logout")
+          span.icon
+            i.fas.fa-sign-out-alt
+          span Logout
 </template>
 
 <script>
   export default {
     name: 'LeftMenuAccount',
+
+    methods: {
+      logout () {
+        return this.$store.dispatch('auth/logout')
+          .then(() => {
+            this.$router.push({ path: '/login' })
+          })
+      }
+    },
 
     computed: {
       items () {
@@ -28,8 +42,8 @@
   @import '~assets/css/utilities/mixins.scss';
 
   aside {
-    background-color: #f7f7f7;
-    border-right: 1px solid #e0e0e0;
+    background-color: $grey-lighter;
+    border-right: 1px solid $grey;
     padding: 30px 0;
     width: 240px;
     min-height: 100vh;
@@ -59,7 +73,7 @@
 
         &.nuxt-link-exact-active,
         &:hover {
-          background: #e9e9e9;
+          background: $grey-light;
         }
       }
     }
