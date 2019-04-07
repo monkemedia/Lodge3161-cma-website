@@ -37,8 +37,7 @@
           :is-saving="isSaving"
           v-model="formData.media.file[lang]"
           v-validate="'required'"
-          name="dropBox"
-          @dropbox="updateData")
+          name="dropBox")
 
         input-field(
           label="Alt"
@@ -120,29 +119,29 @@
 
     methods: {
       updateForm (publish) {
-        this.$validator.validateAll()
+        this.$validator.validateAll('firstName lastName about dropBox')
           .then(result => {
             if (!result) {
               setTimeout(() => {
                 const element = document.querySelectorAll('.is-error')[0]
 
+                if (!element) return
+
                 this.$scrollTo(element, {
                   container: '.modal-card-body',
                 })
               })
-              return 
+              return
             }
 
             const token = this.$store.getters['auth/getToken']
             const formData = this.formData
-            const publish = false
             const isUpdateAndPublish = true
 
             this.isSaving = true
 
             if (!this.data) {
               // Create New Entry
-              console.log('create form')
               return api.createProfile(token, formData)
                 .then(res => {
                   this.$validator.reset();
@@ -164,9 +163,13 @@
             // Update Entry
             const entryId = this.data.metadata.id
 
-            return api.updateData(token, formData, publish, isUpdateAndPublish, entryId)
+            return api.updateData(token, formData, false, isUpdateAndPublish, entryId)
+              .then(() => {
+                const mediaId = this.data.fields.image[lang].sys.id
+                return api.createAsset(token, formData.media, false, isUpdateAndPublish, mediaId)
+              })
           })
-          .then(res => {
+          .then(() => {
             this.$validator.reset();
             this.isSaving = false
             this.$nuxt.$emit('close-modal')
@@ -177,7 +180,9 @@
               position: 'is-bottom-right',
               actionText: null
             })
-            window.location.reload(true)
+            setTimeout(() => {
+              window.location.reload(true)
+            }, 600)
           })
           .catch(err => {
             this.errorMessage = err.message ? err.message : err.response.data.error
@@ -193,12 +198,6 @@
               })
             }, 300)
           })
-      },
-
-      updateData (imageData) {
-        this.formData.image.file[lang].url = imageData.url
-        this.formData.image.file[lang].fileName = imageData.fileName
-        this.formData.image.file[lang].contentType = imageData.contentType
       }
     }
   }

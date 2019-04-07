@@ -11,11 +11,14 @@
       li.menu-items
         a.tooltip.is-tooltip-right(data-tooltip="Pages")
           i.fas.fa-file-alt
+      li.menu-items
+        a.tooltip.is-tooltip-right(data-tooltip="Blog")
+          i.fas.fa-comment-dots
     ul.menu-list.menu-list--bottom
       li.menu-items.menu-items--bottom
         nuxt-link.avatar.tooltip.is-tooltip-right(to="/account/profile" data-tooltip="My account")
           figure.image.is-32x32
-            img(v-if="profile" :src="`${profile.media.file[lang].url}?h=32&f=face&fit=thumb`")
+            img(v-if="profile && profile.media.file" :src="`${profile.media.file[lang].url}?h=32&f=face&fit=thumb`")
             img(v-else src="/default-avatar.jpg")
 </template>
 

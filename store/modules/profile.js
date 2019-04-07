@@ -19,7 +19,7 @@ const actions = {
 
     if (userProfile.status === 204) return
     
-    const imageId = userProfile.data.fields.image[lang].sys.id
+    const imageId = userProfile.data.fields.image ? userProfile.data.fields.image[lang].sys.id : null
     let image = await api.fetchData(token, imageId, true)
 
     commit('SET_DATA', {

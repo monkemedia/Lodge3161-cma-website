@@ -10,7 +10,7 @@
             section
               h2.h2 Profile
               figure.avatar.image.is-96x96
-                img(v-if="profile" :src="`${profile.media.file[lang].url}?h=96&f=face&fit=thumb`" :alt="profile.media.title[lang]")
+                img(v-if="profile && profile.media.file" :src="`${profile.media.file[lang].url}?h=96&f=face&fit=thumb`" :alt="profile.media.title[lang]")
                 img(v-else src="/default-avatar.jpg" alt="Please add an avatar")  
               ul.profile-table
                 li
