@@ -12,7 +12,7 @@
         a.tooltip.is-tooltip-right(data-tooltip="Pages")
           i.fas.fa-file-alt
       li.menu-items
-        a.tooltip.is-tooltip-right(data-tooltip="Blog")
+        nuxt-link.tooltip.is-tooltip-right(data-tooltip="Blog" to="/blog/create")
           i.fas.fa-comment-dots
     ul.menu-list.menu-list--bottom
       li.menu-items.menu-items--bottom

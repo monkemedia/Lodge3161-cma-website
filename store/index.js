@@ -1,6 +1,7 @@
 import Vuex from 'vuex'
 import auth from './modules/auth.js'
 import pages from './modules/pages.js'
+import blog from './modules/blog.js'
 import profile from './modules/profile.js'
 
 export default () => {
@@ -8,6 +9,7 @@ export default () => {
     modules: {
       auth,
       pages,
+      blog,
       profile
     },
     actions: {

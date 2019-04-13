@@ -4,21 +4,29 @@
       h4.title Blog
       p At vero eos et accusam et iusto odio ducimus qui.
     ul.menu
-      li
-        nuxt-link(to="/account/profile")
+      li(v-for="post in getPosts")
+        nuxt-link(:to="post.path")
           span.icon
             i.far.fa-file
-          span Profile
+          span {{ post.title }}
+          span.icon.icon-delete.is-small(@click.prevent="deleteModal(post.id)")
+            i.far.fa-trash-alt
       li
-        a(@click.prevent="logout")
+        nuxt-link(to="/blog/create")
           span.icon
             i.fas.fa-plus
           span Add post
 </template>
 
 <script>
+  import DeleteBlogModal from '@/components/Modals/DeleteBlog'
+
   export default {
     name: 'LeftMenuAccount',
+
+    components: {
+      DeleteBlogModal
+    },
 
     methods: {
       logout () {
@@ -26,12 +34,23 @@
           .then(() => {
             this.$router.push({ path: '/login' })
           })
+      },
+
+      deleteModal (id) {
+        this.$modal.open({
+          parent: this,
+          component: DeleteBlogModal,
+          hasModalCard: true,
+          props: {
+            pageId: id
+          }
+        })
       }
     },
 
     computed: {
-      items () {
-        return this.$store.getters['pages/getPagesData']
+      getPosts () {
+        return this.$store.getters['blog/getPosts']
       }
     }
   }
@@ -70,10 +89,43 @@
         display: flex;
         padding: 0 30px;
         font-size: rem(13px);
+        position: relative;
+        z-index: 0;
 
         &.nuxt-link-exact-active,
         &:hover {
           background: $grey-light;
+        }
+
+        .icon-delete {
+          position: absolute;
+          cursor: pointer;
+          transition: all .2s ease-in-out;
+          opacity: .8;
+          z-index: 2;
+
+          &:hover {
+            i {
+              color: $primary;
+              opacity: 1;
+            }
+          }
+        }
+
+        &:hover {
+          .icon-delete{
+            transform: translatex(0);
+          }
+        }
+
+        .icon-delete {
+          left: 5px;
+          transform: translatex(-160%);
+          top: 10px;
+
+          i {
+            font-size: rem(11px);
+          }
         }
       }
     }

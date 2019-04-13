@@ -7,8 +7,10 @@
           .column
             header.header
               h1.h1 Create blog post
+              span.tag.is-success(v-if="status") Live
+              span.tag.is-warning(v-else) Draft
             section
-              CreateBlogPostForm(:data="formData" update)
+              CreateBlogPostForm(:data="formData" update @status="statusHandler")
 </template>
 
 <script>
@@ -29,7 +31,13 @@
       CreateBlogPostForm
     },
 
-    async asyncData ({ store, params, query, error }) {
+    data () {
+      return {
+        status: false
+      }
+    },
+
+    async asyncData ({ store, params, error }) {
       const token = store.getters['auth/getToken']
       const entryId = params.id
       let id
@@ -61,11 +69,31 @@
         return error({ statusCode: 500, message: 'Something went wrong.' })
       }
     },
+
+    mounted () {
+      const token = this.$store.getters['auth/getToken']
+      this.$store.dispatch('blog/fetchPosts', token)
+    },
+
+    methods: {
+      statusHandler (value) {
+        this.status = value
+      }
+    }
   }
 </script>
 
 <style lang="scss" scoped>
   @import '~assets/css/utilities/variables.scss';
   @import '~assets/css/utilities/mixins.scss';
+
+  .header {
+    display: flex;
+    align-items: center;
+
+    .tag {
+      margin-left: 12px;
+    }
+  }
 
 </style>

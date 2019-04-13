@@ -1,6 +1,5 @@
 import cachios from 'cachios'
 import axios from 'axios'
-import _ from 'lodash'
 
 const version = `${process.env.BASE_URL}api/v1/blog`
 
@@ -13,14 +12,8 @@ export default {
     })
   },
 
-  fetchEntriesData: (token, params) => {
-    const toQueryString = (obj) => {
-      return _.map(obj, (v,k) => {
-        return encodeURIComponent(k) + '=' + encodeURIComponent(v)
-      }).join('&')
-    }
-
-    return cachios.get(`${version}/fetch/entries?${toQueryString(params)}`, {
+  fetchPosts: (token, contentType) => {
+    return cachios.get(`${version}/posts?contentType=${contentType}`, {
       headers: {
         'Authorization': `Bearer ${token}`
       }

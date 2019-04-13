@@ -25,6 +25,11 @@
     components: {
       LeftMenuBlog,
       CreateBlogPostForm
+    },
+
+    mounted () {
+      const token = this.$store.getters['auth/getToken']
+      this.$store.dispatch('blog/fetchPosts', token)
     }
   }
 </script>

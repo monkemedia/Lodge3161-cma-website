@@ -26,7 +26,7 @@
         drop-box(
           :data="formData.media"
           :is-saving="isSaving"
-          v-model="formData.media.file[lang]"
+          v-model="formData.media.file"
           v-validate="'required'"
           name="dropBox")
 
@@ -50,7 +50,7 @@
     ) 
 
     .last-saved.has-text-right
-      p Last saved {{ lastSaved }}
+      p(v-if="lastSaved") Last saved {{ lastSaved }}
 
 </template>
 
@@ -96,11 +96,9 @@
           media: {
             title: data ? data.media.fields.title[lang] : '',
             file: {
-              [lang]: {
-                url: data ? data.media.fields.file[lang].url : '',
-                fileName: data ? data.media.fields.file[lang].fileName : '',
-                contentType: data ? data.media.fields.file[lang].contentType : ''
-              }
+              url: data ? data.media.fields.file[lang].url : '',
+              fileName: data ? data.media.fields.file[lang].fileName : '',
+              contentType: data ? data.media.fields.file[lang].contentType : ''
             }
           }
         }
@@ -113,11 +111,11 @@
 
     computed: {
       isFormDirty () {
-        return Object.keys(this.fields).some(key => this.fields[key].changed);
+        return Object.keys(this.fields).some(key => this.fields[key].changed)
       },
 
       lastSaved () {
-        return moment(this.data.metadata.updatedAt).fromNow();
+        return this.data && this.data.metadata ? moment(this.data.metadata.updatedAt).fromNow() : ''
       },
 
       isPublish () {
@@ -140,7 +138,7 @@
       },
 
       async saveForm (publish) {
-        this.$validator.validateAll('title description')
+        this.$validator.validateAll()
           .then(result => {
             if (!result) {
               setTimeout(() => {
@@ -157,25 +155,33 @@
 
             const token = this.$store.getters['auth/getToken']
             const formData = this.formData
-            const formDataId = this.data.metadata.id
+            const formDataId = this.data ? this.data.metadata.id : ''
+            const assetDataId = this.data ? this.data.media.metadata.id : ''
             const isUpdateAndPublish = false
             let updateDataApi
             let createDataApi
+            let updateAssetApi
 
             this.isSaving = true
             publish ? this.publishIsLoading = true : this.saveIsLoading = true
 
             if (this.update) {
-              updateDataApi = api.updateData(token, formData, publish, isUpdateAndPublish, formDataId)
+              if (publish) {
+                updateDataApi = api.updateData(token, formData, publish, isUpdateAndPublish, formDataId)
+              } else {
+                updateDataApi = api.updateData(token, formData, publish, isUpdateAndPublish, formDataId)
+                updateAssetApi = api.createAsset(token, formData.media, publish, isUpdateAndPublish, assetDataId)
+              }
             } else {
               createDataApi = api.create(token, formData)
             }
 
-            Promise.all([ updateDataApi, createDataApi ])
+            Promise.all([ updateDataApi, createDataApi, updateAssetApi ])
               .then(res => {
                 this.$validator.reset();
                 this.isSaving = false
 
+                // Update ONLY
                 if (this.update) {
                   if (publish) {
                     this.publishIsLoading = false
@@ -193,15 +199,21 @@
                   }
                   
                 } else {
-                  const data = res[0].data
-                  const id = data.id
-                  this.saveIsLoading = false
-                  // Redirect user to newly created page
-                  this.toast('This post has now been created')
+                  // New POST created
+                  res.map(r => {
+                    if (r) {
+                      const data = r.data
+                      const id = data.data.id
+                      this.saveIsLoading = false
+                      // Redirect user to newly created page
+                      this.toast('This post has now been created')
 
-                  setTimeout(() => {
-                    window.location.href = `/blog/${id}`
-                  }, 800)
+                      setTimeout(() => {
+                        window.location.href = `/blog/posts/${id}`
+                      }, 800)
+
+                    }
+                  })
                 }
               })
               .catch(err => {
@@ -226,21 +238,19 @@
       },
 
       isReadyToPublish () {
-        const formDataMetadata = this.data.metadata
-        const mediaDataMetadata = this.data.media.metadata
-        const versions = [formDataMetadata.version, mediaDataMetadata.version]
-        const publishedVersions = [formDataMetadata.publishedVersion, mediaDataMetadata.publishedVersion]
+        const formDataMetadata = this.data ? this.data.metadata : ''
+        const version = formDataMetadata.version
+        const publishedVersion = formDataMetadata.publishedVersion || -1
 
-        const test = versions.filter((version, index) => {
-          return version > publishedVersions[index] + 1
-        })
-
-        if (test.length > 0) {
+        if (version > publishedVersion + 1) {
           this.isPublishable = true
+          // Is draft
+          this.$emit('status', false)
         } else {
           this.isPublishable = false
+          // Is live
+          this.$emit('status', true)
         }
-
       }
     }
   }
