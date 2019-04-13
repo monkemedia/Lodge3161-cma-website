@@ -5,7 +5,7 @@
           i.far.fa-folder(v-if="item.children.length > 0") 
           i.far.fa-file(v-else)
         span {{ removeCamelCase(item.name) }}
-        span.icon.icon-delete.is-small(@click.stop="deleteModal(item.id)")
+        span.icon.icon-delete.is-small(@click.stop="deleteModal(item.id)" v-if="item.name !== 'homepage'")
           i.far.fa-trash-alt
         span.icon.icon-settings.is-small(@click.stop="goToSettings(item)")
           i.fas.fa-cog

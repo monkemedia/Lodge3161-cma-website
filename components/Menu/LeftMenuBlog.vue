@@ -12,7 +12,7 @@
           span.icon.icon-delete.is-small(@click.prevent="deleteModal(post.id)")
             i.far.fa-trash-alt
       li
-        nuxt-link(to="/blog/create")
+        nuxt-link.add-post(to="/blog/create")
           span.icon
             i.fas.fa-plus
           span Add post
@@ -92,8 +92,8 @@
         position: relative;
         z-index: 0;
 
-        &.nuxt-link-exact-active,
-        &:hover {
+        &.nuxt-link-exact-active:not(.add-post),
+        &:hover:not(.add-post) {
           background: $grey-light;
         }
 

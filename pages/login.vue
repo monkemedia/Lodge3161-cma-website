@@ -1,15 +1,12 @@
 <template lang="pug">
   section.hero.is-fullheight(v-cloak)
      .hero-body
-      .container
-        .columns
-          .column.is-4.is-offset-4.has-text-centered
-            img.logo(src="/logo-white.svg" alt="Dr James Griffith Hall Lodge - CMA")
-        .columns
-          .column.is-4.is-offset-4
-            .notification.is-danger(v-if="errorMessage")
-              p {{ errorMessage }}
-            .box
+      .form-container
+        //- figure
+        //-   img.logo(src="/logo-white.svg" alt="Dr James Griffith Hall Lodge - CMA")
+        .box
+              .notification.is-danger(v-if="errorMessage")
+                p {{ errorMessage }}
               form(@submit.prevent="submitForm")
                 .field
                   label.label Email Address
@@ -62,7 +59,7 @@
           this.isLoading = false
           window.location.href = '/'
         } catch (err) {
-          this.errorMessage = err.message.data ? err.response.data.error : err.message
+          this.errorMessage = err.response.data ? err.response.data.message : err.message
           this.isLoading = false
         }
       }
@@ -90,6 +87,15 @@
     border: 0;
     box-shadow: none;
     padding: 40px;
+  }
+
+  .is-fullheight .hero-body {
+    justify-content: center;
+  }
+
+  .form-container {
+    max-width: 320px;
+    width: 100%;
   }
 
   input {
