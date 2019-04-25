@@ -24,7 +24,7 @@ export default {
   fetchEntriesData: (token, params) => {
     const toQueryString = (obj) => {
       return _.map(obj, (v,k) => {
-        return encodeURIComponent(k) + '=' + encodeURIComponent(v)
+        return `${encodeURIComponent(k)}=${encodeURIComponent(v)}`
       }).join('&')
     }
 

@@ -71,6 +71,18 @@
       @input="hasChanged"
     )
 
+    markdown-textarea-field(
+      v-if="formData.fields.address"
+      label="Address"
+      name="address"
+      placeholder=""
+      v-validate="'required'"
+      v-model="formData.fields.address[lang]"
+      :disabled="isSaving"
+      :error-text="errors.first('address')"
+      @input="hasChanged"
+    )
+
 </template>
 
 <script>

@@ -4,13 +4,16 @@
     section.section
       .container.is-fluid
         .columns
-          .column
+          .column.is-9
             header.header
               h1.h1 Create blog post
               span.tag.is-success(v-if="status") Live
               span.tag.is-warning(v-else) Draft
             section
               CreateBlogPostForm(:data="formData" update @status="statusHandler")
+          .column.is-3
+            h2.h2 User details
+            p {{ formData.fields.author[lang] }}
 </template>
 
 <script>
@@ -33,6 +36,7 @@
 
     data () {
       return {
+        lang,
         status: false
       }
     },

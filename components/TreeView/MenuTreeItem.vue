@@ -10,6 +10,11 @@
         span.icon.icon-settings.is-small(@click.stop="goToSettings(item)")
           i.fas.fa-cog
       ul.menu-tree--content(v-if="item.children.length > 0" v-show="item.isActive")
+        li.child
+          nuxt-link(:to="`${item.path}/${item.id}`")
+            span.icon
+              i.far.fa-file
+            span Main
         li.child(v-for="child in item.children" v-if="child.name !== 'pageMeta'") 
           nuxt-link(:to="`${child.path}/${child.id}`")
             span.icon

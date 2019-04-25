@@ -6,10 +6,10 @@
           figure.image.is-32x32
             img(src="/logo.svg")
       li.menu-items
-        nuxt-link.tooltip.is-tooltip-right(data-tooltip="Dashboard" to="/templates")
+        nuxt-link.tooltip.is-tooltip-right(data-tooltip="Dashboard" to="/dashboard")
           i.fas.fa-tachometer-alt
       li.menu-items
-        a.tooltip.is-tooltip-right(data-tooltip="Pages")
+        nuxt-link.tooltip.is-tooltip-right(data-tooltip="Pages" to="/templates")
           i.fas.fa-file-alt
       li.menu-items
         nuxt-link.tooltip.is-tooltip-right(data-tooltip="Blog" to="/blog/create")

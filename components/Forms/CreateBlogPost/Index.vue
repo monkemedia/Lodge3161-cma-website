@@ -11,6 +11,13 @@
       :disabled="isSaving"
       :error-text="errors.first('title')")
 
+    tags-input-field(
+      label="Tags"
+      name="tags"
+      placeholder=""
+      v-model="formData.tags"
+      :disabled="isSaving")
+
     markdown-textarea-field(
       label="Description"
       name="description"
@@ -100,7 +107,8 @@
               fileName: data ? data.media.fields.file[lang].fileName : '',
               contentType: data ? data.media.fields.file[lang].contentType : ''
             }
-          }
+          },
+          tags: []
         }
       }
     },
@@ -154,6 +162,7 @@
             }
 
             const token = this.$store.getters['auth/getToken']
+            const userId = this.$store.getters['auth/getUser'].userId
             const formData = this.formData
             const formDataId = this.data ? this.data.metadata.id : ''
             const assetDataId = this.data ? this.data.media.metadata.id : ''
@@ -161,6 +170,8 @@
             let updateDataApi
             let createDataApi
             let updateAssetApi
+
+            formData.author = userId// Add author to created post
 
             this.isSaving = true
             publish ? this.publishIsLoading = true : this.saveIsLoading = true

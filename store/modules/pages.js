@@ -16,7 +16,8 @@ const actions = {
     const promises = []
     const contentType = [
       'homepage',
-      'pages'
+      'pages',
+      'contact'
     ]
 
     contentType.forEach(ct => {
