@@ -5,6 +5,11 @@
 .label {
   font-size: $size-130;
   @include Bold();
+
+  small {
+    padding-left: .4rem;
+    font-weight: normal;
+  }
 }
 
 .legend {

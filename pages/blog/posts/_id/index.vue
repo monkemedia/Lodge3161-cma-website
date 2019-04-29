@@ -13,7 +13,7 @@
               CreateBlogPostForm(:data="formData" update @status="statusHandler")
           .column.is-3
             h2.h2 User details
-            p {{ formData.fields.author[lang] }}
+            //- p {{ formData.fields.author[lang] }}
 </template>
 
 <script>

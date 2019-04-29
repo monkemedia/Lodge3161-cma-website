@@ -1,17 +1,20 @@
 <template lang="pug">
-  .field(:class="{ 'is-error': !!errorText }")
+  .field
     label.label {{ label }}
+      small (Insert commas to seperate the values)
     .control
+      //- 188 is key code for comman (,)
       input.input(
         type="text" 
         :disabled="disabled" 
         :placeholder="placeholder" 
         :name="name"
-        @keyup.enter="createTag"
+        @keyup.188="createTag"
         v-model="inputField")
+
     .tags-container
       .field.is-grouped.is-grouped-multiline
-        .control(v-for="(tag, index) in tags")
+        .control(v-for="(tag, index) in tags" v-if="tag !== 'false12345'")
           .tags.has-addons
             a.tag.is-primary {{ tag }}
             a.tag.is-delete(@click.prevent="deleteTag(index)")
@@ -31,7 +34,7 @@
       },
 
       value: {
-        type: String,
+        type: Array,
         required: true
       },
 
@@ -53,9 +56,23 @@
       }
     },
 
+    mounted () {
+      this.createTag()
+    },
+
     methods: {
       createTag () {
-        this.tags.push(this.inputField)
+        let inputField = this.inputField
+
+        if (Array.isArray(inputField)) {
+          inputField.map(value => {
+            this.tags.push(value)
+          })
+        } else {
+          inputField = inputField.replace(/,/g, '')
+          this.tags.push(inputField)
+        }
+        
         this.inputField = ''
         this.$emit('input', this.tags)
       },

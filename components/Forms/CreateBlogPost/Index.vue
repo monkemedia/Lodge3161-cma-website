@@ -11,13 +11,6 @@
       :disabled="isSaving"
       :error-text="errors.first('title')")
 
-    tags-input-field(
-      label="Tags"
-      name="tags"
-      placeholder=""
-      v-model="formData.tags"
-      :disabled="isSaving")
-
     markdown-textarea-field(
       label="Description"
       name="description"
@@ -45,6 +38,14 @@
           v-model="formData.media.title"
           :disabled="isSaving"
           :error-text="errors.first('alt')")
+
+    tags-input-field(
+      label="Tags"
+      name="tags"
+      placeholder=""
+      v-validate=""
+      v-model="formData.tags"
+      :disabled="isSaving")
 
     save-publish-buttons(
       :is-publish="isPublish"
@@ -108,7 +109,7 @@
               contentType: data ? data.media.fields.file[lang].contentType : ''
             }
           },
-          tags: []
+          tags: (data && data.fields.tags) ? data.fields.tags[lang] : []
         }
       }
     },
@@ -171,7 +172,7 @@
             let createDataApi
             let updateAssetApi
 
-            formData.author = userId// Add author to created post
+            formData.authorId = userId// Add author to created post
 
             this.isSaving = true
             publish ? this.publishIsLoading = true : this.saveIsLoading = true
@@ -184,6 +185,9 @@
                 updateAssetApi = api.createAsset(token, formData.media, publish, isUpdateAndPublish, assetDataId)
               }
             } else {
+              // When we create entry for first time, we need to add `false12345` to Tags field, otherwise 
+              // we won't be able to update the field the next time.
+              formData.tags = ['false12345']
               createDataApi = api.create(token, formData)
             }
 
@@ -199,13 +203,13 @@
                     this.isPublishable = false
                     this.toast('These changes are now live')
                     setTimeout(() => {
-                      window.location.reload(true)
+                      // window.location.reload(true)
                     }, 800)
                   } else {
                     this.toast('These changes have now been updated')
                     this.saveIsLoading = false
                     setTimeout(() => {
-                      window.location.reload(true)
+                      // window.location.reload(true)
                     }, 800)
                   }
                   
